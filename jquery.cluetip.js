@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 0.9.9pre3  (01/27/2009)
+ * Version 0.9.9pre4  (02/12/2009)
  * @requires jQuery v1.1.4+
  * @requires Dimensions plugin IF USED WITH jQuery VERSIONS PRIOR TO 1.2.5)
  *
@@ -212,9 +212,8 @@
 * load an element from the same page
 ***************************************/
       } else if (opts.local){
-        var $localContent = $(tipAttribute + ':eq(' + index + ')');
-        var localCluetip = $.fn.wrapInner ? $localContent.wrapInner('<div></div>').children().clone(true) : $localContent.html();
-        $.fn.wrapInner ? $cluetipInner.empty().append(localCluetip) : $cluetipInner.html(localCluetip);
+        var $localContent = $(tipAttribute + ':eq(' + index + ')').clone(true);
+        $cluetipInner.html($localContent);
         cluetipShow(pY);
       }
     };
@@ -290,10 +289,11 @@
       $cluetip.hide()[opts.fx.open](opts.fx.open != 'show' && opts.fx.openSpeed);
       if (opts.dropShadow) $dropShadow.css({height: tipHeight, width: tipInnerWidth}).show();
       if ($.fn.bgiframe) { $cluetip.bgiframe(); }
-      // trigger the optional onShow function
+      // delayed close (not fully tested)
       if (opts.delayedClose > 0) {
         closeOnDelay = setTimeout(cluetipClose, opts.delayedClose);
       }
+      // trigger the optional onShow function
       opts.onShow($cluetip, $cluetipInner);
       
     };
@@ -301,7 +301,7 @@
 /***************************************
    =INACTIVATION
 -------------------------------------- */
-    var inactivate = function() {
+    var inactivate = function(event) {
       isActive = false;
       $('#cluetip-waitimage').hide();
       if (!opts.sticky || (/click|toggle/).test(opts.activation) ) {
@@ -335,10 +335,8 @@ clearTimeout(closeOnDelay);
             activate(event);
             $('.cluetip-clicked').removeClass('cluetip-clicked');
             $this.addClass('cluetip-clicked');
-
           } else {
             inactivate(event);
-
           }
           this.blur();
           return false;
