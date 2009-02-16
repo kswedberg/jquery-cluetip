@@ -20,7 +20,7 @@ $(document).ready(function() {
     closeText: '<img src="cross.png" alt="close" width="16" height="16" />',
     truncate: 60
   });
-  $('a.load-local').cluetip({local:true, hideLocal: false, sticky: true, arrows: true, cursor: 'pointer'});
+  $('a.load-local').cluetip({local:true, hideLocal: true, sticky: true, arrows: true, cursor: 'pointer'});
   $('#clickme').cluetip({activation: 'click', sticky: true, width: 650});
   $('ol:first a:last').cluetip({tracking: true});
 
