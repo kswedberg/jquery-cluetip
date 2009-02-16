@@ -311,13 +311,13 @@ clearTimeout(closeOnDelay);
       if (opts.hoverClass) {
         $this.removeClass(opts.hoverClass);
       }
-      $('.cluetip-clicked').removeClass('cluetip-clicked');
     };
 // close cluetip and reset some things
     var cluetipClose = function() {
       $cluetipOuter 
       .parent().hide().removeClass();
       opts.onHide($cluetip, $cluetipInner);
+      $this.removeClass('cluetip-clicked');
       if (tipTitle) {
         $this.attr(opts.titleAttribute, tipTitle);
       }
