@@ -30,7 +30,7 @@
       var $this = $(this);      
       
       // support metadata plugin (v1.0 and 2.0)
-      var opts = $.extend(false, {}, $.fn.cluetip.defaults, options || {}, $.metadata ? $this.metadata() : $.meta ? $this.data() : {});
+      var opts = $.extend(true, {}, $.fn.cluetip.defaults, options || {}, $.metadata ? $this.metadata() : $.meta ? $this.data() : {});
 
       // start out with no contents (for ajax activation)
       var cluetipContents = false;
