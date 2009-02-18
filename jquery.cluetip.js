@@ -19,19 +19,6 @@
 
 ;(function($) { 
 
-  // create the cluetip divs
-  $(document).bind('clueTipCreate', {}, function(event) {
-    // Act on the event
-  });
-  var $tpl = $([
-    '<div class="cluetip">',
-      '<div class="ui-widget ui-dialog ui-widget-content ui-dialog-content">',
-        '<h3 class="cluetip-title ui-widget-header ui-dialog-titlebar"></h3>',
-        '<div class="cluetip-inner ui-widget-content ui-dialog-content"></div>',
-      '</div>',
-    '</div>'
-  ].join(''));
-
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $dropShadow, imgCount;
   
   $.fn.cluetip = function(js, options) {
@@ -47,13 +34,23 @@
 
       // start out with no contents (for ajax activation)
       var cluetipContents = false;
-      var zIndex = parseInt(opts.zIndex, 10)-1;
+      var cluezIndex = parseInt(opts.zIndex, 10)-1;
       var isActive = false, closeOnDelay = 0;
       
-      $cluetip = $('<div id="cluetip" class=" cluetip"></div>').css({zIndex: opts.zIndex})
-      .append($cluetipOuter).append('<div id="cluetip-extra"></div>')[insertionType](insertionElement).hide();
-      $('<div id="cluetip-waitimage"></div>').css({position: 'absolute', zIndex: zIndex-1})
-      .insertBefore('#cluetip').hide();
+      // create the cluetip divs
+      if (!$('#cluetip').length) {
+        $cluetipInner = $('<div id="cluetip-inner" class="ui-widget-content ui-dialog-content"></div>');
+        $cluetipTitle = $('<h3 id="cluetip-title"></h3>');        
+        $cluetipOuter = $('<div id="cluetip-outer" class="ui-widget ui-widget-content"></div>').append($cluetipInner).prepend($cluetipTitle);
+        $cluetip = $('<div id="cluetip" class=""></div>').css({zIndex: opts.cluezIndex})
+        .append($cluetipOuter).append('<div id="cluetip-extra"></div>')[insertionType](insertionElement).hide();
+        $('<div id="cluetip-waitimage"></div>').css({position: 'absolute', zIndex: cluezIndex-1})
+        .insertBefore('#cluetip').hide();
+        $cluetip.css({position: 'absolute', zIndex: cluezIndex});
+        $cluetipOuter.css({position: 'relative', zIndex: cluezIndex+1});
+        $cluetipArrows = $('<div id="cluetip-arrows" class="cluetip-arrows"></div>').css({zIndex: cluezIndex+1}).appendTo('#cluetip');
+      }
+
 
       if (!opts.cluetipCorners) {
         $cluetip[0].className = $cluetip[0].className.replace(/\s?ui-corner-\w+/,'');
@@ -69,15 +66,15 @@
       }
 
 
-      $cluetip.css({position: 'absolute', zIndex: zIndex});
-      $cluetipOuter.css({position: 'relative', zIndex: zIndex+1});
-      $cluetipArrows = $('<div id="cluetip-arrows" class="cluetip-arrows"></div>').css({zIndex: zIndex+1}).appendTo('#cluetip');
+      $cluetip.css({position: 'absolute', zIndex: cluezIndex});
+      $cluetipOuter.css({position: 'relative', zIndex: cluezIndex+1});
+      $cluetipArrows = $('<div id="cluetip-arrows" class="cluetip-arrows"></div>').css({zIndex: cluezIndex+1}).appendTo('#cluetip');
 
       var dropShadowSteps = (opts.dropShadow) ? +opts.dropShadowSteps : 0;
       if (!$dropShadow) {
         $dropShadow = $([]);
         for (var i=0; i < dropShadowSteps; i++) {
-          $dropShadow = $dropShadow.add($('<div></div>').css({zIndex: zIndex-i-1, opacity:.1, top: 1+i, left: 1+i}));
+          $dropShadow = $dropShadow.add($('<div></div>').css({zIndex: cluezIndex-i-1, opacity:.1, top: 1+i, left: 1+i}));
         };
         $dropShadow.css({position: 'absolute', backgroundColor: '#000'})
         .prependTo($cluetip);
@@ -434,7 +431,7 @@ clearTimeout(closeOnDelay);
   $.fn.cluetip.defaults = {  // set up default options
     width:            275,      // The width of the clueTip
     height:           'auto',   // The height of the clueTip
-    zIndex:       97,       // Sets the z-index style property of the clueTip
+    cluezIndex:       97,       // Sets the z-index style property of the clueTip
     positionBy:       'auto',   // Sets the type of positioning: 'auto', 'mouse','bottomTop', 'fixed'
     topOffset:        15,       // Number of px to offset clueTip from top of invoking element
     leftOffset:       15,       // Number of px to offset clueTip from left of invoking element
