@@ -39,10 +39,10 @@
       
       // create the cluetip divs
       if (!$('#cluetip').length) {
-        $cluetipInner = $('<div id="cluetip-inner" class="ui-widget-content ui-dialog-content"></div>');
-        $cluetipTitle = $('<h3 id="cluetip-title"></h3>');        
-        $cluetipOuter = $('<div id="cluetip-outer" class="ui-widget ui-widget-content"></div>').append($cluetipInner).prepend($cluetipTitle);
-        $cluetip = $('<div id="cluetip" class=""></div>').css({zIndex: opts.cluezIndex})
+        $cluetipInner = $('<div id="cluetip-inner" class="cluetip-inner ui-widget-content ui-dialog-content"></div>');
+        $cluetipTitle = $('<div id="cluetip-title" class="cluetip-title ui-widget-header ui-dialog-titlebar"></div>');        
+        $cluetipOuter = $('<div id="cluetip-outer"class="cluetip-outer ui-widget ui-dialog ui-widget-content ui-dialog-content"></div>').append($cluetipInner).prepend($cluetipTitle);
+        $cluetip = $('<div id="cluetip" class="cluetip"></div>').css({zIndex: opts.cluezIndex})
         .append($cluetipOuter).append('<div id="cluetip-extra"></div>')[insertionType](insertionElement).hide();
         $('<div id="cluetip-waitimage"></div>').css({position: 'absolute', zIndex: cluezIndex-1})
         .insertBefore('#cluetip').hide();
@@ -53,10 +53,10 @@
 
 
       if (!opts.cluetipCorners) {
-        $cluetip[0].className = $cluetip[0].className.replace(/\s?ui-corner-\w+/,'');
+        $cluetipOuter[0].className = $cluetip[0].className.replace(/\s?ui-corner-\w+/,'');
         $cluetipInner[0].className = $cluetipInner[0].className.replace(/\s?ui-corner-\w+/,'');
       } else {
-        $cluetip.addClass('ui-corner-' + opts.cluetipCorners);
+        $cluetipOuter.addClass('ui-corner-' + opts.cluetipCorners);
         $cluetipInner.addClass('ui-corner-' + opts.cluetipCorners);
       }
       if (!opts.titleCorners) {

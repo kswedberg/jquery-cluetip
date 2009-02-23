@@ -6,7 +6,6 @@
 $(document).ready(function() {
 
  // $.cluetip.setup({insertionType: 'insertBefore', insertionElement: 'div:first'});
- $.fn.cluetip.defaults.dropShadow = false;
 //default theme
   $('a.title').cluetip({splitTitle: '|'});
   $('a.basic').cluetip();
