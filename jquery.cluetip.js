@@ -83,6 +83,10 @@
         tipParts = tipTitle.split(opts.splitTitle);
         tipTitle = tipParts.shift();
       }
+      if (opts.escapeTitle) {
+        tipTitle = tipTitle.replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;');
+      }
+      
       var localContent;
 
 /***************************************      
@@ -420,6 +424,7 @@ clearTimeout(closeOnDelay);
     titleAttribute:   'title',  // the attribute to be used for fetching the clueTip's title
     splitTitle:       '',       // A character used to split the title attribute into the clueTip title and divs
                                 // within the clueTip body. more info below [6]
+    escapeTitle:      false,    // whether to html escape the title attribute
     showTitle:        true,     // show title bar of the clueTip, even if title attribute not set
     cluetipClass:     'default',// class added to outermost clueTip div in the form of 'cluetip-' + clueTipClass.
     hoverClass:       '',       // class applied to the invoking element onmouseover and removed onmouseout
