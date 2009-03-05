@@ -141,6 +141,9 @@
 * load a string from cluetip method's first argument
 ***************************************/
       if (js) {
+        if (typeof js == 'function') {
+          js = js($this[0]);
+        }
         $cluetipInner.html(js);
         cluetipShow(pY);
       }
