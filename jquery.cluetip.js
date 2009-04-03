@@ -178,6 +178,7 @@
           cluetipShow(pY);
         } else {
           var ajaxSettings = opts.ajaxSettings;
+          ajaxSettings.cache = false; // force requested page not to be cached by browser
           ajaxSettings.url = tipAttribute;
           ajaxSettings.beforeSend = function() {
             $cluetipOuter.children().empty();
@@ -479,7 +480,7 @@ clearTimeout(closeOnDelay);
     },                
 
     // can pass in standard $.ajax() parameters, not including error, complete, success, and url
-    ajaxSettings: {   
+    ajaxSettings: {
                       dataType: 'html'
     },
     debug: false
