@@ -220,8 +220,9 @@
 /***************************************
 * load an element from the same page
 ***************************************/
-      } else if (opts.local){
-        var $localContent = $(tipAttribute + ':eq(' + index + ')').clone(true).show();
+      } else if (opts.local) {
+        
+        var $localContent = $(tipAttribute + (/#\w+$/.test(tipAttribute) ? '' : ':eq(' + index + ')')).clone(true).show();
         $cluetipInner.html($localContent);
         cluetipShow(pY);
       }
