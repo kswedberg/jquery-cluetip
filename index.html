@@ -8,7 +8,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../jquery.tabs.pack.js"></script>
 <script type="text/javascript" src="../jquery.history.pack.js"></script>
-<script type="text/javascript" src="../chili-1.8.pack.js"></script>
+<script type="text/javascript" src="../chili-1.8.js"></script>
 
 
 <script type="text/javascript">
@@ -46,10 +46,9 @@ $(function() {
   &lt;!-- use title attribute for clueTip contents, but don't include anything in the clueTip's heading --&gt;
   &lt;p&gt;&lt;a id="houdini" href="houdini.html" title="|Houdini was an escape artist.|He was also adept at prestidigitation.">Houdini&lt;/a&gt;&lt;/p&gt;
 </code></pre>
-        <div class="step-two">Include the <strong>jQuery</strong> core file, the <strong>Dimensions</strong> plugin, and the <strong>clueTip</strong> plugin in the <code>&lt;head&gt;</code> of your document. You may optionally include the <em>hoverIntent</em> plugin as well. After these scripts are referenced, you can reference a custom script file to invoke your clueTips (preferred) or enter the script directly in the <code>&lt;head&gt;</code> (shown below). You should also include the clueTip <strong>stylesheet</strong> (jquery.cluetip.css) after the scripts. </div>
+        <div class="step-two">Include the <strong>jQuery</strong> core file and the <strong>clueTip</strong> plugin in the <code>&lt;head&gt;</code> of your document. You may optionally include the <em>hoverIntent</em> plugin as well. After these scripts are referenced, you can reference a custom script file to invoke your clueTips (preferred) or enter the script directly in the <code>&lt;head&gt;</code> (shown below). You should also include the clueTip <strong>stylesheet</strong> (jquery.cluetip.css) after the scripts. </div>
         <br />
 <pre><code class="mix">&lt;script src="jquery.js" type="text/javascript"&gt;&lt;/script&gt;
-&lt;script src="jquery.dimensions.js" type="text/javascript"&gt;&lt;/script&gt;
 &lt;script src="jquery.hoverIntent.js" type="text/javascript"&gt;&lt;/script&gt; &lt;!-- optional --&gt;
 &lt;script src="jquery.cluetip.js" type="text/javascript"&gt;&lt;/script&gt;
 
@@ -90,7 +89,7 @@ $(document).ready(function() {
         </div>  
         <div id="subdetails2" class="sampleTabContent">
           <h4>Smart Positioning</h4>
-          The clueTip Plugin uses the excellent <strong>Dimensions</strong> Plugin to accurately position the tooltips on the page. It has 4 positioning modes, which you can change via the "positionBy" option.
+          The clueTip Plugin has 4 positioning modes, which you can change via the "positionBy" option.
           <ol>
             <li><code>positionBy: 'auto'</code> (default)
               <ul>
@@ -252,7 +251,7 @@ $(document).ready(function() {
         <dt>What versions of jQuery is the clueTip Plugin compatible with?</dt>
         <dd>The clueTip Plugin is compatible with jQuery v1.1.3.1 and later. jQuery v1.2.1 or later is recommended.</dd>
         <dt>Does the clueTip Plugin have any dependencies on other plugins?</dt>
-        <dd>Yes. The clueTip plugin depends on the <strong>Dimensions</strong> plugin for accurate positioning. <p><em>Optional</em> plugins that can be used in conjunction with the clueTip plugin include <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html" title="hoverIntent jQuery Plug-in">hoverIntent</a> and <a href="http://brandonaaron.net/jquery/plugins/bgiframe/docs/">bgIframe</a>.</p>  </dd>
+        <dd>Only for old version of jQuery. For jQuery versions below 1.2.3, the clueTip plugin depends on the <strong>Dimensions</strong> plugin for accurate positioning. Otherwise, it is self-contained. <p><em>Optional</em> plugins that can be used in conjunction with the clueTip plugin include <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html" title="hoverIntent jQuery Plug-in">hoverIntent</a> and <a href="http://brandonaaron.net/jquery/plugins/bgiframe/docs/">bgIframe</a>.</p>  </dd>
 		<dt>How do I get clueTip to work with dynamic content.</dt>
 		<dd>There are a number of options available for working with dynamic content. By default, the <code>ajaxCache</code> function is set to <code>true</code>. This reduces the number of http requests are made to the server. However, it doesn't account for possible changes to the ajaxed data. If the contents of a particular clueTip will be updated on the server between invocations, you may want to set <code>ajaxCache: false</code>. </dd>
 		<dt>Why don't my JavaScript behaviors work on elements within a clueTip?</dt>
@@ -298,23 +297,25 @@ $(document).ready(function() {
       </ul>
     </div>
     <div id="download" class="tabContent">
-        <h1>Download</h1>
-        The clueTip Plugin is available at:
-        <a class="external" href="http://plugins.jquery.com/project/cluetip/">http://plugins.jquery.com/project/cluetip/</a>.
-        
-        <h1>Support</h1>
-        <p>Support for the clueTip Plugin is available through the
+      <h1>Download</h1>
+      The clueTip Plugin is available at:
+      <a class="external" href="http://plugins.jquery.com/project/cluetip/">http://plugins.jquery.com/project/cluetip/</a>.
+
+      <h1>Support</h1>
+      <p>Support for the clueTip Plugin is available through the
         <a class="external" href="http://groups.google.com/group/jquery-en/">jQuery Mailing List</a>.  
-        This is a very active list to which many jQuery developers and users subscribe.</p>
-        <h1>Bug Reports &amp; Feature Requests</h1>
-        If you discover a bug in the clueTip plugin, please <a href="http://plugins.jquery.com/node/add/project_issue/cluetip/bug">report the bug here</a>. (Note: if you have to be registered and logged in to report a bug. If you have not already registered, <a href="http://plugins.jquery.com/user/register">you can do so here</p>.
-        <p>If you would like the clueTip to do something that it doesn't already do, you may <a href="http://plugins.jquery.com/node/add/project_issue/cluetip/feature">request a feature</a>.</p>
-        <h1>More information</h1>
-        <p>Read the blog entries for <a href="http://www.learningjquery.com/2007/07/cluetip-plugin-beta" title="Learning jQuery  &raquo; clueTip Plugin Beta">Beta 1</a> and <a href="http://www.learningjquery.com/2007/07/cluetip-plugin-beta-2" title="Learning jQuery  &raquo; clueTip Plugin Beta 2">Beta 2</a> for more information and examples.</p>
-        <p>The current version (0.9.x) includes some fairly major API changes, so if you're upgrading from a version earlier than 0.8.x, be sure to check out the <a href="#options">options</a>.</p>
-        <div id="footer">
+        This is a very active list to which many jQuery developers and users subscribe.
+      </p>
+      <h1>Bug Reports &amp; Feature Requests</h1>
+      If you discover a bug in the clueTip plugin, please <a href="http://plugins.jquery.com/node/add/project_issue/cluetip/bug">report the bug here</a>. (Note: if you have to be registered and logged in to report a bug. If you have not already registered, <a href="http://plugins.jquery.com/user/register">you can do so here</p>.
+      <p>If you would like the clueTip to do something that it doesn't already do, you may <a href="http://plugins.jquery.com/node/add/project_issue/cluetip/feature">request a feature</a>.
+      </p>
+      <h1>More information</h1>
+      <p>Read the blog entries for <a href="http://www.learningjquery.com/2007/07/cluetip-plugin-beta" title="Learning jQuery  &raquo; clueTip Plugin Beta">Beta 1</a> and <a href="http://www.learningjquery.com/2007/07/cluetip-plugin-beta-2" title="Learning jQuery  &raquo; clueTip Plugin Beta 2">Beta 2</a> for more information and examples.</p>
+      <p>The current version (0.9.x) includes some fairly major API changes, so if you're upgrading from a version earlier than 0.8.x, be sure to check out the <a href="#options">options</a>.</p>
+      <div id="footer">
         This documentation is maintained by Karl Swedberg.  Send comments or questions to karl [at] learningjquery [dot] com.
-        </div>
+      </div>
     </div>
 </div> <!-- main -->
 
