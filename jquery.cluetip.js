@@ -177,44 +177,58 @@
           $cluetipInner.html(cluetipContents);
           cluetipShow(pY);
         } else {
-          var ajaxSettings = opts.ajaxSettings;
-          ajaxSettings.cache = false; // force requested page not to be cached by browser
-          ajaxSettings.url = tipAttribute;
-          ajaxSettings.beforeSend = function() {
-            $cluetipOuter.children().empty();
-            if (opts.waitImage) {
-              $('#cluetip-waitimage')
-              .css({top: mouseY+20, left: mouseX+20})
-              .show();
-            }
-          };
-         ajaxSettings.error = function() {
-            if (isActive) {
-              $cluetipInner.html('<i>sorry, the contents could not be loaded</i>');
-            }
-          };
-          ajaxSettings.success = function(data) {
-            cluetipContents = opts.ajaxProcess(data);
-            if (isActive) {
-              $cluetipInner.html(cluetipContents);
-            }
-          };
-          ajaxSettings.complete = function() {
-            imgCount = $('#cluetip-inner img').length;
-            if (imgCount && !$.browser.opera) {
-              $('#cluetip-inner img').load(function() {
-                imgCount--;
-                if (imgCount<1) {
-                  $('#cluetip-waitimage').hide();
-                  if (isActive) cluetipShow(pY);
+          var optionBeforeSend = opts.ajaxSettings.beforeSend,
+              optionError = opts.ajaxSettings.error,
+              optionSuccess = opts.ajaxSettings.success,
+              optionComplete = opts.ajaxSettings.complete;
+          var ajaxSettings = {
+            cache: false, // force requested page not to be cached by browser
+            url: tipAttribute,
+            beforeSend: function() {
+              if (optionBeforeSend) {optionBeforeSend.call(link, $cluetip, $cluetipInner);}
+              $cluetipOuter.children().empty();
+              if (opts.waitImage) {
+                $('#cluetip-waitimage')
+                .css({top: mouseY+20, left: mouseX+20})
+                .show();
+              }
+            },
+            error: function() {
+              if (isActive) {
+                if (optionError) {
+                  optionError.call(link, $cluetip, $cluetipInner);
+                } else {
+                  $cluetipInner.html('<i>sorry, the contents could not be loaded</i>');  
                 }
-              }); 
-            } else {
-              $('#cluetip-waitimage').hide();
-              if (isActive) cluetipShow(pY);    
-            } 
+              }
+            },
+            success: function(data) {
+              cluetipContents = opts.ajaxProcess(data);
+              if (isActive) {
+                if (optionSuccess) {optionSuccess.call(link, $cluetip, $cluetipInner);}
+                $cluetipInner.html(cluetipContents);
+              }
+            },
+            complete: function() {
+              if (optionComplete) {optionComplete.call(link, $cluetip, $cluetipInner);}
+              imgCount = $('#cluetip-inner img').length;
+              if (imgCount && !$.browser.opera) {
+                $('#cluetip-inner img').load(function() {
+                  imgCount--;
+                  if (imgCount<1) {
+                    $('#cluetip-waitimage').hide();
+                    if (isActive) cluetipShow(pY);
+                  }
+                }); 
+              } else {
+                $('#cluetip-waitimage').hide();
+                if (isActive) { cluetipShow(pY); }
+              } 
+            }
           };
-          $.ajax(ajaxSettings);
+          var ajaxMergedSettings = $.extend(true, {}, opts.ajaxSettings, ajaxSettings);
+          
+          $.ajax(ajaxMergedSettings);
         }
 
 /***************************************
@@ -423,7 +437,7 @@ clearTimeout(closeOnDelay);
     topOffset:        15,       // Number of px to offset clueTip from top of invoking element
     leftOffset:       15,       // Number of px to offset clueTip from left of invoking element
     local:            false,    // Whether to use content from the same page for the clueTip's body
-    localPrefix:    null,       // string to be prepended to the tip attribute if local is true
+    localPrefix:      null,       // string to be prepended to the tip attribute if local is true
     hideLocal:        true,     // If local option is set to true, this determines whether local content
                                 // to be shown in clueTip should be hidden at its original location
     attribute:        'rel',    // the attribute to be used for fetching the clueTip's body content
@@ -464,13 +478,13 @@ clearTimeout(closeOnDelay);
               			  timeout:      0
     },
 
-    // function to run just before clueTip is shown.           
+    // short-circuit function to run just before clueTip is shown. 
     onActivate:       function(e) {return true;},
 
-    // function to run just after clueTip is shown.
-    onShow:           function(ct, c){},
+    // function to run just after clueTip is shown. 
+    onShow:           function(ct, ci){},
     // function to run just after clueTip is hidden.
-    onHide:           function(ct, c){},
+    onHide:           function(ct, ci){},
     // whether to cache results of ajax request to avoid unnecessary hits to server    
     ajaxCache:        true,  
 
@@ -480,8 +494,12 @@ clearTimeout(closeOnDelay);
                         return data;
     },                
 
-    // can pass in standard $.ajax() parameters, not including error, complete, success, and url
+    // can pass in standard $.ajax() parameters. Callback functions, such as beforeSend, 
+    // will be queued first within the default callbacks. 
+    // The only exception is error, which overrides the default
     ajaxSettings: {
+                      // error: function(ct, ci) { /* override default error callback */ }
+                      // beforeSend: function(ct, ci) { /* called first within default beforeSend callback }
                       dataType: 'html'
     },
     debug: false
