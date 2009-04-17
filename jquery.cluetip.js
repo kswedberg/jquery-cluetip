@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 0.9.9  (04/24/2009)
+ * Version 0.9.9c  (04/16/2009)
  * @requires jQuery v1.1.4+
  * @requires Dimensions plugin IF USED WITH jQuery VERSIONS PRIOR TO 1.2.5)
  *
@@ -19,7 +19,7 @@
 */
 
 ;(function($) { 
-
+  $.cluetip = {version: '.9.9.9c'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $dropShadow, imgCount;
   $.fn.cluetip = function(js, options) {
     if (typeof js == 'object') {
@@ -27,7 +27,7 @@
       js = null;
     }
     return this.each(function(index) {
-      var $this = $(this);      
+      var link = this, $this = $(this);      
       
       // support metadata plugin (v1.0 and 2.0)
       var opts = $.extend(true, {}, $.fn.cluetip.defaults, options || {}, $.metadata ? $this.metadata() : $.meta ? $this.data() : {});
@@ -297,14 +297,14 @@
 // (first hide, then) ***SHOW THE CLUETIP***
       $dropShadow.hide();
       $cluetip.hide()[opts.fx.open](opts.fx.open != 'show' && opts.fx.openSpeed);
-      if (opts.dropShadow) $dropShadow.css({height: tipHeight, width: tipInnerWidth}).show();
+      if (opts.dropShadow) { $dropShadow.css({height: tipHeight, width: tipInnerWidth}).show(); }
       if ($.fn.bgiframe) { $cluetip.bgiframe(); }
       // delayed close (not fully tested)
       if (opts.delayedClose > 0) {
         closeOnDelay = setTimeout(cluetipClose, opts.delayedClose);
       }
       // trigger the optional onShow function
-      opts.onShow($cluetip, $cluetipInner);
+      opts.onShow.call(link, $cluetip, $cluetipInner);
       
     };
 
@@ -326,7 +326,7 @@ clearTimeout(closeOnDelay);
     var cluetipClose = function() {
       $cluetipOuter 
       .parent().hide().removeClass();
-      opts.onHide($cluetip, $cluetipInner);
+      opts.onHide.call(link, $cluetip, $cluetipInner);
       $this.removeClass('cluetip-clicked');
       if (tipTitle) {
         $this.attr(opts.titleAttribute, tipTitle);
@@ -506,7 +506,7 @@ clearTimeout(closeOnDelay);
  */
    
   var insertionType = 'appendTo', insertionElement = 'body';
-  $.cluetip = {};
+
   $.cluetip.setup = function(options) {
     if (options && options.insertionType && (options.insertionType).match(/appendTo|prependTo|insertBefore|insertAfter/)) {
       insertionType = options.insertionType;
