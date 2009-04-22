@@ -184,8 +184,8 @@
           var ajaxSettings = {
             cache: false, // force requested page not to be cached by browser
             url: tipAttribute,
-            beforeSend: function() {
-              if (optionBeforeSend) {optionBeforeSend.call(link, $cluetip, $cluetipInner);}
+            beforeSend: function(xhr) {
+              if (optionBeforeSend) {optionBeforeSend.call(link, xhr, $cluetip, $cluetipInner);}
               $cluetipOuter.children().empty();
               if (opts.waitImage) {
                 $('#cluetip-waitimage')
@@ -193,24 +193,24 @@
                 .show();
               }
             },
-            error: function() {
+            error: function(xhr, textStatus) {
               if (isActive) {
                 if (optionError) {
-                  optionError.call(link, $cluetip, $cluetipInner);
+                  optionError.call(link, xhr, textStatus, $cluetip, $cluetipInner);
                 } else {
                   $cluetipInner.html('<i>sorry, the contents could not be loaded</i>');  
                 }
               }
             },
-            success: function(data) {
+            success: function(data, textStatus) {
               cluetipContents = opts.ajaxProcess(data);
               if (isActive) {
-                if (optionSuccess) {optionSuccess.call(link, $cluetip, $cluetipInner);}
+                if (optionSuccess) {optionSuccess.call(link, data, textStatus, $cluetip, $cluetipInner);}
                 $cluetipInner.html(cluetipContents);
               }
             },
-            complete: function() {
-              if (optionComplete) {optionComplete.call(link, $cluetip, $cluetipInner);}
+            complete: function(xhr, textStatus) {
+              if (optionComplete) {optionComplete.call(link, xhr, textStatus, $cluetip, $cluetipInner);}
               imgCount = $('#cluetip-inner img').length;
               if (imgCount && !$.browser.opera) {
                 $('#cluetip-inner img').load(function() {
