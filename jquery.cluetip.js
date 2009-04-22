@@ -1,8 +1,7 @@
 /*
  * jQuery clueTip plugin
- * Version 0.9.9c  (04/16/2009)
- * @requires jQuery v1.1.4+
- * @requires Dimensions plugin IF USED WITH jQuery VERSIONS PRIOR TO 1.2.5)
+ * Version 1.0  (April 22, 2009)
+ * @requires jQuery v1.2.6+
  *
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
@@ -202,8 +201,8 @@
                 }
               }
             },
-            success: function(data, textStatus) {
-              cluetipContents = opts.ajaxProcess(data);
+            success: function(data, textStatus) {       
+              cluetipContents = opts.ajaxProcess.call(link, data);
               if (isActive) {
                 if (optionSuccess) {optionSuccess.call(link, data, textStatus, $cluetip, $cluetipInner);}
                 $cluetipInner.html(cluetipContents);
