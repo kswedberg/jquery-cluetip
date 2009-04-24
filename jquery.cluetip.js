@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 1.0  (April 22, 2009)
+ * Version 1.0.1  (April 23, 2009)
  * @requires jQuery v1.2.6+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -18,7 +18,7 @@
 */
 
 ;(function($) { 
-  $.cluetip = {version: '.9.9.9c'};
+  $.cluetip = {version: '1.0.1'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $dropShadow, imgCount;
   $.fn.cluetip = function(js, options) {
     if (typeof js == 'object') {
@@ -244,7 +244,6 @@
 // get dimensions and options for cluetip and prepare it to be shown
     var cluetipShow = function(bpY) {
       $cluetip.addClass('cluetip-' + ctClass);
-      
       if (opts.truncate) { 
         var $truncloaded = $cluetipInner.text().slice(0,opts.truncate) + '...';
         $cluetipInner.html($truncloaded);
@@ -254,7 +253,7 @@
       if (opts.sticky) {
         var $closeLink = $('<div id="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
         (opts.closePosition == 'bottom') ? $closeLink.appendTo($cluetipInner) : (opts.closePosition == 'title') ? $closeLink.prependTo($cluetipTitle) : $closeLink.prependTo($cluetipInner);
-        $closeLink.click(function() {
+        $closeLink.bind('click.cluetip', function() {
           cluetipClose();
           return false;
         });
@@ -318,7 +317,6 @@
       }
       // trigger the optional onShow function
       opts.onShow.call(link, $cluetip, $cluetipInner);
-      
     };
 
 /***************************************
@@ -348,12 +346,15 @@ clearTimeout(closeOnDelay);
       if (opts.arrows) $cluetipArrows.css({top: ''});
     };
 
+    $(document).bind('hideCluetip', function(e) {
+      cluetipClose();
+    });
 /***************************************
    =BIND EVENTS
 -------------------------------------- */
   // activate by click
       if ( (/click|toggle/).test(opts.activation) ) {
-        $this.click(function(event) {
+        $this.bind('click.cluetip', function(event) {
           if ($cluetip.is(':hidden') || !$this.is('.cluetip-clicked')) {
             activate(event);
             $('.cluetip-clicked').removeClass('cluetip-clicked');
@@ -366,16 +367,16 @@ clearTimeout(closeOnDelay);
         });
   // activate by focus; inactivate by blur    
       } else if (opts.activation == 'focus') {
-        $this.focus(function(event) {
+        $this.bind('focus.cluetip', function(event) {
           activate(event);
         });
-        $this.blur(function(event) {
+        $this.bind('blur.cluetip', function(event) {
           inactivate(event);
         });
   // activate by hover
     // clicking is returned false if cluetip url is same as href url
       } else {
-        $this.click(function() {
+        $this.bind('click.cluetip', function() {
           if ($this.attr('href') && $this.attr('href') == tipAttribute && !opts.clickThrough) {
             return false;
           }
@@ -385,13 +386,13 @@ clearTimeout(closeOnDelay);
           if (opts.tracking == true) {
             var trackX = posX - evt.pageX;
             var trackY = tipY ? tipY - evt.pageY : posY - evt.pageY;
-            $this.mousemove(function(evt) {
+            $this.bind('mousemove.cluetip', function(evt) {
               $cluetip.css({left: evt.pageX + trackX, top: evt.pageY + trackY });
             });
           }
         };
         if ($.fn.hoverIntent && opts.hoverIntent) {
-          $this.mouseover(function() {$this.attr('title',''); })
+          $this.bind('mouseover.cluetip', function() {$this.attr('title',''); })
           .hoverIntent({
             sensitivity: opts.hoverIntent.sensitivity,
             interval: opts.hoverIntent.interval,  
@@ -400,15 +401,16 @@ clearTimeout(closeOnDelay);
               mouseTracks(event);
             }, 
             timeout: opts.hoverIntent.timeout,  
-            out: function(event) {inactivate(event); $this.unbind('mousemove');}
+            out: function(event) {inactivate(event); $this.unbind('mousemove.cluetip');}
           });           
         } else {
-          $this.hover(function(event) {
+          $this.bind('mouseenter.cluetip', function(event) {
             activate(event);
             mouseTracks(event);
-          }, function(event) {
+          })
+          .bind('mouseleave.cluetip', function(event) {
             inactivate(event);
-            $this.unbind('mousemove');
+            $this.unbind('mousemove.cluetip');
           });
         }
       }
