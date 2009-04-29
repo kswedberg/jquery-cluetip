@@ -12,8 +12,7 @@
  * @return jQuery
  * @author Karl Swedberg
  *
- * @requires jQuery v1.1.4+
- * @requires Dimensions plugin IF USED WITH jQuery VERSIONS PRIOR TO 1.2.5)
+ * @requires jQuery v1.2.6+
  *
  * @credit Inspired by Cody Lindley's jTip (http://www.codylindley.com)
  * @credit Thanks to the following people for their many and varied contributions:
@@ -32,7 +31,7 @@
  * Optionally, the clueTip's body can display content from the title attribute, when a delimiter is indicated. 
  * * The string before the first instance of the delimiter is set as the clueTip's heading.
  * * All subsequent strings are wrapped in separate DIVs and placed in the clueTip's body.
- * The clueTip plugin allows for many, many more options. Pleasee see the examples and the option descriptions below...
+ * The clueTip plugin allows for many, many more options. Please see the examples and the option descriptions below...
  * 
  * 
  * @example $('#tip).cluetip();

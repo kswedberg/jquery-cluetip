@@ -235,7 +235,7 @@
 ***************************************/
       } else if (opts.local) {
         
-        var $localContent = $(tipAttribute + (/#\w+$/.test(tipAttribute) ? '' : ':eq(' + index + ')')).clone(true).show();
+        var $localContent = $(tipAttribute + (/#\S+$/.test(tipAttribute) ? '' : ':eq(' + index + ')')).clone(true).show();
         $cluetipInner.html($localContent);
         cluetipShow(pY);
       }
