@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 1.0.1  (April 23, 2009)
+ * Version 1.0.2  (May 25, 2009)
  * @requires jQuery v1.2.6+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -18,12 +18,15 @@
 */
 
 ;(function($) { 
-  $.cluetip = {version: '1.0.1'};
+  $.cluetip = {version: '1.0.2'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $dropShadow, imgCount;
   $.fn.cluetip = function(js, options) {
     if (typeof js == 'object') {
       options = js;
       js = null;
+    }
+    if (js == 'destroy') {
+      return this.unbind('.cluetip');
     }
     return this.each(function(index) {
       var link = this, $this = $(this);      
@@ -262,11 +265,11 @@
             $cluetip.hoverIntent({
               over: doNothing, 
               timeout: opts.hoverIntent.timeout,  
-              out: function() { $closeLink.trigger('click'); }
+              out: function() { $closeLink.trigger('click.cluetip'); }
             });
           } else {
             $cluetip.hover(doNothing, 
-            function() {$closeLink.trigger('click'); });
+            function() {$closeLink.trigger('click.cluetip'); });
           }
         } else {
           $cluetip.unbind('mouseout');
