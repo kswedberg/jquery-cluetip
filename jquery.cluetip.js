@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 1.0.2  (May 25, 2009)
+ * Version 1.0.3  (May 29, 2009)
  * @requires jQuery v1.2.6+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -18,7 +18,7 @@
 */
 
 ;(function($) { 
-  $.cluetip = {version: '1.0.2'};
+  $.cluetip = {version: '1.0.3'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $dropShadow, imgCount;
   $.fn.cluetip = function(js, options) {
     if (typeof js == 'object') {
@@ -44,11 +44,10 @@
         $cluetipInner = $('<div id="cluetip-inner"></div>');
         $cluetipTitle = $('<h3 id="cluetip-title"></h3>');        
         $cluetipOuter = $('<div id="cluetip-outer"></div>').append($cluetipInner).prepend($cluetipTitle);
-        $cluetip = $('<div id="cluetip"></div>').css({zIndex: opts.cluezIndex})
+        $cluetip = $('<div id="cluetip"></div>').css({position: 'absolute', zIndex: opts.cluezIndex})
         .append($cluetipOuter).append('<div id="cluetip-extra"></div>')[insertionType](insertionElement).hide();
         $('<div id="cluetip-waitimage"></div>').css({position: 'absolute', zIndex: cluezIndex-1})
         .insertBefore('#cluetip').hide();
-        $cluetip.css({position: 'absolute', zIndex: cluezIndex});
         $cluetipOuter.css({position: 'relative', zIndex: cluezIndex+1});
         $cluetipArrows = $('<div id="cluetip-arrows" class="cluetip-arrows"></div>').css({zIndex: cluezIndex+1}).appendTo('#cluetip');
       }
@@ -68,14 +67,14 @@
       if (opts.local && opts.hideLocal) { $(tipAttribute + ':first').hide(); }
       var tOffset = parseInt(opts.topOffset, 10), lOffset = parseInt(opts.leftOffset, 10);
       // vertical measurement variables
-      var tipHeight, wHeight;
-      var defHeight = isNaN(parseInt(opts.height, 10)) ? 'auto' : (/\D/g).test(opts.height) ? opts.height : opts.height + 'px';
+      var tipHeight, wHeight,
+          defHeight = isNaN(parseInt(opts.height, 10)) ? 'auto' : (/\D/g).test(opts.height) ? opts.height : opts.height + 'px';
       var sTop, linkTop, posY, tipY, mouseY, baseline;
       // horizontal measurement variables
-      var tipInnerWidth = isNaN(parseInt(opts.width, 10)) ? 275 : parseInt(opts.width, 10);
-      var tipWidth = tipInnerWidth + (parseInt($cluetip.css('paddingLeft'),10)||0) + (parseInt($cluetip.css('paddingRight'),10)||0) + dropShadowSteps;
-      var linkWidth = this.offsetWidth;
-      var linkLeft, posX, tipX, mouseX, winWidth;
+      var tipInnerWidth = parseInt(opts.width, 10) || 275,
+          tipWidth = tipInnerWidth + (parseInt($cluetip.css('paddingLeft'),10)||0) + (parseInt($cluetip.css('paddingRight'),10)||0) + dropShadowSteps,
+          linkWidth = this.offsetWidth,
+          linkLeft, posX, tipX, mouseX, winWidth;
             
       // parse the title
       var tipParts;
@@ -215,7 +214,7 @@
               if (optionComplete) {optionComplete.call(link, xhr, textStatus, $cluetip, $cluetipInner);}
               imgCount = $('#cluetip-inner img').length;
               if (imgCount && !$.browser.opera) {
-                $('#cluetip-inner img').load(function() {
+                $('#cluetip-inner img').bind('load error', function() {
                   imgCount--;
                   if (imgCount<1) {
                     $('#cluetip-waitimage').hide();
