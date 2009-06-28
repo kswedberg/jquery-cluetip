@@ -5,13 +5,14 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <title>clueTip Plugin Demo</title>
 
+  <link rel="stylesheet" href="../jquery.cluetip.css" type="text/css" />
+  <link rel="stylesheet" href="demo.css" type="text/css" /></head>
+
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
   <script src="../lib/jquery.hoverIntent.js" type="text/javascript"></script>
   <script src="../lib/jquery.bgiframe.min.js" type="text/javascript"></script>
   <script src="../jquery.cluetip.js" type="text/javascript"></script>
   <script src="demo.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="../jquery.cluetip.css" type="text/css" />
-  <link rel="stylesheet" href="demo.css" type="text/css" /></head>
 <body>
 
   <h1 id="top">clueTip : A jQuery Plugin</h1>
@@ -65,7 +66,7 @@
           <div class="jquery">View the jQuery</div>
           <pre><code>$('h4').cluetip({attribute: 'id', hoverClass: 'highlight'});</code></pre>
         </li>
-        <li><strong>local, with arrows</strong>:  This one uses local content from a hidden <code>div</code> element and displays an arrow that points to the invoking element: <a class="load-local" href="#loadme" rel="#loadme">hover for local</a>
+        <li><strong>local, with arrows</strong>:  This one uses local content from a hidden <code>div</code> element and displays an arrow that points to the invoking element: <a id="load-local" class="load-local" href="#loadme" rel="#loadme">hover for local</a>
           <div class="html">View the HTML</div>
           <pre><code>&lt;a class="load-local" href="#loadme" rel="#loadme"&gt;</code></pre>
           <div class="jquery">View the jQuery</div>
