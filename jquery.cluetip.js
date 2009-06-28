@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 1.0.3  (May 29, 2009)
+ * Version 1.0.4  (June 28, 2009)
  * @requires jQuery v1.2.6+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -18,7 +18,7 @@
 */
 
 ;(function($) { 
-  $.cluetip = {version: '1.0.3'};
+  $.cluetip = {version: '1.0.4'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $cluetipWait, $dropShadow, imgCount;
   $.fn.cluetip = function(js, options) {
     if (typeof js == 'object') {
@@ -98,6 +98,7 @@
       }
       
       var localContent;
+      function returnFalse() { return false; }
 
 /***************************************      
 * ACTIVATION
@@ -261,7 +262,6 @@
         $cluetipInner.html($truncloaded);
       }
       function doNothing() {}; //empty function
-
       tipTitle ? $cluetipTitle.show().html(tipTitle) : (opts.showTitle) ? $cluetipTitle.show().html('&nbsp;') : $cluetipTitle.hide();
       if (opts.sticky) {
         var $closeLink = $('<div id="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
@@ -387,13 +387,9 @@
           inactivate(event);
         });
   // activate by hover
-    // clicking is returned false if cluetip url is same as href url
       } else {
-        $this.bind('click.cluetip', function() {
-          if ($this.attr('href') && $this.attr('href') == tipAttribute && !opts.clickThrough) {
-            return false;
-          }
-        });
+        // clicking is returned false if clickThrough option is set to false
+        $this[opts.clickThrough ? 'unbind' : 'bind']('click', returnFalse);
         //set up mouse tracking
         var mouseTracks = function(evt) {
           if (opts.tracking == true) {
@@ -432,7 +428,6 @@
         .bind('mouseleave.cluetip', function(event) {
           $this.attr('title', $this.data('thisInfo').title);
         });
-        
       }
     });
   };
@@ -485,7 +480,7 @@
     closePosition:    'top',    // location of close text for sticky cluetips; can be 'top' or 'bottom' or 'title'
     closeText:        'Close',  // text (or HTML) to to be clicked to close sticky clueTips
     truncate:         0,        // number of characters to truncate clueTip's contents. if 0, no truncation occurs
-
+    
     // effect and speed for opening clueTips
     fx: {             
                       open:       'show', // can be 'show' or 'slideDown' or 'fadeIn'
