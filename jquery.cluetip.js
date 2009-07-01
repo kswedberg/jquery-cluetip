@@ -271,18 +271,11 @@
           return false;
         });
         if (opts.mouseOutClose) {
-          if ($.fn.hoverIntent && opts.hoverIntent) { 
-            $cluetip.hoverIntent({
-              over: doNothing, 
-              timeout: opts.hoverIntent.timeout,  
-              out: function() { $closeLink.trigger('click.cluetip'); }
-            });
-          } else {
-            $cluetip.hover(doNothing, 
-            function() {$closeLink.trigger('click.cluetip'); });
-          }
+          $cluetip.bind('mouseleave.cluetip', function() {
+            cluetipClose();
+          });
         } else {
-          $cluetip.unbind('mouseout');
+          $cluetip.unbind('mouseleave.cluetip');
         }
       }
 // now that content is loaded, finish the positioning 
