@@ -156,7 +156,7 @@
 ***************************************/
       if (js) {
         if (typeof js == 'function') {
-          js = js(link);
+          js = js.call(link);
         }
         $cluetipInner.html(js);
         cluetipShow(pY);
