@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 1.0.4  (June 28, 2009)
+ * Version 1.0.5  (August 22, 2009)
  * @requires jQuery v1.2.6+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -18,7 +18,7 @@
 */
 
 ;(function($) { 
-  $.cluetip = {version: '1.0.4'};
+  $.cluetip = {version: '1.0.5'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $cluetipWait, $dropShadow, imgCount;
   $.fn.cluetip = function(js, options) {
     if (typeof js == 'object') {
@@ -414,11 +414,9 @@
             $this.unbind('mousemove.cluetip');
           });
         }
-        // remove default title tooltip on hover
-        $this.bind('mouseenter.cluetip', function(event) {
+        $this.bind('mouseover.cluetip', function(event) {
           $this.attr('title','');
-        })
-        .bind('mouseleave.cluetip', function(event) {
+        }).bind('mouseleave.cluetip', function(event) {
           $this.attr('title', $this.data('thisInfo').title);
         });
       }
