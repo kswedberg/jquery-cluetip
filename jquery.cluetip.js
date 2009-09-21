@@ -181,7 +181,7 @@
 * load external file via ajax          
 ***************************************/
 
-      else if (!opts.local && tipAttribute.indexOf('#') != 0) {
+      else if (!opts.local && tipAttribute.indexOf('#') !== 0) {
         if (/\.(jpe?g|tiff?|gif|png)$/i.test(tipAttribute)) {
           $cluetipInner.html('<img src="' + tipAttribute + '" alt="' + tipTitle + '" />');
           cluetipShow(pY);
@@ -229,7 +229,7 @@
                   imgCount--;
                   if (imgCount<1) {
                     $cluetipWait.hide();
-                    if (isActive) cluetipShow(pY);
+                    if (isActive) { cluetipShow(pY); }
                   }
                 }); 
               } else {
