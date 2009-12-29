@@ -26,7 +26,7 @@
       js = null;
     }
     if (js == 'destroy') {
-      return this.unbind('.cluetip');
+      return this.removeData('thisInfo').unbind('.cluetip');
     }
     return this.each(function(index) {
       var link = this, $this = $(this);
@@ -65,12 +65,14 @@
         $dropShadow = $([]);
         for (var i=0; i < dropShadowSteps; i++) {
           $dropShadow = $dropShadow.add($('<div></div>').css({zIndex: cluezIndex-1, opacity:.1, top: 1+i, left: 1+i}));
-        };
+        }
         $dropShadow.css({position: 'absolute', backgroundColor: '#000'})
         .prependTo($cluetip);
       }
       var tipAttribute = $this.attr(opts.attribute), ctClass = opts.cluetipClass;
-      if (!tipAttribute && !opts.splitTitle && !js) return true;
+      if (!tipAttribute && !opts.splitTitle && !js) {
+        return true;
+      }
       // if hideLocal is set to true, on DOM ready hide the local content that will be displayed in the clueTip
       if (opts.local && opts.localPrefix) {tipAttribute = opts.localPrefix + tipAttribute;}
       if (opts.local && opts.hideLocal) { $(tipAttribute + ':first').hide(); }
@@ -169,7 +171,7 @@
 
       else if (tipParts) {
         var tpl = tipParts.length;
-        $cluetipInner.html(tipParts[0]);
+        $cluetipInner.html(tpl ? tipParts[0] : '');
         if (tpl > 1) {
           for (var i=1; i < tpl; i++){
             $cluetipInner.append('<div class="split-body">' + tipParts[i] + '</div>');
@@ -334,7 +336,7 @@
       if (!opts.sticky || (/click|toggle/).test(opts.activation) ) {
         cluetipClose();
         clearTimeout(closeOnDelay);        
-      };
+      }
       if (opts.hoverClass) {
         $this.removeClass(opts.hoverClass);
       }
@@ -349,7 +351,9 @@
         $this.attr(opts.titleAttribute, tipTitle);
       }
       $this.css('cursor','');
-      if (opts.arrows) $cluetipArrows.css({top: ''});
+      if (opts.arrows) {
+        $cluetipArrows.css({top: ''});
+      }
     };
 
     $(document).bind('hideCluetip', function(e) {
@@ -420,6 +424,7 @@
           $this.attr('title', $this.data('thisInfo').title);
         });
       }
+      link = $this = null;
     });
   };
   
