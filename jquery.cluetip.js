@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 1.0.5  (August 22, 2009)
+ * Version 1.0.6  (December 31, 2009)
  * @requires jQuery v1.2.6+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -20,6 +20,7 @@
 ;(function($) { 
   $.cluetip = {version: '1.0.5'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $cluetipWait, $dropShadow, imgCount;
+  
   $.fn.cluetip = function(js, options) {
     if (typeof js == 'object') {
       options = js;
@@ -424,7 +425,6 @@
           $this.attr('title', $this.data('thisInfo').title);
         });
       }
-      link = $this = null;
     });
   };
   
