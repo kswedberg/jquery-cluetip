@@ -1,7 +1,7 @@
 /*
  * jQuery clueTip plugin
- * Version 1.0.6  (December 31, 2009)
- * @requires jQuery v1.2.6+
+ * Version 1.0.6  (January 13, 2010)
+ * @requires jQuery v1.3+
  *
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
@@ -18,7 +18,7 @@
 */
 
 ;(function($) { 
-  $.cluetip = {version: '1.0.5'};
+  $.cluetip = {version: '1.0.6'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $cluetipWait, $dropShadow, imgCount;
   
   $.fn.cluetip = function(js, options) {
@@ -92,7 +92,7 @@
       var tipParts;
       var tipTitle = (opts.attribute != 'title') ? $this.attr(opts.titleAttribute) : '';
       if (opts.splitTitle) {
-        if(tipTitle == undefined) {tipTitle = '';}
+        if (tipTitle == undefined) {tipTitle = '';}
         tipParts = tipTitle.split(opts.splitTitle);
         tipTitle = tipParts.shift();
       }
@@ -317,7 +317,7 @@
 
 // (first hide, then) ***SHOW THE CLUETIP***
       $dropShadow.hide();
-      $cluetip.hide()[opts.fx.open](opts.fx.open != 'show' && opts.fx.openSpeed);
+      $cluetip.hide()[opts.fx.open](opts.fx.openSpeed || 0);
       if (opts.dropShadow) { $dropShadow.css({height: tipHeight, width: tipInnerWidth, zIndex: $this.data('thisInfo').zIndex-1}).show(); }
       if ($.fn.bgiframe) { $cluetip.bgiframe(); }
       // delayed close (not fully tested)
