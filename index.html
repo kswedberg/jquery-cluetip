@@ -256,17 +256,17 @@ $(document).ready(function() {
            * http://www.gnu.org/licenses/gpl.html</p>
         </dd>
         <dt>What versions of jQuery is the clueTip Plugin compatible with?</dt>
-        <dd>The clueTip Plugin is compatible with jQuery v1.2.6 and later. jQuery v1.3.1 or later is recommended.</dd>
+        <dd>As of clueTip version 1.06, the plugin is compatible with version 1.3.2 or later. Prevsiou clueTip versions are compatible with jQuery 1.2.6 through 1.3.2 or later is recommended.</dd>
         <dt>Does the clueTip Plugin have any dependencies on other plugins?</dt>
-        <dd>Only for old version of jQuery. For jQuery versions below 1.2.3, the clueTip plugin depends on the <strong>Dimensions</strong> plugin for accurate positioning. Otherwise, it is self-contained. <p><em>Optional</em> plugins that can be used in conjunction with the clueTip plugin include <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html" title="hoverIntent jQuery Plug-in">hoverIntent</a> and <a href="http://brandonaaron.net/jquery/plugins/bgiframe/docs/">bgIframe</a>.</p>  </dd>
+        <dd><em>Optional</em> plugins that can be used in conjunction with the clueTip plugin include <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html" title="hoverIntent jQuery Plug-in">hoverIntent</a> and <a href="http://brandonaaron.net/jquery/plugins/bgiframe/docs/">bgIframe</a>.</dd>
 		<dt>How do I get clueTip to work with dynamic content.</dt>
-		<dd>There are a number of options available for working with dynamic content. By default, the <code>ajaxCache</code> function is set to <code>true</code>. This reduces the number of http requests are made to the server. However, it doesn't account for possible changes to the ajaxed data. If the contents of a particular clueTip will be updated on the server between invocations, you may want to set <code>ajaxCache: false</code>. </dd>
+		<dd>There are a number of options available for working with dynamic content. By default, the <code>ajaxCache</code> function is set to <code>true</code>. This reduces the number of http requests  made to the server. However, it doesn't account for possible changes to the ajaxed data. If the contents of a particular clueTip will be updated on the server between invocations, you may want to set <code>ajaxCache: false</code>. </dd>
 		<dt><em>New as of clueTip 1.0.3</em>: How do I programmatically close (hide) a clueTip?</dt>
 		<dd>If you want to trigger a clueTip to close, based on some other interaction, you can use the following code: <code>$(document).trigger('hideCluetip');</code> </dd>
 		<dt><em>New as of clueTip 1.0.4</em>: Why don't the styles that I've applied to my local content carry over once they're inside a clueTip?</dt>
 		<dd>When using an element on the same page to populate the clueTip's content, the plugin <em>clones</em> that element. Because of potential problems caused by duplicate IDs within a page, the plugin also, by default, adds a suffix to the ID of the cloned element. If you have tied styles to the original ID, they won't be carried over. You can either give the <code>localIdSuffix</code> an empty string ( '' ) for its value or add the id to your stylesheet rule.</dd>
 		<dt>How do I add a delay before showing or closing the clueTip? </dt>
-		<dd>While the clueTip plugin itself doesn't have a mechanism for delaying responses, it can take advantage of the optional hoverIntent plugin. To delay the showing of a clueTip, use the <code>interval</code> property of the <code>hoverIntent</code> option; to delay its hiding, use the <code>timeout</code> property. Both properties are in measured in milliseconds. For example, the following sets both the show and the hide delays to 750 milliseconds (3/4 second):
+		<dd>While the clueTip plugin itself doesn't have a mechanism for delaying responses, it can take advantage of the optional hoverIntent plugin. To delay the showing of a clueTip, use the <code>interval</code> property of the <code>hoverIntent</code> option; to delay its hiding, use the <code>timeout</code> property. Both properties are measured in milliseconds. For example, the following sets both the show and the hide delays to 750 milliseconds (3/4 second):
 <pre><code>$('a').cluetip({
   hoverIntent: {
     sensitivity:  1,
