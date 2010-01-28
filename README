@@ -12,7 +12,7 @@
  * @return jQuery
  * @author Karl Swedberg
  *
- * @requires jQuery v1.2.6+
+ * @requires jQuery v1.3+
  *
  * @credit Inspired by Cody Lindley's jTip (http://www.codylindley.com)
  * @credit Thanks to the following people for their many and varied contributions:
@@ -52,5 +52,5 @@
  * 
  * More examples can be found at http://plugins.learningjquery.com/cluetip/demo/
  * 
- * Full list of options/settings can be found at the bottom of this file and at http://plugins.learningjquery.com/cluetip/
+ * Full list of options/settings can be found at http://plugins.learningjquery.com/cluetip/
  */

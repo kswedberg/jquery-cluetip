@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 1.0.6  (January 13, 2010)
+ * Version 1.0.7  (January 28, 2010)
  * @requires jQuery v1.3+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -226,9 +226,15 @@
             },
             complete: function(xhr, textStatus) {
               if (optionComplete) {optionComplete.call(link, xhr, textStatus, $cluetip, $cluetipInner);}
-              imgCount = $('#cluetip-inner img').length;
+              var imgs = $cluetipInner[0].getElementsByTagName('img');
+              imgCount = imgs.length;
+              for (var i=0, l = imgs.length; i < l; i++) {
+                if (imgs[i].complete) {
+                  imgCount--;
+                }
+              }
               if (imgCount && !$.browser.opera) {
-                $('#cluetip-inner img').bind('load error', function() {
+                $(imgs).bind('load error', function() {
                   imgCount--;
                   if (imgCount<1) {
                     $cluetipWait.hide();
@@ -492,7 +498,6 @@
 
     // short-circuit function to run just before clueTip is shown. 
     onActivate:       function(e) {return true;},
-
     // function to run just after clueTip is shown. 
     onShow:           function(ct, ci){},
     // function to run just after clueTip is hidden.
