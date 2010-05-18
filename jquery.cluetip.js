@@ -17,59 +17,64 @@
  *
 */
 
-;(function($) { 
-  $.cluetip = {version: '1.0.6'};
+(function($) {
+  $.cluetip = {version: '1.1pre'};
   var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $cluetipWait, $dropShadow, imgCount;
-  
+  var insertionType = 'appendTo', insertionElement = 'body';
+
+
   $.fn.cluetip = function(js, options) {
     if (typeof js == 'object') {
       options = js;
       js = null;
     }
     if (js == 'destroy') {
-      return this.removeData('thisInfo').unbind('.cluetip');
+      return this.removeData('cluetip').unbind('.cluetip');
     }
-    return this.each(function(index) {
+
+    // merge per-call options with defaults
+    options = $.extend(true, {}, $.fn.cluetip.defaults, options || {});
+
+    /** =create cluetip divs **/
+
+    if (!$('#cluetip').length) {
+      $(['<div id="cluetip">',
+        '<div id="cluetip-outer">',
+          '<h3 id="cluetip-title"></h3>',
+          '<div id="cluetip-inner"></div>',
+        '</div>',
+        '<div id="cluetip-extra"></div>',
+        '<div id="cluetip-arrows" class="cluetip-arrows"></div>',
+      '</div>'].join(''))
+      [insertionType](insertionElement).hide();
+
+      var cluezIndex = +options.cluezIndex;
+
+      $cluetip = $('#cluetip').css({position: 'absolute'});
+      $cluetipOuter = $('#cluetip-outer').css({position: 'relative', zIndex: cluezIndex});
+      $cluetipInner = $('#cluetip-inner');
+      $cluetipTitle = $('#cluetip-title');
+      $cluetipArrows = $('#cluetip-arrows');
+      $cluetipWait = $('<div id="cluetip-waitimage"></div>')
+        .css({position: 'absolute'}).insertBefore($cluetip).hide();
+    }
+
+
+
+    this.each(function(index) {
       var link = this, $this = $(this);
-      
+
       // support metadata plugin (v1.0 and 2.0)
-      var opts = $.extend(true, {}, $.fn.cluetip.defaults, options || {}, $.metadata ? $this.metadata() : $.meta ? $this.data() : {});
+      var opts = $.extend(true, {}, options, $.metadata ? $this.metadata() : $.meta ? $this.data() : {});
+
 
       // start out with no contents (for ajax activation)
       var cluetipContents = false;
-      var cluezIndex = +opts.cluezIndex;
-      $this.data('thisInfo', {title: link.title, zIndex: cluezIndex});
+
+      cluezIndex = +opts.cluezIndex;
+      $this.data('cluetip', {title: link.title, zIndex: cluezIndex});
       var isActive = false, closeOnDelay = 0;
 
-      // create the cluetip divs
-      if (!$('#cluetip').length) {
-        $(['<div id="cluetip">',
-          '<div id="cluetip-outer">',
-            '<h3 id="cluetip-title"></h3>',
-            '<div id="cluetip-inner"></div>',
-          '</div>',
-          '<div id="cluetip-extra"></div>',
-          '<div id="cluetip-arrows" class="cluetip-arrows"></div>',
-        '</div>'].join(''))
-        [insertionType](insertionElement).hide();
-        
-        $cluetip = $('#cluetip').css({position: 'absolute'});
-        $cluetipOuter = $('#cluetip-outer').css({position: 'relative', zIndex: cluezIndex});
-        $cluetipInner = $('#cluetip-inner');
-        $cluetipTitle = $('#cluetip-title');        
-        $cluetipArrows = $('#cluetip-arrows');
-        $cluetipWait = $('<div id="cluetip-waitimage"></div>')
-          .css({position: 'absolute'}).insertBefore($cluetip).hide();
-      }
-      var dropShadowSteps = (opts.dropShadow) ? +opts.dropShadowSteps : 0;
-      if (!$dropShadow) {
-        $dropShadow = $([]);
-        for (var i=0; i < dropShadowSteps; i++) {
-          $dropShadow = $dropShadow.add($('<div></div>').css({zIndex: cluezIndex-1, opacity:.1, top: 1+i, left: 1+i}));
-        }
-        $dropShadow.css({position: 'absolute', backgroundColor: '#000'})
-        .prependTo($cluetip);
-      }
       var tipAttribute = $this.attr(opts.attribute), ctClass = opts.cluetipClass;
       if (!tipAttribute && !opts.splitTitle && !js) {
         return true;
@@ -84,10 +89,10 @@
       var sTop, linkTop, posY, tipY, mouseY, baseline;
       // horizontal measurement variables
       var tipInnerWidth = parseInt(opts.width, 10) || 275,
-          tipWidth = tipInnerWidth + (parseInt($cluetip.css('paddingLeft'),10)||0) + (parseInt($cluetip.css('paddingRight'),10)||0) + dropShadowSteps,
+          tipWidth = tipInnerWidth + (parseInt($cluetip.css('paddingLeft'),10)||0) + (parseInt($cluetip.css('paddingRight'),10)||0) + opts.dropShadowSteps,
           linkWidth = this.offsetWidth,
           linkLeft, posX, tipX, mouseX, winWidth;
-            
+
       // parse the title
       var tipParts;
       var tipTitle = (opts.attribute != 'title') ? $this.attr(opts.titleAttribute) : '';
@@ -323,9 +328,13 @@
       }
 
 // (first hide, then) ***SHOW THE CLUETIP***
-      $dropShadow.hide();
+      // handle dropshadow divs first
+      $dropShadow = createDropShadows(opts);
+      if ($dropShadow && $dropShadow.length) {
+        $dropShadow.hide().css({height: tipHeight, width: tipInnerWidth, zIndex: $this.data('cluetip').zIndex-1}).show();
+      }
+
       $cluetip.hide()[opts.fx.open](opts.fx.openSpeed || 0);
-      if (opts.dropShadow) { $dropShadow.css({height: tipHeight, width: tipInnerWidth, zIndex: $this.data('thisInfo').zIndex-1}).show(); }
       if ($.fn.bgiframe) { $cluetip.bgiframe(); }
       // delayed close (not fully tested)
       if (opts.delayedClose > 0) {
@@ -426,28 +435,93 @@
             $this.unbind('mousemove.cluetip');
           });
         }
+
         $this.bind('mouseover.cluetip', function(event) {
           $this.attr('title','');
         }).bind('mouseleave.cluetip', function(event) {
-          $this.attr('title', $this.data('thisInfo').title);
+          $this.attr('title', $this.data('cluetip').title);
         });
       }
     });
+
+    /** =private functions
+    ************************************************************/
+    /** =create dropshadow divs **/
+
+    function createDropShadows(options, newDropShadow) {
+      var dropShadowSteps = (options.dropShadow && options.dropShadowSteps) ? +options.dropShadowSteps : 0;
+      if ($.support.boxShadow) {
+        var dsOffsets = dropShadowSteps === 0 ? '0 0 ' : '1px 1px ';
+        $('#cluetip').css($.support.boxShadow, dsOffsets + dropShadowSteps + 'px rgba(0,0,0,0.5)');
+        return false;
+      }
+      var oldDropShadow = $('#cluetip .cluetip-drop-shadow');
+      if (dropShadowSteps == oldDropShadow.length) {
+        return oldDropShadow;
+      }
+      oldDropShadow.remove();
+      var dropShadows = [];
+      for (var i=0; i < dropShadowSteps;) {
+        dropShadows[i++] = '<div style="top:' + i + 'px;left:' + i + 'px;"></div>';
+      }
+
+      newDropShadow = $(dropShadows.join(''))
+      .css({
+        position: 'absolute',
+        backgroundColor: '#000',
+        zIndex: cluezIndex -1,
+        opacity: .1
+      })
+      .addClass('cluetip-drop-shadow')
+      .prependTo('#cluetip');
+      return newDropShadow;
+
+    }
+
+
+    return this;
   };
-  
+
+  (function() {
+    $.support = $.support || {};
+    // check support for CSS3 properties (currently only boxShadow)
+    var div = document.createElement('div'),
+        divStyle = div.style,
+        styleProps = ['boxShadow'],
+        prefixes = ['moz', 'Moz', 'webkit'];
+
+    for (var i=0, sl = styleProps.length; i < sl; i++) {
+      var prop = styleProps[i],
+          uProp = prop.charAt(0).toUpperCase() + prop.slice(1);
+
+      if ( typeof divStyle[ prop ] !== 'undefined' ) {
+        $.support[ prop ] = prop;
+      } else {
+        for (var j=0, pl = prefixes.length; j < pl; j++) {
+
+          if (typeof divStyle[ prefixes[j] + uProp ] !== 'undefined') {
+            $.support[ prop ] = prefixes[j] + uProp;
+            break;
+          }
+        }
+      }
+    }
+    div = null; delete div;
+  })();
+
 /*
  * options for clueTip
  *
- * each one can be explicitly overridden by changing its value. 
- * for example: $.fn.cluetip.defaults.width = 200; 
- * would change the default width for all clueTips to 200. 
+ * each one can be explicitly overridden by changing its value.
+ * for example: $.fn.cluetip.defaults.width = 200;
+ * would change the default width for all clueTips to 200.
  *
  * each one can also be overridden by passing an options map to the cluetip method.
- * for example: $('a.example').cluetip({width: 200}); 
+ * for example: $('a.example').cluetip({width: 200});
  * would change the default width to 200 for clueTips invoked by a link with class of "example"
  *
  */
-  
+
   $.fn.cluetip.defaults = {  // set up default options
     width:            275,      // The width of the clueTip
     height:           'auto',   // The height of the clueTip
