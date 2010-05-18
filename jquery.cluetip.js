@@ -263,6 +263,9 @@
       } else if (opts.local) {
 
         var $localContent = $(tipAttribute + (/#\S+$/.test(tipAttribute) ? '' : ':eq(' + index + ')')).clone(true).show();
+        if (opts.localIdSuffix) {
+          $localContent.attr('id', $localContent[0].id + opts.localIdSuffix);
+        }
         $cluetipInner.html($localContent);
         cluetipShow(pY);
       }
@@ -531,6 +534,7 @@
     leftOffset:       15,       // Number of px to offset clueTip from left of invoking element
     local:            false,    // Whether to use content from the same page for the clueTip's body
     localPrefix:      null,       // string to be prepended to the tip attribute if local is true
+    localIdSuffix:    null,     // string to be appended to the cluetip content element's id if local is true
     hideLocal:        true,     // If local option is set to true, this determines whether local content
                                 // to be shown in clueTip should be hidden at its original location
     attribute:        'rel',    // the attribute to be used for fetching the clueTip's body content
