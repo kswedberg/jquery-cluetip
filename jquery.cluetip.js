@@ -58,7 +58,7 @@
       $cluetipWait = $('<div id="cluetip-waitimage"></div>')
         .css({position: 'absolute'}).insertBefore($cluetip).hide();
     }
-
+    var cluetipPadding = (parseInt($cluetip.css('paddingLeft'),10)||0) + (parseInt($cluetip.css('paddingRight'),10)||0);
 
 
     this.each(function(index) {
@@ -89,7 +89,7 @@
       var sTop, linkTop, posY, tipY, mouseY, baseline;
       // horizontal measurement variables
       var tipInnerWidth = parseInt(opts.width, 10) || 275,
-          tipWidth = tipInnerWidth + (parseInt($cluetip.css('paddingLeft'),10)||0) + (parseInt($cluetip.css('paddingRight'),10)||0) + opts.dropShadowSteps,
+          tipWidth = tipInnerWidth + cluetipPadding + opts.dropShadowSteps,
           linkWidth = this.offsetWidth,
           linkLeft, posX, tipX, mouseX, winWidth;
 
@@ -491,7 +491,7 @@
     var div = document.createElement('div'),
         divStyle = div.style,
         styleProps = ['boxShadow'],
-        prefixes = ['moz', 'Moz', 'webkit'];
+        prefixes = ['moz', 'Moz', 'webkit', 'o'];
 
     for (var i=0, sl = styleProps.length; i < sl; i++) {
       var prop = styleProps[i],
