@@ -41,8 +41,8 @@ $(function() {
         <div class="step-one">Add HTML markup to your page for elements that you want to invoke a clueTip. By default, the clueTip plugin will use the <code>rel</code> attribute to load contents into the tooltip body via <acronym title="Asynchronous HTML and HTTP">AHAH</acronym>. </div>
 <pre><code class="mix">
   &lt;!-- use ajax/ahah to pull content from fragment.html: --&gt;
-  &lt;p&gt;&lt;a class="tips" href="fragment.html" rel="fragment.html">show me the cluetip!&lt;/a&gt;&lt;/p&gt; 
- 
+  &lt;p&gt;&lt;a class="tips" href="fragment.html" rel="fragment.html">show me the cluetip!&lt;/a&gt;&lt;/p&gt;
+
   &lt;!-- use title attribute for clueTip contents, but don't include anything in the clueTip's heading --&gt;
   &lt;p&gt;&lt;a id="houdini" href="houdini.html" title="|Houdini was an escape artist.|He was also adept at prestidigitation.">Houdini&lt;/a&gt;&lt;/p&gt;
 </code></pre>
@@ -55,7 +55,7 @@ $(function() {
 &lt;script type="text/javascript"&gt;
 $(document).ready(function() {
   $('a.tips').cluetip();
-  
+
   $('#houdini').cluetip({
     splitTitle: '|', // use the invoking element's title attribute to populate the clueTip...
                      // ...and split the contents into separate divs where there is a "|"
@@ -86,7 +86,7 @@ $(document).ready(function() {
             <li>an element on the same page, typically hidden</li>
             <li>the title attribute, parsed by a user-defined delimiter (if the "splitTitle" option is set). The text before the first delimiter becomes the clueTip title, and the rest of the text parts are placed in <code>&lt;div class="split-body"&gt;&lt;/div&gt;</code> elements and appended to the clueTip body </li>
           </ol>
-        </div>  
+        </div>
         <div id="subdetails2" class="sampleTabContent">
           <h4>Smart Positioning</h4>
           The clueTip Plugin has 4 positioning modes, which you can change via the "positionBy" option.
@@ -123,7 +123,7 @@ $(document).ready(function() {
               </ul>
             </li>
           </ol>
-        </div>    
+        </div>
         <div id="subdetails3" class="sampleTabContent">
           <h4>Flexible Behavior</h4>
           <ol>
@@ -149,7 +149,7 @@ $(document).ready(function() {
           <p>Other options that affect the visual appearance include <code>hoverClass</code>, <code>arrows</code>, <code>dropShadow</code>, and <code>dropShadowSteps</code>. Please see <a href=#options>API / Options</a> for more information.</p>
         </div>
       </div>
-    </div>    
+    </div>
     <div id="options" class="tabContent">
         <h1>clueTip Plugin API / Options</h1>
         The clueTip Plugin API provides two methods, with many options.
@@ -160,8 +160,8 @@ $(document).ready(function() {
         <pre><code class="mix">{
           insertionType:    'appendTo', // how the clueTip is inserted into the DOM
                                         // possible values: 'appendTo', 'prependTo', 'insertBefore', 'insertAfter'
-          insertionElement: 'body'      // where in the DOM the clueTip is to be inserted 
-        }</code></pre>        
+          insertionElement: 'body'      // where in the DOM the clueTip is to be inserted
+        }</code></pre>
         <dl>
             <dt><code class="method">cluetip(options)</code></dt>
             <dd>Displays a highly customizable tooltip via ajax (default) or local content or the title attribute of the invoking element </dd>
@@ -192,7 +192,7 @@ $(document).ready(function() {
     sticky:           false,    // keep visible until manually closed
     mouseOutClose:    false,    // close when clueTip is moused out
     activation:       'hover',  // set to 'click' to force user to click to show clueTip
-    clickThrough:     false,    // if true, and activation is not 'click', then clicking on a clueTipped link will take user to 
+    clickThrough:     false,    // if true, and activation is not 'click', then clicking on a clueTipped link will take user to
                                 // the link's href, even if href and tipAttribute are equal
     tracking:         false,    // if true, clueTip will track mouse movement (experimental)
     delayedClose:     0,        // close clueTip on a timed delay (experimental)
@@ -201,35 +201,35 @@ $(document).ready(function() {
     truncate:         0,        // number of characters to truncate clueTip's contents. if 0, no truncation occurs
 
     // effect and speed for opening clueTips
-    fx: {             
+    fx: {
                       open:       'show', // can be 'show' or 'slideDown' or 'fadeIn'
                       openSpeed:  ''
     },
-                  
+
     // settings for when hoverIntent plugin is used
-    hoverIntent: {    
+    hoverIntent: {
                       sensitivity:  3,
                       interval:     50,
                       timeout:      0
-    }, 
-    
-    // function to run just before clueTip is shown.            
+    },
+
+    // function to run just before clueTip is shown.
     onActivate:       function(e) {return true;},
 
     // function to run just after clueTip is shown.
     onShow:           function(ct, c){},
-    
+
     // whether to cache results of ajax request to avoid unnecessary hits to server
-    ajaxCache:        true,     
-    
+    ajaxCache:        true,
+
     // process data retrieved via xhr before it's displayed
     ajaxProcess:      function(data) {
                         data = $(data).not('style, meta, link, script, title');
                         return data;
     },
-    
+
     // can pass in standard $.ajax() parameters, not including error, complete, success, and url
-    ajaxSettings: {   
+    ajaxSettings: {
                       dataType: 'html'
     }
   };</code></pre>
@@ -242,7 +242,7 @@ $(document).ready(function() {
     <li><strong>splitTitle</strong>: if used, the clueTip will be populated only by the title attribute</li>
     <li><strong>cluetipClass</strong>: this is also used for a "directional" class on the same div, depending on where the clueTip is in relation to the invoking element. The class appears in the form of 'cluetip-' + <em>direction</em> + <em>cluetipClass</em>. this allows you to create your own clueTip theme in a separate CSS file or use one of the three pre-packaged themes: default, jtip, or rounded.</li>
     <li><strong>arrows</strong>: <strong>UPDATE</strong>: this option displays a div containing an arrow background image. Arrow images are set using the background-image property in the CSS. The direction of the arrow changes depending on which side of the invoking element the clueTip appears. The arrows option sets the background-position of the cluetip div so that the arrow will accurately point to the invoking element, regardless of where it appears in relation to it.</li>
-  </ol> 
+  </ol>
     </div>
 
     <div id="faq" class="tabContent">
@@ -256,30 +256,39 @@ $(document).ready(function() {
            * http://www.gnu.org/licenses/gpl.html</p>
         </dd>
         <dt>What versions of jQuery is the clueTip Plugin compatible with?</dt>
-        <dd>As of clueTip version 1.06, the plugin is compatible with version 1.3.2 or later. Prevsiou clueTip versions are compatible with jQuery 1.2.6 through 1.3.2 or later is recommended.</dd>
+        <dd>As of clueTip version 1.06, the plugin is compatible with version 1.3.2 or later. Previous clueTip versions are compatible with jQuery 1.2.6, though 1.3.2 or later is recommended.</dd>
         <dt>Does the clueTip Plugin have any dependencies on other plugins?</dt>
-        <dd><em>Optional</em> plugins that can be used in conjunction with the clueTip plugin include <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html" title="hoverIntent jQuery Plug-in">hoverIntent</a> and <a href="http://brandonaaron.net/jquery/plugins/bgiframe/docs/">bgIframe</a>.</dd>
-		<dt>How do I get clueTip to work with dynamic content.</dt>
-		<dd>There are a number of options available for working with dynamic content. By default, the <code>ajaxCache</code> function is set to <code>true</code>. This reduces the number of http requests  made to the server. However, it doesn't account for possible changes to the ajaxed data. If the contents of a particular clueTip will be updated on the server between invocations, you may want to set <code>ajaxCache: false</code>. </dd>
-		<dt><em>New as of clueTip 1.0.3</em>: How do I programmatically close (hide) a clueTip?</dt>
-		<dd>If you want to trigger a clueTip to close, based on some other interaction, you can use the following code: <code>$(document).trigger('hideCluetip');</code> </dd>
-		<dt><em>New as of clueTip 1.0.4</em>: Why don't the styles that I've applied to my local content carry over once they're inside a clueTip?</dt>
-		<dd>When using an element on the same page to populate the clueTip's content, the plugin <em>clones</em> that element. Because of potential problems caused by duplicate IDs within a page, the plugin also, by default, adds a suffix to the ID of the cloned element. If you have tied styles to the original ID, they won't be carried over. You can either give the <code>localIdSuffix</code> an empty string ( '' ) for its value or add the id to your stylesheet rule.</dd>
-		<dt>How do I add a delay before showing or closing the clueTip? </dt>
-		<dd>While the clueTip plugin itself doesn't have a mechanism for delaying responses, it can take advantage of the optional hoverIntent plugin. To delay the showing of a clueTip, use the <code>interval</code> property of the <code>hoverIntent</code> option; to delay its hiding, use the <code>timeout</code> property. Both properties are measured in milliseconds. For example, the following sets both the show and the hide delays to 750 milliseconds (3/4 second):
+        <dd><strong>No.</strong> However, <em>optional</em> plugins that can be used in conjunction with the clueTip plugin include <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html" title="hoverIntent jQuery Plug-in">hoverIntent</a> and <a href="http://brandonaaron.net/jquery/plugins/bgiframe/docs/">bgIframe</a>.</dd>
+        <dt id="cluetip-after-ajax">How do I get clueTip to work on elements that have been inserted via ajax after the page loads?</dt>
+        <dd>You can call the <code>.cluetip()</code> method on those elements from within the ajax method's callback function. For example:
+<pre><code>$.get('/path/to/file', function(html) {
+  var newHtml = $(html);
+  newHtml.appendTo('#some-elememnt');
+  newHtml.find('a').cluetip();
+});</code></pre>
+        </dd>
+        <dt>How do I get clueTip to show ajaxed content that has changed on the server?</dt>
+        <dd>There are a number of options available for working with dynamic content. By default, the <code>ajaxCache</code> function is set to <code>true</code>. This reduces the number of http requests  made to the server. However, it doesn't account for possible changes to the ajaxed data. If the contents of a particular clueTip will be updated on the server between invocations, you may want to set <code>ajaxCache: false</code>.
+        </dd>
+        <dt><em>New as of clueTip 1.0.3</em>: How do I programmatically close (hide) a clueTip?</dt>
+        <dd>If you want to trigger a clueTip to close, based on some other interaction, you can use the following code: <code>$(document).trigger('hideCluetip');</code> </dd>
+        <dt><em>New as of clueTip 1.0.4</em>: Why don't the styles that I've applied to my local content carry over once they're inside a clueTip?</dt>
+        <dd>When using an element on the same page to populate the clueTip's content, the plugin <em>clones</em> that element. Because of potential problems caused by duplicate IDs within a page, the plugin also, by default, adds a suffix to the ID of the cloned element. If you have tied styles to the original ID, they won't be carried over. You can either give the <code>localIdSuffix</code> an empty string ( '' ) for its value or add the id to your stylesheet rule.</dd>
+        <dt>How do I add a delay before showing or closing the clueTip? </dt>
+        <dd>While the clueTip plugin itself doesn't have a mechanism for delaying responses, it can take advantage of the optional hoverIntent plugin. To delay the showing of a clueTip, use the <code>interval</code> property of the <code>hoverIntent</code> option; to delay its hiding, use the <code>timeout</code> property. Both properties are measured in milliseconds. For example, the following sets both the show and the hide delays to 750 milliseconds (3/4 second):
 <pre><code>$('a').cluetip({
   hoverIntent: {
     sensitivity:  1,
     interval:     750,
-    timeout:      750    
+    timeout:      750
   }
 });
 </code></pre>
-		  See <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html">hoverIntent plugin's documentation</a> for details.</dd>
-		  <dt>Why are the clueTips hidden behind my Flash elements?</dt>
-		  <dd><p>This is a common problem when trying to layer a DOM element over a Flash object. To avoid it, you need to set &lt;param name="wmode" value="transparent" /&gt; inside the &lt;object&gt;&lt;/object&gt; tags and/or wmode="transparent" as an attribute of the &lt;embed /&gt; tag. For example, your HTML might look like this:</p>
+          See <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html">hoverIntent plugin's documentation</a> for details.</dd>
+        <dt>Why are the clueTips hidden behind my Flash elements?</dt>
+        <dd><p>This is a common problem when trying to layer a DOM element over a Flash object. To avoid it, you need to set &lt;param name="wmode" value="transparent" /&gt; inside the &lt;object&gt;&lt;/object&gt; tags and/or wmode="transparent" as an attribute of the &lt;embed /&gt; tag. For example, your HTML might look like this:</p>
 
-<pre><code>&lt;object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"    
+<pre><code>&lt;object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
   codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"
   width="500" height="300"&gt;
   &lt;param name="movie" value="test.swf" /&gt;
@@ -289,13 +298,14 @@ $(document).ready(function() {
   &lt;embed src="test.swf" quality="high" <strong>wmode="transparent"</strong>
     pluginspage="http://www.macromedia.com/go/getflashplayer"
     type="application/x-shockwave-flash" width="500" height="300" /&gt;
-&lt;/object&gt;</code></pre>		    
-		  </dd>
-        </dl>
+&lt;/object&gt;</code>
+</pre>
+        </dd>
+      </dl>
     </div>
     <div id="credits" class="tabContent">
       <h1>clueTip Plugin Credits</h1>
-      
+
       <ul>
         <li>The clueTip Plugin was inspired by <a href="http://www.codylindley.com">Cody Lindley</a>'s jTip script. </li>
         <li>Many feature ideas were provided by Shelane Enos. </li>
@@ -313,11 +323,11 @@ $(document).ready(function() {
       <p>The plugin is also available on Github, where it is updated more frequently with incremental improvements and bug fixes: <a class="external" href="http://github.com/kswedberg/jquery-cluetip/tree/master">clueTip on Github</a></p>
       <h1>Support</h1>
       <p>Support for the clueTip Plugin is available through the
-        <a class="external" href="http://forum.jquery.com/">jQuery Forum</a>.  
+        <a class="external" href="http://forum.jquery.com/">jQuery Forum</a>.
         This is a very active forum to which many jQuery developers and users subscribe.
       </p>
       <h1>Bug Reports</h1>
-      If you discover a bug in the clueTip plugin, please <a class="external" href="http://github.com/kswedberg/jquery-cluetip/issues">report the bug here</a>. 
+      If you discover a bug in the clueTip plugin, please <a class="external" href="http://github.com/kswedberg/jquery-cluetip/issues">report the bug here</a>.
       </p>
       <div id="footer">
         This documentation is maintained by Karl Swedberg.  Send comments or questions to karl [at] learningjquery /dot\ com.
