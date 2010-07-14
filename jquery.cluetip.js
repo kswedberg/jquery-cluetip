@@ -190,7 +190,7 @@
 ***************************************/
 
       else if (!opts.local && tipAttribute.indexOf('#') !== 0) {
-        if (/\.(jpe?g|tiff?|gif|png)$/i.test(tipAttribute)) {
+        if (/\.(jpe?g|tiff?|gif|png)(?:\?.*)?$/i.test(tipAttribute)) {
           $cluetipInner.html('<img src="' + tipAttribute + '" alt="' + tipTitle + '" />');
           cluetipShow(pY);
         } else if (cluetipContents && opts.ajaxCache) {
