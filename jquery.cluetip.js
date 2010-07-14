@@ -81,7 +81,7 @@
       }
       // if hideLocal is set to true, on DOM ready hide the local content that will be displayed in the clueTip
       if (opts.local && opts.localPrefix) {tipAttribute = opts.localPrefix + tipAttribute;}
-      if (opts.local && opts.hideLocal) { $(tipAttribute + ':first').hide(); }
+      if (opts.local && opts.hideLocal && tipAttribute) { $(tipAttribute + ':first').hide(); }
       var tOffset = parseInt(opts.topOffset, 10), lOffset = parseInt(opts.leftOffset, 10);
       // vertical measurement variables
       var tipHeight, wHeight,
