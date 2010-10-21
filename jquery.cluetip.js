@@ -406,9 +406,11 @@
   // activate by focus; inactivate by blur
       } else if (opts.activation == 'focus') {
         $this.bind('focus.cluetip', function(event) {
+          $this.attr('title','');
           activate(event);
         });
         $this.bind('blur.cluetip', function(event) {
+          $this.attr('title', $this.data('thisInfo').title);
           inactivate(event);
         });
   // activate by hover
