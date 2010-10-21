@@ -80,6 +80,8 @@ $(document).ready(function() {
   });
 });
   
+// inserting jQuery UI Themeswitcher tool
 
+$('#themeswitcher').themeswitcher({loadTheme: 'UI Lightness'});
 
 
