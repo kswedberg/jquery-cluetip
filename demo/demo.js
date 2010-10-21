@@ -61,9 +61,9 @@ $(document).ready(function() {
   });
 
 // Rounded Corner theme
-  $('ol.rounded a:eq(0)').cluetip({splitTitle: '|', dropShadow: false, cluetipClass: 'rounded', showtitle: false});
-  $('ol.rounded a:eq(1)').cluetip({cluetipClass: 'rounded', dropShadow: false, showtitle: false, positionBy: 'mouse'});
-  $('ol.rounded a:eq(2)').cluetip({cluetipClass: 'rounded', dropShadow: false, showtitle: false, positionBy: 'bottomTop', topOffset: 70});
+  $('ol.rounded a:eq(0)').cluetip({sticky: true, splitTitle: '|', dropShadow: false, cluetipClass: 'rounded', showTitle: false});
+  $('ol.rounded a:eq(1)').cluetip({cluetipClass: 'rounded', dropShadow: false, showTitle: false, positionBy: 'mouse'});
+  $('ol.rounded a:eq(2)').cluetip({cluetipClass: 'rounded', dropShadow: false, showTitle: false, positionBy: 'bottomTop', topOffset: 70});
   $('ol.rounded a:eq(3)').cluetip({cluetipClass: 'rounded', dropShadow: false, sticky: true, ajaxCache: false, arrows: true});
   $('ol.rounded a:eq(4)').cluetip({cluetipClass: 'rounded', dropShadow: false});    
 });
