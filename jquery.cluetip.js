@@ -281,6 +281,7 @@
       }
 
       function doNothing() {}; //empty function
+
       tipTitle ? $cluetipTitle.show().html(tipTitle) : (opts.showTitle) ? $cluetipTitle.show().html('&nbsp;') : $cluetipTitle.hide();
       if (opts.sticky) {
         var $closeLink = $('<div id="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
@@ -480,7 +481,7 @@
         position: 'absolute',
         backgroundColor: '#000',
         zIndex: cluezIndex -1,
-        opacity: .1
+        opacity: 0.1
       })
       .addClass('cluetip-drop-shadow')
       .prependTo('#cluetip');
@@ -625,8 +626,6 @@
  * @option String insertionElement: Default is 'body'. Determines which element in the DOM the plugin will reference when inserting the clueTip.
  *
  */
-
-  var insertionType = 'appendTo', insertionElement = 'body';
 
   $.cluetip.setup = function(options) {
     if (options && options.insertionType && (options.insertionType).match(/appendTo|prependTo|insertBefore|insertAfter/)) {

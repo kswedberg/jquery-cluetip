@@ -44,9 +44,15 @@ div.ui-cluetip {
    =cluetipClass: 'default' 
 -------------------------------------- */
 
-/*.cluetip-default {
+.cluetip-default {
   background-color: #d9d9c2;
 }
+.cluetip-default .ui-cluetip-header {
+  background-color: #87876a;
+}
+
+
+/*
 .cluetip-default #cluetip-outer {
   position: relative;
   margin: 0;
@@ -104,13 +110,12 @@ div.ui-cluetip {
    =cluetipClass: 'jtip'
 -------------------------------------- */
 .cluetip-jtip {
-  background-color: transparent;
+  background-color: #fff;
 }
 .cluetip-jtip #cluetip-outer {
   border: 2px solid #ccc;
   position: relative;
 }
-
 
 .cluetip-jtip #cluetip-inner {
   padding: 0 5px 5px;
@@ -118,8 +123,14 @@ div.ui-cluetip {
 }
 .cluetip-jtip div#cluetip-close { 
   text-align: right;
-  margin: 0 5px 5px;
+  margin: 0 5px 0;
   color: #900;
+}
+
+.cluetip-jtip .ui-cluetip-header {
+  background-color: #ccc;
+  padding: 6px;
+  margin-bottom: 1em;
 }
 
 /* jtip arrows */
@@ -152,7 +163,13 @@ div.ui-cluetip {
 /***************************************
    =cluetipClass: 'rounded'
 -------------------------------------- */
-
+.cluetip-rounded {
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  border-radius: 1em;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
 
 
 /* stupid IE6 HasLayout hack */
