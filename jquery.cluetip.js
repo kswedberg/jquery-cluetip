@@ -605,7 +605,7 @@
     // The only exception is error, which overrides the default
     ajaxSettings: {
                       // error: function(ct, ci) { /* override default error callback */ }
-                      // beforeSend: function(ct, ci) { /* called first within default beforeSend callback }
+                      // beforeSend: function(ct, ci) { /* called first within default beforeSend callback */ }
                       dataType: 'html'
     },
     debug: false
