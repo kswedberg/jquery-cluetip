@@ -1,6 +1,6 @@
 /*
  * jQuery clueTip plugin
- * Version 1.1pre  (May 16, 2010)
+ * Version 1.1  (2010-10-20)
  * @requires jQuery v1.3+
  *
  * Dual licensed under the MIT and GPL licenses:
