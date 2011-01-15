@@ -298,9 +298,6 @@
         if (/\.(jpe?g|tiff?|gif|png)(?:\?.*)?$/i.test(tipAttribute)) {
           $cluetipInner.html('<img src="' + tipAttribute + '" alt="' + tipTitle + '" />');
           cluetipShow(pY);
-        } else if (cluetipContents && opts.ajaxCache) {
-          $cluetipInner.html(cluetipContents);
-          cluetipShow(pY);
         } else {
           var optionBeforeSend = opts.ajaxSettings.beforeSend,
               optionError = opts.ajaxSettings.error,
@@ -496,14 +493,14 @@
 -------------------------------------- */
   // activate by click
       if ( (/click|toggle/).test(opts.activation) ) {
-          if ($cluetip.is(':hidden') || !$this.is('.cluetip-clicked')) {
+        $link.bind('click.cluetip', function(event) {
+          if ($cluetip.is(':hidden') || !$link.is('.cluetip-clicked')) {
             activate(event);
             $('.cluetip-clicked').removeClass('cluetip-clicked');
             $link.addClass('cluetip-clicked');
           } else {
             inactivate(event);
           }
-          this.blur();
           return false;
         });
   // activate by focus; inactivate by blur
@@ -512,8 +509,6 @@
           $link.attr('title','');
           activate(event);
         });
-        $this.bind('blur.cluetip', function(event) {
-          $this.attr('title', $this.data('thisInfo').title);
         $link.bind('blur.cluetip', function(event) {
           $link.attr('title', $link.data('thisInfo').title);
           inactivate(event);
@@ -595,7 +590,6 @@
       return newDropShadow;
 
     }
-
 
     return this;
   };
