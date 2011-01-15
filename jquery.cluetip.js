@@ -1,27 +1,129 @@
-/*
- * jQuery clueTip plugin
- * Version 1.1  (2010-10-20)
- * @requires jQuery v1.3+
+/*!
+ * jQuery clueTip plugin v1.1
  *
+ * Date: 2011-01-15
+ * Requires: jQuery v1.3+
+ *
+ * Copyright 2010, Karl Swedberg
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
  *
- */
-
-/*
- *
  * Full list of options/settings can be found at the bottom of this file and at http://plugins.learningjquery.com/cluetip/
- *
  * Examples can be found at http://plugins.learningjquery.com/cluetip/demo/
  *
 */
 
 (function($) {
-  $.cluetip = {version: '1.1pre'};
-  var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $cluetipWait, $dropShadow, imgCount;
-  var insertionType = 'appendTo', insertionElement = 'body';
-  var standardClasses = 'ui-widget ui-widget-content ui-cluetip';
+
+
+  $.cluetip = {
+    version: '1.1',
+
+    /* clueTip setup
+     *  the setup options are applied each time .cluetip() is called,
+     *  BUT only if <div id="cluetip"> is not already in the document
+    */
+    setup: {
+      // method to be used for inserting the clueTip into the DOM.
+      // Permitted values are 'appendTo', 'prependTo', 'insertBefore', and 'insertAfter'
+      insertionType: 'appendTo',
+      // element in the DOM the plugin will reference when inserting the clueTip.
+      insertionElement: 'body'
+    },
+
+    /*
+     * clueTip options
+     *
+     * each one can be explicitly overridden by changing its value.
+     * for example: $.cluetip.defaults.width = 200;
+     *         or: $.fn.cluetip.defaults.width = 200; // for compatibility with previous clueTip versions
+     * would change the default width for all clueTips to 200.
+     *
+     * each one can also be overridden by passing an options map to the cluetip method.
+     * for example: $('a.example').cluetip({width: 200});
+     * would change the default width to 200 for clueTips invoked by a link with class of "example"
+     *
+    */
+    defaults: {
+      width:            275,      // The width of the clueTip
+      height:           'auto',   // The height of the clueTip
+      cluezIndex:       97,       // Sets the z-index style property of the clueTip
+      positionBy:       'auto',   // Sets the type of positioning: 'auto', 'mouse','bottomTop', 'fixed'
+      topOffset:        15,       // Number of px to offset clueTip from top of invoking element
+      leftOffset:       15,       // Number of px to offset clueTip from left of invoking element
+      local:            false,    // Whether to use content from the same page for the clueTip's body
+      localPrefix:      null,     // string to be prepended to the tip attribute if local is true
+      localIdSuffix:    null,     // string to be appended to the cluetip content element's id if local is true
+      hideLocal:        true,     // If local option is set to true, this determines whether local content
+                                  // to be shown in clueTip should be hidden at its original location
+      attribute:        'rel',    // the attribute to be used for fetching the clueTip's body content
+      titleAttribute:   'title',  // the attribute to be used for fetching the clueTip's title
+      splitTitle:       '',       // A character used to split the title attribute into the clueTip title and divs
+                                  // within the clueTip body. more info below [6]
+      escapeTitle:      false,    // whether to html escape the title attribute
+      showTitle:        true,     // show title bar of the clueTip, even if title attribute not set
+      cluetipClass:     'default',// class added to outermost clueTip div in the form of 'cluetip-' + clueTipClass.
+      hoverClass:       '',       // class applied to the invoking element onmouseover and removed onmouseout
+      waitImage:        true,     // whether to show a "loading" img, which is set in jquery.cluetip.css
+      cursor:           'help',
+      arrows:           false,    // if true, displays arrow on appropriate side of clueTip
+      dropShadow:       true,     // set to false if you don't want the drop-shadow effect on the clueTip
+      dropShadowSteps:  6,        // adjusts the size of the drop shadow
+      sticky:           false,    // keep visible until manually closed
+      mouseOutClose:    false,    // close when clueTip is moused out
+      activation:       'hover',  // set to 'click' to force user to click to show clueTip
+                                  // set to 'focus' to show on focus of a form element and hide on blur
+      clickThrough:     true,    // if true, and activation is not 'click', then clicking on link will take user to the link's href,
+                                  // even if href and tipAttribute are equal
+      tracking:         false,    // if true, clueTip will track mouse movement (experimental)
+      delayedClose:     0,        // close clueTip on a timed delay (experimental)
+      closePosition:    'top',    // location of close text for sticky cluetips; can be 'top' or 'bottom' or 'title'
+      closeText:        'Close',  // text (or HTML) to to be clicked to close sticky clueTips
+      truncate:         0,        // number of characters to truncate clueTip's contents. if 0, no truncation occurs
+
+      // effect and speed for opening clueTips
+      fx: {
+                        open:       'show', // can be 'show' or 'slideDown' or 'fadeIn'
+                        openSpeed:  ''
+      },
+
+      // settings for when hoverIntent plugin is used
+      hoverIntent: {
+                        sensitivity:  3,
+                        interval:     50,
+                        timeout:      0
+      },
+
+      // short-circuit function to run just before clueTip is shown.
+      onActivate:       function(e) {return true;},
+      // function to run just after clueTip is shown.
+      onShow:           function(ct, ci){},
+      // function to run just after clueTip is hidden.
+      onHide:           function(ct, ci){},
+      // whether to cache results of ajax request to avoid unnecessary hits to server
+      ajaxCache:        true,
+
+      // process data retrieved via xhr before it's displayed
+      ajaxProcess:      function(data) {
+                          data = data.replace(/<(script|style|title)[^<]+<\/(script|style|title)>/gm, '').replace(/<(link|meta)[^>]+>/g,'');
+                          return data;
+      },
+
+      // can pass in standard $.ajax() parameters. Callback functions, such as beforeSend,
+      // will be queued first within the default callbacks.
+      // The only exception is error, which overrides the default
+      ajaxSettings: {
+                        // error: function(ct, ci) { /* override default error callback */ },
+                        // beforeSend: function(ct, ci) { /* called first within default beforeSend callback */ },
+                        dataType: 'html'
+      },
+      debug: false
+
+    }
+  };
+  var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $cluetipWait, $dropShadow, imgCount,
+      standardClasses = 'ui-widget ui-widget-content ui-cluetip';
 
 
   $.fn.cluetip = function(js, options) {
@@ -37,6 +139,8 @@
     options = $.extend(true, {}, $.fn.cluetip.defaults, options || {});
 
     /** =create cluetip divs **/
+    var insertionType = (/appendTo|prependTo|insertBefore|insertAfter/).test(options.insertionType) ? options.insertionType : 'appendTo',
+        insertionElement = options.insertionElement || 'body';
 
     if (!$('#cluetip').length) {
       $(['<div id="cluetip">',
@@ -523,120 +627,6 @@
     div = null;
   })();
 
-/*
- * options for clueTip
- *
- * each one can be explicitly overridden by changing its value.
- * for example: $.fn.cluetip.defaults.width = 200;
- * would change the default width for all clueTips to 200.
- *
- * each one can also be overridden by passing an options map to the cluetip method.
- * for example: $('a.example').cluetip({width: 200});
- * would change the default width to 200 for clueTips invoked by a link with class of "example"
- *
- */
-
-  $.fn.cluetip.defaults = {  // set up default options
-    width:            275,      // The width of the clueTip
-    height:           'auto',   // The height of the clueTip
-    cluezIndex:       97,       // Sets the z-index style property of the clueTip
-    positionBy:       'auto',   // Sets the type of positioning: 'auto', 'mouse','bottomTop', 'fixed'
-    topOffset:        15,       // Number of px to offset clueTip from top of invoking element
-    leftOffset:       15,       // Number of px to offset clueTip from left of invoking element
-    local:            false,    // Whether to use content from the same page for the clueTip's body
-    localPrefix:      null,       // string to be prepended to the tip attribute if local is true
-    localIdSuffix:    null,     // string to be appended to the cluetip content element's id if local is true
-    hideLocal:        true,     // If local option is set to true, this determines whether local content
-                                // to be shown in clueTip should be hidden at its original location
-    attribute:        'rel',    // the attribute to be used for fetching the clueTip's body content
-    titleAttribute:   'title',  // the attribute to be used for fetching the clueTip's title
-    splitTitle:       '',       // A character used to split the title attribute into the clueTip title and divs
-                                // within the clueTip body. more info below [6]
-    escapeTitle:      false,    // whether to html escape the title attribute
-    showTitle:        true,     // show title bar of the clueTip, even if title attribute not set
-    cluetipClass:     'default',// class added to outermost clueTip div in the form of 'cluetip-' + clueTipClass.
-    hoverClass:       '',       // class applied to the invoking element onmouseover and removed onmouseout
-    waitImage:        true,     // whether to show a "loading" img, which is set in jquery.cluetip.css
-    cursor:           'help',
-    arrows:           false,    // if true, displays arrow on appropriate side of clueTip
-    dropShadow:       true,     // set to false if you don't want the drop-shadow effect on the clueTip
-    dropShadowSteps:  6,        // adjusts the size of the drop shadow
-    sticky:           false,    // keep visible until manually closed
-    mouseOutClose:    false,    // close when clueTip is moused out
-    activation:       'hover',  // set to 'click' to force user to click to show clueTip
-                                // set to 'focus' to show on focus of a form element and hide on blur
-    clickThrough:     true,    // if true, and activation is not 'click', then clicking on link will take user to the link's href,
-                                // even if href and tipAttribute are equal
-    tracking:         false,    // if true, clueTip will track mouse movement (experimental)
-    delayedClose:     0,        // close clueTip on a timed delay (experimental)
-    closePosition:    'top',    // location of close text for sticky cluetips; can be 'top' or 'bottom' or 'title'
-    closeText:        'Close',  // text (or HTML) to to be clicked to close sticky clueTips
-    truncate:         0,        // number of characters to truncate clueTip's contents. if 0, no truncation occurs
-
-    // effect and speed for opening clueTips
-    fx: {
-                      open:       'show', // can be 'show' or 'slideDown' or 'fadeIn'
-                      openSpeed:  ''
-    },
-
-    // settings for when hoverIntent plugin is used
-    hoverIntent: {
-                      sensitivity:  3,
-              			  interval:     50,
-              			  timeout:      0
-    },
-
-    // short-circuit function to run just before clueTip is shown.
-    onActivate:       function(e) {return true;},
-    // function to run just after clueTip is shown.
-    onShow:           function(ct, ci){},
-    // function to run just after clueTip is hidden.
-    onHide:           function(ct, ci){},
-    // whether to cache results of ajax request to avoid unnecessary hits to server
-    ajaxCache:        true,
-
-    // process data retrieved via xhr before it's displayed
-    ajaxProcess:      function(data) {
-                        data = data.replace(/<(script|style|title)[^<]+<\/(script|style|title)>/gm, '').replace(/<(link|meta)[^>]+>/g,'');
-                        return data;
-    },
-
-    // can pass in standard $.ajax() parameters. Callback functions, such as beforeSend,
-    // will be queued first within the default callbacks.
-    // The only exception is error, which overrides the default
-    ajaxSettings: {
-                      // error: function(ct, ci) { /* override default error callback */ }
-                      // beforeSend: function(ct, ci) { /* called first within default beforeSend callback */ }
-                      dataType: 'html'
-    },
-    debug: false
-  };
-
-
-/*
- * Global defaults for clueTips. Apply to all calls to the clueTip plugin.
- *
- * @example $.cluetip.setup({
- *   insertionType: 'prependTo',
- *   insertionElement: '#container'
- * });
- *
- * @property
- * @name $.cluetip.setup
- * @type Map
- * @cat Plugins/tooltip
- * @option String insertionType: Default is 'appendTo'. Determines the method to be used for inserting the clueTip into the DOM. Permitted values are 'appendTo', 'prependTo', 'insertBefore', and 'insertAfter'
- * @option String insertionElement: Default is 'body'. Determines which element in the DOM the plugin will reference when inserting the clueTip.
- *
- */
-
-  $.cluetip.setup = function(options) {
-    if (options && options.insertionType && (options.insertionType).match(/appendTo|prependTo|insertBefore|insertAfter/)) {
-      insertionType = options.insertionType;
-    }
-    if (options && options.insertionElement) {
-      insertionElement = options.insertionElement;
-    }
-  };
+  $.fn.cluetip.defaults = $.cluetip.defaults;
 
 })(jQuery);
