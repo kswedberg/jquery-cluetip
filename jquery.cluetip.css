@@ -118,7 +118,7 @@ div.ui-cluetip {
 }
 
 .cluetip-jtip #cluetip-inner {
-  padding: 0 5px 5px;
+  padding: 5px;
   display: inline-block;
 }
 .cluetip-jtip div#cluetip-close { 
@@ -130,7 +130,7 @@ div.ui-cluetip {
 .cluetip-jtip .ui-cluetip-header {
   background-color: #ccc;
   padding: 6px;
-  margin-bottom: 1em;
+/*  margin-bottom: 1em;*/
 }
 
 /* jtip arrows */
