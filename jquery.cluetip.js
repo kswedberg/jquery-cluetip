@@ -132,11 +132,15 @@
       js = null;
     }
     if (js == 'destroy') {
-      return this.removeData('cluetip').unbind('.cluetip');
+      $(document).unbind('.cluetip');
+      $('#cluetip').remove();
+      $.removeData(this, 'title');
+      $.removeData(this, 'cluetip');
+      return this.unbind('.cluetip');
     }
 
     // merge per-call options with defaults
-    options = $.extend(true, {}, $.fn.cluetip.defaults, options || {});
+    options = $.extend(true, {}, $.cluetip.defaults, options || {});
 
     /** =create cluetip divs **/
     var insertionType = (/appendTo|prependTo|insertBefore|insertAfter/).test(options.insertionType) ? options.insertionType : 'appendTo',
