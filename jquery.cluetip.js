@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.1.1
+ * jQuery clueTip plugin v1.1.2
  *
- * Date: Fri Mar 25 10:06:31 2011 EDT
+ * Date: Fri Mar 25 10:16:31 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2010, Karl Swedberg
@@ -18,7 +18,7 @@
 
 
   $.cluetip = {
-    version: '1.1.1',
+    version: '1.1.2',
 
     /* clueTip setup
      *  the setup options are applied each time .cluetip() is called,
