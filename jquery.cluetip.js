@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.1
+ * jQuery clueTip plugin v1.1.1
  *
- * Date: 2011-01-15
+ * Date: Fri Mar 25 10:06:31 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2010, Karl Swedberg
@@ -18,7 +18,7 @@
 
 
   $.cluetip = {
-    version: '1.1',
+    version: '1.1.1',
 
     /* clueTip setup
      *  the setup options are applied each time .cluetip() is called,
@@ -171,19 +171,20 @@
 
 
     this.each(function(index) {
-      var link = this, $link = $(this);
-
-      // support metadata plugin (v1.0 and 2.0)
-      var opts = $.extend(true, {}, options, $.metadata ? $link.metadata() : $.meta ? $link.data() : {});
-
-
-      // start out with no contents (for ajax activation)
-      var cluetipContents = false;
+      var link = this,
+          $link = $(this),
+          // support metadata plugin (v1.0 and 2.0)
+          opts = $.extend(true, {}, options, $.metadata ? $link.metadata() : $.meta ? $link.data() : {}),
+          // start out with no contents (for ajax activation)
+          cluetipContents = false,
+          isActive = false,
+          closeOnDelay = 0,
+          tipAttribute = $link.attr(opts.attribute),
+          ctClass = opts.cluetipClass;
 
       cluezIndex = +opts.cluezIndex;
-      var isActive = false, closeOnDelay = 0;
+      $link.data('cluetip', {title: link.title, zIndex: cluezIndex});
 
-      var tipAttribute = $link.attr(opts.attribute), ctClass = opts.cluetipClass;
       if (!tipAttribute && !opts.splitTitle && !js) {
         return true;
       }
