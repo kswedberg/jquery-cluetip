@@ -5,6 +5,7 @@ License
 ========
 
 Dual licensed under the MIT and GPL licenses:
+
 * http://www.opensource.org/licenses/mit-license.php
 * http://www.gnu.org/licenses/gpl.html
 
@@ -25,7 +26,7 @@ The clueTip plugin allows for (too?) many options. For a complete list, check ou
 
 ### Content via ajax ###
 
-By default, the clueTip plugin loads a page indicated by the "rel" attribute via ajax and displays its contents. However, *the attribute to be used for both the body and the heading of the clueTip is user-configurable*. 
+By default, the clueTip plugin loads a page indicated by the "rel" attribute via ajax and displays its contents. However, *the attribute to be used for both the body and the heading of the clueTip is user-configurable*.
 If a "title" attribute is specified, its value is used as the clueTip's heading.
 
 ### Content from HTML element ###
@@ -36,13 +37,13 @@ Just indicate the element's id (e.g. "#some-id") in the rel attribute.
 
 ### Content from title attribute ####
 
-Optionally, the clueTip's body can display content from the title attribute, when a delimiter is indicated. 
+Optionally, the clueTip's body can display content from the title attribute, when a delimiter is indicated.
 
 * The string before the first instance of the delimiter is set as the clueTip's heading.
 * All subsequent strings are wrapped in separate DIVs and placed in the clueTip's body.
 
 Examples
-======== 
+========
 
 This is the most basic clueTip. It displays a 275px-wide clueTip on mouseover of the element with an ID of "tip." On mouseout of the element, the clueTip is hidden.
 
@@ -64,11 +65,11 @@ The following displays a clueTip on mouseover of all `<a>` elements with class="
 More examples can be found at [http://plugins.learningjquery.com/cluetip/demo/](http://plugins.learningjquery.com/cluetip/demo/)
 
 
-Credits 
+Credits
 =======
 
 * Inspired by Cody Lindley's jTip (http://www.codylindley.com)
-* Thanks to the following people for their many and varied contributions: Jonathan Chaffer, Glen Lipka, Shelane Enos, Hector Santos, Torben Schreiter, Dan G. Switzer, Jörn Zaefferer 
+* Thanks to the following people for their many and varied contributions: Jonathan Chaffer, Glen Lipka, Shelane Enos, Hector Santos, Torben Schreiter, Dan G. Switzer, Jörn Zaefferer
 
 [1]: http://jqueryui.com/themeroller/
 [2]: http://plugins.learningjquery.com/cluetip/
