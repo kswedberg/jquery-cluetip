@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.1.2
+ * jQuery clueTip plugin v1.1.3
  *
- * Date: Fri Mar 25 10:16:31 2011 EDT
+ * Date: Mon Apr 11 20:22:47 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2010, Karl Swedberg
@@ -18,7 +18,7 @@
 
 
   $.cluetip = {
-    version: '1.1.2',
+    version: '1.1.3',
 
     /* clueTip setup
      *  the setup options are applied each time .cluetip() is called,
@@ -309,7 +309,7 @@
               optionSuccess = opts.ajaxSettings.success,
               optionComplete = opts.ajaxSettings.complete;
           var ajaxSettings = {
-            cache: false, // force requested page not to be cached by browser
+            cache: opts.ajaxCache, // force requested page not to be cached by browser
             url: tipAttribute,
             beforeSend: function(xhr) {
               if (optionBeforeSend) {optionBeforeSend.call(link, xhr, $cluetip, $cluetipInner);}

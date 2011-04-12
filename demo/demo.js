@@ -29,8 +29,8 @@ $(document).ready(function() {
 
 // jTip theme
   $('a.jt:eq(0)').cluetip({
-    cluetipClass: 'jtip', 
-    arrows: true, 
+    cluetipClass: 'jtip',
+    arrows: true,
     dropShadow: false,
     sticky: true,
     mouseOutClose: true,
@@ -41,19 +41,19 @@ $(document).ready(function() {
   $('span[title]').css({borderBottom: '1px solid #900'}).cluetip({splitTitle: '|', arrows: true, dropShadow: false, cluetipClass: 'jtip'});
 
   $('a.jt:eq(2)').cluetip({
-    cluetipClass: 'jtip', 
-    arrows: true, 
-    dropShadow: false, 
-    height: '150px', 
+    cluetipClass: 'jtip',
+    arrows: true,
+    dropShadow: false,
+    height: '150px',
     sticky: true,
-    positionBy: 'bottomTop'    
+    positionBy: 'bottomTop'
   });
 
   $('a.jt:eq(3)').cluetip({local: true, hideLocal: false});
-  
+
   $('a.jt:eq(4)').cluetip({
-    cluetipClass: 'jtip', arrows: true, 
-    dropShadow: false, 
+    cluetipClass: 'jtip', arrows: true,
+    dropShadow: false,
     onActivate: function(e) {
       var cb = $('#cb')[0];
       return !cb || cb.checked;
@@ -64,8 +64,8 @@ $(document).ready(function() {
   $('ol.rounded a:eq(0)').cluetip({sticky: true, splitTitle: '|', dropShadow: false, cluetipClass: 'rounded', showTitle: false});
   $('ol.rounded a:eq(1)').cluetip({cluetipClass: 'rounded', dropShadow: false, showTitle: false, positionBy: 'mouse'});
   $('ol.rounded a:eq(2)').cluetip({cluetipClass: 'rounded', dropShadow: false, showTitle: false, positionBy: 'bottomTop', topOffset: 70});
-  $('ol.rounded a:eq(3)').cluetip({cluetipClass: 'rounded', dropShadow: false, sticky: true, ajaxCache: false, arrows: true});
-  $('ol.rounded a:eq(4)').cluetip({cluetipClass: 'rounded', dropShadow: false});    
+  $('ol.rounded a:eq(3)').cluetip({cluetipClass: 'rounded', dropShadow: false, sticky: true, ajaxCache: false});
+  $('ol.rounded a:eq(4)').cluetip({cluetipClass: 'rounded', dropShadow: false});
 });
 
 //unrelated to clueTip -- just for the demo page...
@@ -74,12 +74,12 @@ $(document).ready(function() {
   $('div.html, div.jquery').next().css('display', 'none').end().click(function() {
     $(this).next().toggle('fast');
   });
-  
+
   $('a.false').click(function() {
     return false;
   });
 });
-  
+
 // inserting jQuery UI Themeswitcher tool
 
 $('#themeswitcher').themeswitcher({loadTheme: 'UI Lightness'});
