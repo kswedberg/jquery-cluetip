@@ -1,10 +1,10 @@
 /*!
  * jQuery clueTip plugin v1.1.3
  *
- * Date: Mon Apr 11 20:22:47 2011 EDT
+ * Date: Mon Apr 11 20:31:15 2011 EDT
  * Requires: jQuery v1.3+
  *
- * Copyright 2010, Karl Swedberg
+ * Copyright 2011, Karl Swedberg
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
