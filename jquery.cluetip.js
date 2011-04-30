@@ -153,7 +153,7 @@
           '<div id="cluetip-inner" class="ui-widget-content ui-cluetip-content"></div>',
         '</div>',
         '<div id="cluetip-extra"></div>',
-        '<div id="cluetip-arrows" class="cluetip-arrows"></div>',
+        '<div id="cluetip-arrows" class="cluetip-arrows ui-state-default"></div>',
       '</div>'].join(''))
       [insertionType](insertionElement).hide();
 
