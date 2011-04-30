@@ -1,8 +1,11 @@
 
 /* the next line is an example of how you can override default options globally (currently commented out) ... */
 
- // $.fn.cluetip.defaults.tracking = true;
+  // $.fn.cluetip.defaults.tracking = true;
   // $.fn.cluetip.defaults.width = 'auto';
+  // $.fn.cluetip.defaults.sticky = true;
+  // $.fn.cluetip.defaults.arrows = true;
+
 $(document).ready(function() {
 
  // $.cluetip.setup({insertionType: 'insertBefore', insertionElement: 'div:first'});
@@ -61,7 +64,7 @@ $(document).ready(function() {
   });
 
 // Rounded Corner theme
-  $('ol.rounded a:eq(0)').cluetip({sticky: true, splitTitle: '|', dropShadow: false, cluetipClass: 'rounded', showTitle: false});
+  $('ol.rounded a:eq(0)').cluetip({arrows: true, sticky: true, splitTitle: '|', cluetipClass: 'rounded', showTitle: false});
   $('ol.rounded a:eq(1)').cluetip({cluetipClass: 'rounded', dropShadow: false, showTitle: false, positionBy: 'mouse'});
   $('ol.rounded a:eq(2)').cluetip({cluetipClass: 'rounded', dropShadow: false, showTitle: false, positionBy: 'bottomTop', topOffset: 70});
   $('ol.rounded a:eq(3)').cluetip({cluetipClass: 'rounded', dropShadow: false, sticky: true, ajaxCache: false});
@@ -82,6 +85,13 @@ $(document).ready(function() {
 
 // inserting jQuery UI Themeswitcher tool
 
-$('#themeswitcher').themeswitcher({loadTheme: 'UI Lightness'});
+$('<button></button>', {
+  'class': 'ui-button ui-widget ui-state-default',
+  text: 'Try it with jQuery UI ThemeRoller!',
+  click: function() {
+    $(this).hide();
 
+  }
+})
+.prependTo('#container');
 
