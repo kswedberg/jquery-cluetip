@@ -31,17 +31,18 @@ div.ui-cluetip {
   position: absolute;
   top: 0;
   left: -11px;
-  height: 22px;
   width: 11px;
+  height: 22px;
   background-repeat: no-repeat;
   background-position: 0 0;
+  border-width: 0;
 }
 #cluetip-extra {
   display: none;
 }
 
 /***************************************
-   =cluetipClass: 'default' 
+   =cluetipClass: 'default'
 -------------------------------------- */
 
 .cluetip-default {
@@ -69,41 +70,44 @@ div.ui-cluetip {
 .cluetip-default #cluetip-title a {
   color: #d9d9c2;
   font-size: 0.95em;
-}  
+}
 .cluetip-default #cluetip-inner {
   padding: 10px;
 }
-.cluetip-default div#cluetip-close { 
+.cluetip-default div#cluetip-close {
   text-align: right;
   margin: 0 5px 5px;
   color: #900;
 }
 */
 /* default arrows */
-
-.clue-right-default .cluetip-arrows {
+div.cluetip-default .cluetip-arrows {
+  border-width: 0;
+  background: transparent none;
+}
+div.clue-right-default .cluetip-arrows {
   background-image: url(images/darrowleft.gif);
 }
-.clue-left-default .cluetip-arrows {
+div.clue-left-default .cluetip-arrows {
   background-image: url(images/darrowright.gif);
   left: 100%;
   margin-right: -11px;
 }
-.clue-top-default .cluetip-arrows {
+div.clue-top-default .cluetip-arrows {
   background-image: url(images/darrowdown.gif);
   top: 100%;
   left: 50%;
   margin-left: -11px;
+  width: 22px;
   height: 11px;
-  width: 22px;  
-}  
-.clue-bottom-default .cluetip-arrows {
+}
+div.clue-bottom-default .cluetip-arrows {
   background-image: url(images/darrowup.gif);
   top: -11px;
   left: 50%;
   margin-left: -11px;
-  height: 11px;
   width: 22px;
+  height: 11px;
 }
 
 /***************************************
@@ -121,7 +125,7 @@ div.ui-cluetip {
   padding: 5px;
   display: inline-block;
 }
-.cluetip-jtip div#cluetip-close { 
+.cluetip-jtip div#cluetip-close {
   text-align: right;
   margin: 0 5px 0;
   color: #900;
@@ -134,44 +138,90 @@ div.ui-cluetip {
 }
 
 /* jtip arrows */
-
-.clue-right-jtip .cluetip-arrows {
+div.cluetip-jtip .cluetip-arrows {
+  border-width: 0;
+  background: transparent none;
+}
+div.clue-right-jtip .cluetip-arrows {
   background-image: url(images/arrowleft.gif);
 }
-.clue-left-jtip .cluetip-arrows {
+div.clue-left-jtip .cluetip-arrows {
   background-image: url(images/arrowright.gif);
   left: 100%;
   margin-right: -11px;
 }
-.clue-top-jtip .cluetip-arrows {
+div.clue-top-jtip .cluetip-arrows {
   background-image: url(images/arrowdown.gif);
   top: 100%;
   left: 50%;
-  margin-left: -11px;
+  width: 22px;
   height: 11px;
-  width: 22px;  
-}  
-.clue-bottom-jtip .cluetip-arrows {
+  margin-left: -11px;
+}
+div.clue-bottom-jtip .cluetip-arrows {
   background-image: url(images/arrowup.gif);
   top: -11px;
   left: 50%;
-  margin-left: -11px;
-  height: 11px;
   width: 22px;
+  height: 11px;
+  margin-left: -11px;
 }
 
 /***************************************
    =cluetipClass: 'rounded'
 -------------------------------------- */
 .cluetip-rounded {
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  border-radius: 1em;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
   background-color: #fff;
   border: 1px solid #ccc;
 }
+.cluetip-rounded  .cluetip-arrows {
+  border-color: #ccc;
+}
 
+/* need to be more specific here to override ThemeRoller defaults */
+div.cluetip-rounded  .cluetip-arrows {
+  font-size: 0;
+  line-height: 0%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  background: transparent none;
+}
+div.clue-right-rounded .cluetip-arrows {
+  border-width: 11px 11px 11px 0;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+div.clue-left-rounded .cluetip-arrows {
+  left: 100%;
+  margin-right: -11px;
+  border-width: 11px 0 11px 11px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
 
+}
+div.clue-top-rounded .cluetip-arrows {
+  top: 100%;
+  left: 50%;
+  border-width: 11px 11px 0 11px;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+.clue-bottom-rounded .cluetip-arrows {
+  top: -11px;
+  left: 50%;
+  border-width: 0 11px 11px 11px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-left-color: transparent;
+
+}
 /* stupid IE6 HasLayout hack */
 .cluetip-rounded #cluetip-title,
 .cluetip-rounded #cluetip-inner {
