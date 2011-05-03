@@ -12,15 +12,15 @@ div.ui-cluetip {
   overflow: hidden;
 }
 
-#cluetip-title #cluetip-close {
+.cluetip-title .cluetip-close {
   float: right;
   position: relative;
 }
-#cluetip-close img {
+.cluetip-close img {
   border: 0;
 }
 
-#cluetip-waitimage {
+.cluetip-waitimage {
   width: 43px;
   height: 11px;
   position: absolute;
@@ -37,7 +37,7 @@ div.ui-cluetip {
   background-position: 0 0;
   border-width: 0;
 }
-#cluetip-extra {
+.cluetip-extra {
   display: none;
 }
 
@@ -116,16 +116,16 @@ div.clue-bottom-default .cluetip-arrows {
 .cluetip-jtip {
   background-color: #fff;
 }
-.cluetip-jtip #cluetip-outer {
+.cluetip-jtip .cluetip-outer {
   border: 2px solid #ccc;
   position: relative;
 }
 
-.cluetip-jtip #cluetip-inner {
+.cluetip-jtip .cluetip-inner {
   padding: 5px;
   display: inline-block;
 }
-.cluetip-jtip div#cluetip-close {
+.cluetip-jtip div.cluetip-close {
   text-align: right;
   margin: 0 5px 0;
   color: #900;
@@ -223,7 +223,7 @@ div.clue-top-rounded .cluetip-arrows {
 
 }
 /* stupid IE6 HasLayout hack */
-.cluetip-rounded #cluetip-title,
-.cluetip-rounded #cluetip-inner {
+.cluetip-rounded .cluetip-title,
+.cluetip-rounded .cluetip-inner {
   zoom: 1;
 }

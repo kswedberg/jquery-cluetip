@@ -139,31 +139,40 @@
       return this.unbind('.cluetip');
     }
 
+    var targetId = $(this).attr('id');
+
     // merge per-call options with defaults
     options = $.extend(true, {}, $.cluetip.defaults, options || {});
 
     /** =create cluetip divs **/
+    var cluetipId = "cluetip-" + targetId;
+    var cluetipIdWithSharp = "#" + cluetipId;
+
     var insertionType = (/appendTo|prependTo|insertBefore|insertAfter/).test(options.insertionType) ? options.insertionType : 'appendTo',
         insertionElement = options.insertionElement || 'body';
 
-    if (!$('#cluetip').length) {
-      $(['<div id="cluetip">',
-        '<div id="cluetip-outer" class="ui-cluetip-outer">',
-          '<h3 id="cluetip-title" class="ui-widget-header ui-cluetip-header"></h3>',
-          '<div id="cluetip-inner" class="ui-widget-content ui-cluetip-content"></div>',
-        '</div>',
-        '<div id="cluetip-extra"></div>',
-        '<div id="cluetip-arrows" class="cluetip-arrows ui-state-default"></div>',
-      '</div>'].join(''))
-      [insertionType](insertionElement).hide();
+      var cluetipId = "cluetip-" + targetId;
+      var cluetipIdWithSharp = "#" + cluetipId;
+      if (!$(cluetipIdWithSharp).length) {
+        $('body').append(				
+						    $('<div></div>')
+							.attr("id", cluetipId)							
+							.append(
+                                     $('<div class="cluetip-outer"></div>').append(
+                                        '<h3 class="cluetip-title ui-widget-header ui-cluetip-header"></h3>',
+                                        '<div class="cluetip-inner ui-widget-content ui-cluetip-content"></div>'),
+                                     $('<div class="cluetip-extra"></div>'),
+                                     $('<div class="cluetip-arrows ui-state-default"></div>')
+                        )
+        );
 
       var cluezIndex = +options.cluezIndex;
 
-      $cluetip = $('#cluetip').css({position: 'absolute'});
-      $cluetipOuter = $('#cluetip-outer').css({position: 'relative', zIndex: cluezIndex});
-      $cluetipInner = $('#cluetip-inner');
-      $cluetipTitle = $('#cluetip-title');
-      $cluetipArrows = $('#cluetip-arrows');
+      $cluetip = $(cluetipIdWithSharp).css({position: 'absolute'});
+      $cluetipOuter = $(cluetipIdWithSharp + ' .cluetip-outer').css({position: 'relative', zIndex: cluezIndex});
+      $cluetipInner = $(cluetipIdWithSharp + ' .cluetip-inner');
+      $cluetipTitle = $(cluetipIdWithSharp + ' .cluetip-title');
+      $cluetipArrows = $(cluetipIdWithSharp + ' .cluetip-arrows');
       $cluetipWait = $('<div id="cluetip-waitimage"></div>')
         .css({position: 'absolute'}).insertBefore($cluetip).hide();
     }
@@ -228,6 +237,11 @@
         return false;
       }
       isActive = true;
+
+      // activate function may get called after an initialization of a different target so need to re-get the Correct Cluetip object here
+      var cluetipIdWithSharp = "#" + "cluetip-" + targetId;
+      $cluetip = $(cluetipIdWithSharp).css({position: 'absolute'});
+
       $cluetip.removeClass().css({width: tipInnerWidth});
       if (tipAttribute == $link.attr('href')) {
         $link.css('cursor', opts.cursor);
@@ -390,7 +404,7 @@
 
       tipTitle ? $cluetipTitle.show().html(tipTitle) : (opts.showTitle) ? $cluetipTitle.show().html('&nbsp;') : $cluetipTitle.hide();
       if (opts.sticky) {
-        var $closeLink = $('<div id="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
+        var $closeLink = $('<div class="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
         (opts.closePosition == 'bottom') ? $closeLink.appendTo($cluetipInner) : (opts.closePosition == 'title') ? $closeLink.prependTo($cluetipTitle) : $closeLink.prependTo($cluetipInner);
         $closeLink.bind('click.cluetip', function() {
           cluetipClose();
