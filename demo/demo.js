@@ -90,7 +90,7 @@ $('<button></button>', {
   text: 'Try it with jQuery UI ThemeRoller!',
   click: function() {
     $(this).hide();
-
+    $('#themeswitcher').themeswitcher({loadTheme: 'UI Lightness'});
   }
 })
 .prependTo('#container');
