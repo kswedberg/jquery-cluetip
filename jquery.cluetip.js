@@ -350,8 +350,8 @@
           var ajaxSettings = {
             cache: opts.ajaxCache, // force requested page not to be cached by browser
             url: tipAttribute,
-            beforeSend: function(xhr) {
-              if (optionBeforeSend) {optionBeforeSend.call(link, xhr, $cluetip, $cluetipInner);}
+            beforeSend: function(xhr, settings) {
+              if (optionBeforeSend) {optionBeforeSend.call(link, xhr, $cluetip, $cluetipInner, settings);}
               $cluetipOuter.children().empty();
               if (opts.waitImage) {
                 $cluetipWait
