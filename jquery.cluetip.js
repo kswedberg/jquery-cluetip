@@ -1,5 +1,5 @@
 /*!
- * jQuery clueTip plugin v1.2.1
+ * jQuery clueTip plugin v1.2
  *
  * Date: Sun Jul 17 16:54:03 2011 EDT
  * Requires: jQuery v1.3+
@@ -18,7 +18,7 @@
 
 
   $.cluetip = {
-    version: '1.2.1',
+    version: '1.2',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
@@ -56,6 +56,7 @@
      *
     */
     defaults: {
+      multiple:         false,    // Allow a new tooltip to be created for each .cluetip() call
       width:            275,      // The width of the clueTip
       height:           'auto',   // The height of the clueTip
       cluezIndex:       97,       // Sets the z-index style property of the clueTip
@@ -140,6 +141,7 @@
   // use $.fn.prop() if available (jQuery 1.6+); otherwise, $.fn.attr()
   $.fn.attrProp = $.fn.prop || $.fn.attr;
 
+  // .cluetip() method
   $.fn.cluetip = function(js, options) {
     var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $dropShadow;
     if (typeof js == 'object') {
@@ -152,6 +154,7 @@
         $(data.selector).remove();
         $.removeData(this, 'title');
         $.removeData(this, 'cluetip');
+        $(document).unbind('.cluetip');
         return this.unbind('.cluetip');
       }
     }
@@ -161,7 +164,7 @@
 
     /** =create cluetip divs **/
     counter++;
-    var cluetipId = $.cluetip.backCompat ? 'cluetip' : 'cluetip-' + counter,
+    var cluetipId = $.cluetip.backCompat || !options.multiple ? 'cluetip' : 'cluetip-' + counter,
         cluetipSelector = '#' + cluetipId,
         prefix = $.cluetip.backCompat ? '#' : '.',
         insertionType = $.cluetip.setup.insertionType,
