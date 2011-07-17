@@ -1,7 +1,7 @@
 /*!
  * jQuery clueTip plugin v1.2
  *
- * Date: Sun Jul 17 13:43:39 2011 EDT
+ * Date: Sun Jul 17 14:40:23 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -137,6 +137,8 @@
       counter = 0,
       imgCount = 0;
 
+  // use $.fn.prop() if available (jQuery 1.6+); otherwise, $.fn.attr()
+  $.fn.attrProp = $.fn.prop || $.fn.attr;
 
   $.fn.cluetip = function(js, options) {
     var $cluetip, $cluetipInner, $cluetipOuter, $cluetipTitle, $cluetipArrows, $dropShadow;
@@ -196,7 +198,7 @@
           cluetipContents = false,
           isActive = false,
           closeOnDelay = 0,
-          tipAttribute = $link.attr(opts.attribute),
+          tipAttribute = $link.attrProp(opts.attribute),
           ctClass = opts.cluetipClass;
 
       cluezIndex = +opts.cluezIndex;
@@ -221,7 +223,7 @@
 
       // parse the title
       var tipParts;
-      var tipTitle = (opts.attribute != 'title') ? $link.attr(opts.titleAttribute) : '';
+      var tipTitle = (opts.attribute != 'title') ? $link.attrProp(opts.titleAttribute) : '';
       if (opts.splitTitle) {
         if (tipTitle == undefined) {tipTitle = '';}
         tipParts = tipTitle.split(opts.splitTitle);
@@ -471,7 +473,7 @@
       if (ctClass == 'rounded') {
         dynamicClasses += ' ui-corner-all';
       }
-      $cluetip.css({top: tipY + 'px'}).attr({'class': standardClasses + dynamicClasses});
+      $cluetip.css({top: tipY + 'px'}).attrProp({'className': standardClasses + dynamicClasses});
       // set up arrow positioning to align with element
       if (opts.arrows) {
         if ( /(left|right)/.test(direction) ) {
@@ -528,7 +530,7 @@
       opts.onHide.call($closer[0], $cluetip, $cluetipInner);
       $closer.removeClass('cluetip-clicked');
       if (tipTitle) {
-        $closer.attr(opts.titleAttribute, tipTitle);
+        $closer.attrProp(opts.titleAttribute, tipTitle);
       }
       $closer.css('cursor','');
       if (opts.arrows) {
@@ -557,11 +559,11 @@
   // activate by focus; inactivate by blur
       } else if (opts.activation == 'focus') {
         $link.bind('focus.cluetip', function(event) {
-          $link.attr('title','');
+          $link.attrProp('title','');
           activate(event);
         });
         $link.bind('blur.cluetip', function(event) {
-          $link.attr('title', $link.data('cluetip').title);
+          $link.attrProp('title', $link.data('cluetip').title);
           inactivate(event);
         });
   // activate by hover
@@ -601,9 +603,9 @@
         }
 
         $link.bind('mouseover.cluetip', function(event) {
-          $link.attr('title','');
+          $link.attrProp('title','');
         }).bind('mouseleave.cluetip', function(event) {
-          $link.attr('title', $link.data('cluetip').title);
+          $link.attrProp('title', $link.data('cluetip').title);
         });
       }
     });
