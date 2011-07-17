@@ -20,6 +20,17 @@ Description
 ===========
 Displays a highly customizable tooltip when the user interacts with the matched element. As of clueTip version 1.1, this plugin is [ThemeRoller Ready][1].
 
+### Important clueTip 1.2 Change  ###
+
+Version 1.2 of the clueTip plugin changes the HTML structure of the tooltip. It uses classes instead of IDs for the elements within the clueTip. This allows multiple tooltips to be visible at the same time (one per call to the .cluetip() method) if the `multiple` option is set to `true`.
+
+The plugin may not work as expected if you update jquery.cluetip.js to version 1.2+ and you don't also update the jquery.cluetip.css stylesheet.
+
+If you have a lot invested in the old clueTip's structure with the IDs, you can get it back by:
+
+1. adding the jquery.compat.cluetip.js file immediately after jquery.cluetip.js, AND
+2. replacing jquery.cluetip.css with jquery.compat.cluetip.css.
+
 ### Options ###
 
 The clueTip plugin allows for (too?) many options. For a complete list, check out the [plugin's home page][2]
@@ -69,7 +80,7 @@ Credits
 =======
 
 * Inspired by Cody Lindley's jTip (http://www.codylindley.com)
-* Thanks to the following people for their many and varied contributions: Jonathan Chaffer, Glen Lipka, Shelane Enos, Hector Santos, Torben Schreiter, Dan G. Switzer, Jörn Zaefferer
+* Thanks to Jonathan Chaffer, Glen Lipka, Shelane Enos, Hector Santos, Torben Schreiter, Dan G. Switzer, Jörn Zaefferer, and the many others who helped report and fix bugs and suggest features.
 
 [1]: http://jqueryui.com/themeroller/
 [2]: http://plugins.learningjquery.com/cluetip/
