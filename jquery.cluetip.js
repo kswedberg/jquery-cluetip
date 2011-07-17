@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.2
+ * jQuery clueTip plugin v1.2.1
  *
- * Date: Sun Jul 17 14:40:23 2011 EDT
+ * Date: Sun Jul 17 16:49:21 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -18,7 +18,7 @@
 
 
   $.cluetip = {
-    version: '1.2',
+    version: '1.2.1',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
@@ -164,9 +164,10 @@
     var cluetipId = $.cluetip.backCompat ? 'cluetip' : 'cluetip-' + counter,
         cluetipSelector = '#' + cluetipId,
         prefix = $.cluetip.backCompat ? '#' : '.',
-        insertionType = (/appendTo|prependTo|insertBefore|insertAfter/).test(options.insertionType) ? options.insertionType : 'appendTo',
-        insertionElement = options.insertionElement || 'body';
+        insertionType = $.cluetip.setup.insertionType,
+        insertionElement = $.cluetip.setup.insertionElement || 'body';
 
+    insertionType = (/appendTo|prependTo|insertBefore|insertAfter/).test(insertionType) ? insertionType : 'appendTo';
     $cluetip = $(cluetipSelector);
     if (!$cluetip.length) {
 
