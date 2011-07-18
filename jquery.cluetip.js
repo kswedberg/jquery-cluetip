@@ -197,12 +197,12 @@
       var link = this,
           $link = $(this),
           // support metadata plugin (v1.0 and 2.0)
-          opts = $.extend(true, {}, options, $.metadata ? $link.metadata() : $.meta ? $link.data() : {}),
+          opts = $.extend(true, {}, options, $.metadata ? $link.metadata() : $.meta ? $link.data() : $link.data('cluetip') || {}),
           // start out with no contents (for ajax activation)
           cluetipContents = false,
           isActive = false,
           closeOnDelay = 0,
-          tipAttribute = $link.attrProp(opts.attribute),
+          tipAttribute = opts[opts.attribute] || $link.attrProp(opts.attribute) || $link.attr(opts.attribute),
           ctClass = opts.cluetipClass;
 
       cluezIndex = +opts.cluezIndex;
