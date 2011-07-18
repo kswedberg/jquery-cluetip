@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.2
+ * jQuery clueTip plugin v1.2.1
  *
- * Date: Sun Jul 17 17:49:19 2011 EDT
+ * Date: Mon Jul 18 11:21:34 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -18,7 +18,7 @@
 
 
   $.cluetip = {
-    version: '1.2',
+    version: '1.2.1',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
