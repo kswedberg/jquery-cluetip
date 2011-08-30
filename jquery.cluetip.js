@@ -246,7 +246,7 @@
 
 //activate clueTip
     var activate = function(event) {
-      var continueOn = opts.onActivate($link);
+      var pY, continueOn = opts.onActivate($link);
       if (continueOn === false) {
         return false;
       }
@@ -269,7 +269,7 @@
       linkLeft = $link.offset().left;
 
       //FIX:
-      linkWidth = $link.innerWidth();	//Fix of old bug 4412
+      linkWidth = $link.innerWidth(); //Fix of old bug 4412
       if ( event.type == focus ) {
         // in focus event, no mouse position is available; this is needed with bottomTop:
         mouseX = linkLeft +  ( linkWidth / 2 ) + lOffset;
@@ -290,10 +290,10 @@
         posX = linkWidth + linkLeft + lOffset;
         $cluetip.css({left: posX});
       } else {
-        posX = (linkWidth > linkLeft && linkLeft > tipWidth)
-          || linkLeft + linkWidth + tipWidth + lOffset > winWidth
-          ? linkLeft - tipWidth - lOffset
-          : linkWidth + linkLeft + lOffset;
+        posX = (linkWidth > linkLeft && linkLeft > tipWidth) ||
+          linkLeft + linkWidth + tipWidth + lOffset > winWidth ?
+          linkLeft - tipWidth - lOffset :
+          linkWidth + linkLeft + lOffset;
         if (link.tagName.toLowerCase() == 'area' || opts.positionBy == 'mouse' || linkWidth + tipWidth > winWidth) { // position by mouse
           if (mouseX + 20 + tipWidth > winWidth) {
             $cluetip.addClass(' cluetip-' + ctClass);
@@ -302,7 +302,7 @@
             posX = mouseX + lOffset;
           }
         }
-        var pY = posX < 0 ? event.pageY + tOffset : event.pageY;
+        pY = posX < 0 ? event.pageY + tOffset : event.pageY;
         $cluetip.css({
           left: (posX > 0 && opts.positionBy != 'bottomTop') ? posX : (mouseX + (tipWidth/2) > winWidth) ? winWidth/2 - tipWidth/2 : Math.max(mouseX - (tipWidth/2),0),
           zIndex: $link.data('cluetip').zIndex
@@ -341,7 +341,7 @@
 * load external file via ajax
 ***************************************/
 
-      else if (!opts.local && tipAttribute.indexOf('#') !== 0) {
+      else if ( !opts.local && tipAttribute.indeXof('#') !== 0 ) {
         if (/\.(jpe?g|tiff?|gif|png)(?:\?.*)?$/i.test(tipAttribute)) {
           $cluetipInner.html('<img src="' + tipAttribute + '" alt="' + tipTitle + '" />');
           cluetipShow(pY);
@@ -429,7 +429,7 @@
         $cluetipInner.html($truncloaded);
       }
 
-      function doNothing() {}; //empty function
+      function doNothing() {} //empty function
 
       tipTitle ? $cluetipTitle.show().html(tipTitle) : (opts.showTitle) ? $cluetipTitle.show().html('&nbsp;') : $cluetipTitle.hide();
       if (opts.sticky) {
@@ -469,8 +469,8 @@
       } else {
         tipY = posY - opts.dropShadowSteps;
       }
-      if (direction == '') {
-        posX < linkLeft ? direction = 'left' : direction = 'right';
+      if (direction === '') {
+        direction = posX < linkLeft ? 'left' :  'right';
       }
       // add classes
       dynamicClasses = ' clue-' + direction + '-' + ctClass + ' cluetip-' + ctClass;
@@ -576,7 +576,7 @@
         $link[opts.clickThrough ? 'unbind' : 'bind']('click.cluetip', returnFalse);
         //set up mouse tracking
         var mouseTracks = function(evt) {
-          if (opts.tracking == true) {
+          if (opts.tracking) {
             var trackX = posX - evt.pageX;
             var trackY = tipY ? tipY - evt.pageY : posY - evt.pageY;
             $link.bind('mousemove.cluetip', function(evt) {
