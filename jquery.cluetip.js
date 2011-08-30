@@ -231,7 +231,7 @@
       if (opts.splitTitle) {
         if (tipTitle == undefined) {tipTitle = '';}
         tipParts = tipTitle.split(opts.splitTitle);
-        tipTitle = tipParts.shift();
+        tipTitle = opts.showTitle || tipParts[0] === '' ? tipParts.shift() : '';
       }
       if (opts.escapeTitle) {
         tipTitle = tipTitle.replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;');
