@@ -1,7 +1,7 @@
 /*!
  * jQuery clueTip plugin v1.2.2
  *
- * Date: Thu Sep 01 11:19:35 2011 EDT
+ * Date: Tue Sep 20 16:08:43 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -530,24 +530,29 @@
 // close cluetip and reset some things
     var cluetipClose = function(el) {
       var $closer = el && el.data('cluetip') ? el : $link,
-          ct = $closer.data('cluetip').selector,
-          $cluetip = $(ct),
+          ct = $closer.data('cluetip') && $closer.data('cluetip').selector,
+          ctSelector = ct || 'div.cluetip',
+          $cluetip = $(ctSelector),
           $cluetipInner = $cluetip.find(prefix + 'cluetip-inner'),
           $cluetipArrows = $cluetip.find(prefix + 'cluetip-arrows');
 
       $cluetip.hide().removeClass();
       opts.onHide.call($closer[0], $cluetip, $cluetipInner);
-      $closer.removeClass('cluetip-clicked');
-      if (tipTitle) {
+      if (ct) {
+        $closer.removeClass('cluetip-clicked');
+        $closer.css('cursor','');
+      }
+      if (ct && tipTitle) {
         $closer.attrProp(opts.titleAttribute, tipTitle);
       }
-      $closer.css('cursor','');
+
       if (opts.arrows) {
         $cluetipArrows.css({top: ''});
       }
     };
 
     $(document).unbind('hideCluetip.cluetip').bind('hideCluetip.cluetip', function(e) {
+
       cluetipClose( $(e.target) );
     });
 /***************************************
@@ -635,7 +640,7 @@
         $cluetip.css($.support.boxShadow, dsStyle);
         return false;
       }
-      var oldDropShadow = $cluetip.find('cluetip-drop-shadow');
+      var oldDropShadow = $cluetip.find('.cluetip-drop-shadow');
       if (dropShadowSteps == oldDropShadow.length) {
         return oldDropShadow;
       }
