@@ -268,8 +268,8 @@
       linkTop = posY = $link.offset().top;
       linkLeft = $link.offset().left;
 
-      //FIX:
-      linkWidth = $link.innerWidth(); //Fix of old bug 4412
+      // FIX: (bug 4412)
+      linkWidth = $link.innerWidth();
       if ( event.type == focus ) {
         // in focus event, no mouse position is available; this is needed with bottomTop:
         mouseX = linkLeft +  ( linkWidth / 2 ) + lOffset;
@@ -350,6 +350,7 @@
               optionError = opts.ajaxSettings.error,
               optionSuccess = opts.ajaxSettings.success,
               optionComplete = opts.ajaxSettings.complete;
+
           var ajaxSettings = {
             cache: opts.ajaxCache, // force requested page not to be cached by browser
             url: tipAttribute,
@@ -373,13 +374,23 @@
             },
             success: function(data, textStatus) {
               cluetipContents = opts.ajaxProcess.call(link, data);
+
+              // allow for chaning the title based on data returned by xhr
+              if ( $.isPlainObject(cluetipContents) ) {
+                tipTitle = cluetipContents.title;
+                cluetipContents = cluetipContents.content;
+              }
               if (isActive) {
-                if (optionSuccess) {optionSuccess.call(link, data, textStatus, $cluetip, $cluetipInner);}
+                if (optionSuccess) {
+                  optionSuccess.call(link, data, textStatus, $cluetip, $cluetipInner);
+                }
                 $cluetipInner.html(cluetipContents);
               }
             },
             complete: function(xhr, textStatus) {
-              if (optionComplete) {optionComplete.call(link, xhr, textStatus, $cluetip, $cluetipInner);}
+              if (optionComplete) {
+                optionComplete.call(link, xhr, textStatus, $cluetip, $cluetipInner);
+              }
               var imgs = $cluetipInner[0].getElementsByTagName('img');
               imgCount = imgs.length;
               for (var i=0, l = imgs.length; i < l; i++) {
@@ -452,6 +463,7 @@
           $cluetip.unbind('mouseleave.cluetip');
         }
       }
+
 // now that content is loaded, finish the positioning
       $cluetipOuter.css({zIndex: $link.data('cluetip').zIndex, overflow: defHeight == 'auto' ? 'visible' : 'auto', height: defHeight});
       tipHeight = defHeight == 'auto' ? Math.max($cluetip.outerHeight(),$cluetip.height()) : parseInt(defHeight,10);
@@ -510,6 +522,7 @@
         closeOnDelay = setTimeout(cluetipClose, opts.delayedClose);
       }
       // trigger the optional onShow function
+
       opts.onShow.call(link, $cluetip, $cluetipInner);
     };
 
