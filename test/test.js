@@ -1,7 +1,7 @@
 module('ajax requests', {
   setup: function() {
     this.rHeading = /^\s*(Heading)/;
-    this.rContent = /^\s*(Content)/
+    this.rContent = /^\s*(Content)/;
     this.opts = {
       attribute: 'href'
     };
@@ -36,22 +36,22 @@ asyncTest('separate title and content', function() {
         equal( title && title[1], 'Heading', 'Heading is in .cluetip-title' );
         equal( content && content[1], 'Content', 'Content is in .cluetip-inner');
         start();
-      },
-      opts = $.extend(this.opts, {
-        ajaxProcess: function(data) {
-          var $data = $('<div>' + data + '</div>');
-          return {
-            title: $data.find('h2').html(),
-            content: $data.find('div').html()
-          };
-        },
+      };
 
-        ajaxSettings: {
-          success: function(data, textStatus, $cluetip, $cluetipInner) {
-            setTimeout(successTest, 0);
+  var opts = $.extend(this.opts, {
+    ajaxProcess: function(data) {
+      var $data = $('<div>' + data + '</div>');
+      return {
+        title: $data.find('h2').html(),
+        content: $data.find('div').html()
+      };
+    },
 
-          }
-        }
+    ajaxSettings: {
+      success: function(data, textStatus, $cluetip, $cluetipInner) {
+        setTimeout(successTest, 0);
+      }
+    }
   });
 
   $('#ajax1').cluetip(opts).trigger('mouseenter');
