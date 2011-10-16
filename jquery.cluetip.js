@@ -1,7 +1,7 @@
 /*!
  * jQuery clueTip plugin v1.2.2
  *
- * Date: Wed Oct 05 19:31:48 2011 EDT
+ * Date: Sun Oct 16 17:45:31 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -190,7 +190,7 @@
     }
     $cluetipWait.insertBefore($cluetip).hide();
 
-    var cluetipPadding = (parseInt($cluetip.css('paddingLeft'),10)||0) + (parseInt($cluetip.css('paddingRight'),10)||0);
+    var cluetipPadding = (parseInt($cluetip.css('paddingLeft'), 10) || 0) + (parseInt($cluetip.css('paddingRight'), 10) || 0);
 
 
     this.each(function(index) {
@@ -227,9 +227,8 @@
 
       // parse the title
       var tipParts;
-      var tipTitle = (opts.attribute != 'title') ? $link.attrProp(opts.titleAttribute) : '';
+      var tipTitle = (opts.attribute != 'title') ? $link.attrProp(opts.titleAttribute) || '' : '';
       if (opts.splitTitle) {
-        if (tipTitle == undefined) {tipTitle = '';}
         tipParts = tipTitle.split(opts.splitTitle);
         tipTitle = opts.showTitle || tipParts[0] === '' ? tipParts.shift() : '';
       }
