@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.2.2
+ * jQuery clueTip plugin v1.2.3
  *
- * Date: Sun Oct 16 17:45:31 2011 EDT
+ * Date: Sun Oct 30 12:35:35 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -18,7 +18,7 @@
 
 
   $.cluetip = {
-    version: '1.2.2',
+    version: '1.2.3',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
@@ -302,12 +302,16 @@
           }
         }
         pY = posX < 0 ? event.pageY + tOffset : event.pageY;
-        $cluetip.css({
-          left: (posX > 0 && opts.positionBy != 'bottomTop') ? posX : (mouseX + (tipWidth/2) > winWidth) ? winWidth/2 - tipWidth/2 : Math.max(mouseX - (tipWidth/2),0),
-          zIndex: $link.data('cluetip').zIndex
-        });
-        $cluetipArrows.css({zIndex: $link.data('cluetip').zIndex+1});
+        if (posX < 0 || opts.positionBy == 'bottomTop') {
+          posX = (mouseX + (tipWidth/2) > winWidth) ? winWidth/2 - tipWidth/2 : Math.max(mouseX - (tipWidth/2),0);
+        }
       }
+
+      $cluetipArrows.css({zIndex: $link.data('cluetip').zIndex+1});
+      $cluetip.css({
+        left: posX,
+        zIndex: $link.data('cluetip').zIndex
+      });
       wHeight = $(window).height();
 
 /***************************************
