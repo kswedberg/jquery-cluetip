@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.2.3
+ * jQuery clueTip plugin v1.2.4
  *
- * Date: Sun Oct 30 12:35:35 2011 EDT
+ * Date: Fri Nov 25 23:41:10 2011 EST
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -18,7 +18,7 @@
 
 
   $.cluetip = {
-    version: '1.2.3',
+    version: '1.2.4',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
@@ -295,7 +295,7 @@
           linkWidth + linkLeft + lOffset;
         if (link.tagName.toLowerCase() == 'area' || opts.positionBy == 'mouse' || linkWidth + tipWidth > winWidth) { // position by mouse
           if (mouseX + 20 + tipWidth > winWidth) {
-            $cluetip.addClass(' cluetip-' + ctClass);
+            $cluetip.addClass('cluetip-' + ctClass);
             posX = (mouseX - tipWidth - lOffset) >= 0 ? mouseX - tipWidth - lOffset - parseInt($cluetip.css('marginLeft'),10) + parseInt($cluetipInner.css('marginRight'),10) :  mouseX - (tipWidth/2);
           } else {
             posX = mouseX + lOffset;
@@ -423,8 +423,7 @@
 * load an element from the same page
 ***************************************/
       } else if (opts.local) {
-
-        var $localContent = $(tipAttribute + (/#\S+$/.test(tipAttribute) ? '' : ':eq(' + index + ')')).clone(true).show();
+        var $localContent = $(tipAttribute + (/^#\S+$/.test(tipAttribute) ? '' : ':eq(' + index + ')')).clone(true).show();
         if (opts.localIdSuffix) {
           $localContent.attr('id', $localContent[0].id + opts.localIdSuffix);
         }
@@ -444,7 +443,6 @@
         $cluetipInner.html($truncloaded);
       }
 
-      function doNothing() {} //empty function
       if (titleHTML) {
         $cluetipTitle.show().html(titleHTML);
       } else {
@@ -642,6 +640,9 @@
 
     /** =private functions
     ************************************************************/
+    //empty function
+    function doNothing() {}
+
     /** =create dropshadow divs **/
 
     function createDropShadows($cluetip, options, newDropShadow) {
