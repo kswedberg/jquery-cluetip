@@ -1,7 +1,7 @@
 /*!
  * jQuery clueTip plugin v1.2.4
  *
- * Date: Fri Nov 25 23:41:10 2011 EST
+ * Date: Fri Nov 25 23:45:10 2011 EST
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -675,7 +675,7 @@
         opacity: 0.1
       })
       .addClass('cluetip-drop-shadow')
-      .prependTo('#cluetip');
+      .prependTo($cluetip);
       return newDropShadow;
 
     }
