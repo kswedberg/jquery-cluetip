@@ -1,7 +1,7 @@
 /*!
  * jQuery clueTip plugin v1.2.4
  *
- * Date: Fri Nov 25 23:45:10 2011 EST
+ * Date: Fri Dec 09 23:26:18 2011 EST
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -378,8 +378,8 @@
             success: function(data, textStatus) {
               cluetipContents = opts.ajaxProcess.call(link, data);
 
-              // allow for chaning the title based on data returned by xhr
-              if ( $.isPlainObject(cluetipContents) ) {
+              // allow for changing the title based on data returned by xhr
+              if ( typeof cluetipContents == 'object' && cluetipContents !== null ) {
                 tipTitle = cluetipContents.title;
                 cluetipContents = cluetipContents.content;
               }
