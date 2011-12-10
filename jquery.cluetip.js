@@ -378,8 +378,8 @@
             success: function(data, textStatus) {
               cluetipContents = opts.ajaxProcess.call(link, data);
 
-              // allow for chaning the title based on data returned by xhr
-              if ( $.isPlainObject(cluetipContents) ) {
+              // allow for changing the title based on data returned by xhr
+              if ( typeof cluetipContents == 'object' && cluetipContents !== null ) {
                 tipTitle = cluetipContents.title;
                 cluetipContents = cluetipContents.content;
               }
