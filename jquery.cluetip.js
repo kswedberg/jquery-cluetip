@@ -1,7 +1,7 @@
 /*!
  * jQuery clueTip plugin v1.2.4
  *
- * Date: Fri Dec 09 23:26:18 2011 EST
+ * Date: Sat Dec 17 14:34:28 2011 EST
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -135,6 +135,7 @@
   };
   var $cluetipWait,
       standardClasses = 'cluetip ui-widget ui-widget-content ui-cluetip',
+      caches = {},
       counter = 0,
       imgCount = 0;
 
@@ -245,7 +246,9 @@
 
 //activate clueTip
     var activate = function(event) {
-      var pY, continueOn = opts.onActivate($link);
+      var pY,
+          continueOn = opts.onActivate($link),
+          ajaxMergedSettings;
       if (continueOn === false) {
         return false;
       }
@@ -367,6 +370,10 @@
               }
             },
             error: function(xhr, textStatus) {
+              if ( options.ajaxCache && !caches[tipAttribute] ) {
+                caches[tipAttribute] = {status: 'error', textStatus: textStatus, xhr: xhr};
+              }
+
               if (isActive) {
                 if (optionError) {
                   optionError.call(link, xhr, textStatus, $cluetip, $cluetipInner);
@@ -375,7 +382,11 @@
                 }
               }
             },
-            success: function(data, textStatus) {
+            success: function(data, textStatus, xhr) {
+              if ( options.ajaxCache && !caches[tipAttribute] ) {
+                caches[tipAttribute] = {status: 'success', data: data, textStatus: textStatus, xhr: xhr};
+              }
+
               cluetipContents = opts.ajaxProcess.call(link, data);
 
               // allow for changing the title based on data returned by xhr
@@ -383,11 +394,13 @@
                 tipTitle = cluetipContents.title;
                 cluetipContents = cluetipContents.content;
               }
+
               if (isActive) {
                 if (optionSuccess) {
                   optionSuccess.call(link, data, textStatus, $cluetip, $cluetipInner);
                 }
                 $cluetipInner.html(cluetipContents);
+
               }
             },
             complete: function(xhr, textStatus) {
@@ -415,8 +428,14 @@
               }
             }
           };
-          var ajaxMergedSettings = $.extend(true, {}, opts.ajaxSettings, ajaxSettings);
-          $.ajax(ajaxMergedSettings);
+
+          ajaxMergedSettings = $.extend(true, {}, opts.ajaxSettings, ajaxSettings);
+
+          if ( caches[tipAttribute] ) {
+            cachedAjax( caches[tipAttribute], ajaxMergedSettings );
+          } else {
+            $.ajax(ajaxMergedSettings);
+          }
         }
 
 /***************************************
@@ -636,7 +655,20 @@
           $link.attrProp('title', $link.data('cluetip').title);
         });
       }
-    });
+
+      // trigger a cached Ajax response
+      function cachedAjax(info, settings) {
+        var status = info.status;
+        settings.beforeSend(info.xhr, settings);
+        if ( status == 'error' ) {
+          settings[status](info.xhr, info.textStatus);
+        } else if (status == 'success') {
+          settings[status](info.data, info.textStatus, info.xhr);
+        }
+        settings.complete(info.xhr, settings.textStatus);
+      }
+
+    }); // end this.each
 
     /** =private functions
     ************************************************************/
