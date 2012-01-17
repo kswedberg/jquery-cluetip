@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.2.4
+ * jQuery clueTip plugin v1.2.5
  *
- * Date: Sat Dec 17 14:34:28 2011 EST
+ * Date: Mon Jan 16 23:33:54 2012 EST
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -16,9 +16,8 @@
 
 (function($) {
 
-
   $.cluetip = {
-    version: '1.2.4',
+    version: '1.2.5',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
@@ -165,7 +164,8 @@
 
     /** =create cluetip divs **/
     counter++;
-    var cluetipId = $.cluetip.backCompat || !options.multiple ? 'cluetip' : 'cluetip-' + counter,
+    var cluezIndex,
+        cluetipId = $.cluetip.backCompat || !options.multiple ? 'cluetip' : 'cluetip-' + counter,
         cluetipSelector = '#' + cluetipId,
         prefix = $.cluetip.backCompat ? '#' : '.',
         insertionType = $.cluetip.setup.insertionType,
@@ -180,7 +180,7 @@
       .attr('id', cluetipId)
       .css({position: 'absolute', display: 'none'});
 
-      var cluezIndex = +options.cluezIndex;
+      cluezIndex = +options.cluezIndex;
       $cluetipOuter = $cluetip.find(prefix + 'cluetip-outer').css({position: 'relative', zIndex: cluezIndex});
       $cluetipInner = $cluetip.find(prefix + 'cluetip-inner');
       $cluetipTitle = $cluetip.find(prefix + 'cluetip-title');
@@ -415,10 +415,11 @@
                 }
               }
               if (imgCount && !$.browser.opera) {
-                $(imgs).bind('load error', function() {
+                $(imgs).bind('load.ct error.ct', function() {
                   imgCount--;
-                  if (imgCount<1) {
+                  if (imgCount === 0) {
                     $cluetipWait.hide();
+                    $(imgs).unbind('.ct');
                     if (isActive) { cluetipShow(pY); }
                   }
                 });
@@ -662,7 +663,7 @@
         settings.beforeSend(info.xhr, settings);
         if ( status == 'error' ) {
           settings[status](info.xhr, info.textStatus);
-        } else if (info.status == 'success') {
+        } else if (status == 'success') {
           settings[status](info.data, info.textStatus, info.xhr);
         }
         settings.complete(info.xhr, settings.textStatus);
