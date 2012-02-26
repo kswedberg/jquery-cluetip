@@ -1,26 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title>clueTip: A jQuery Tooltip Plugin</title>
-<link rel="stylesheet" type="text/css" media="screen" href="../jq.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/shared/tabs.css" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="/lib/jquery.js"%3E%3C/script%3E'));</script>
-<script src="/shared/jquery.tabs.min.js"></script>
-<script src="/shared/jquery.history.js"></script>
-<script src="/shared/chili-1.8.js"></script>
+  <meta charset="UTF-8" />
+  <title>clueTip: A jQuery Tooltip Plugin</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="../jq.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="/shared/tabs.css" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="lib/jquery.js"%3E%3C/script%3E'));</script>
 
+  <script src="/shared/jquery.tabs.min.js"></script>
+  <script src="/shared/jquery.history.js"></script>
+  <script src="/shared/chili-1.8.js"></script>
+  <script type="text/javascript">
+  $(function() {
+      // initialize the tabs
+      var main = $('#main').tabs(1);
 
-<script type="text/javascript">
-$(function() {
-    // initialize the tabs
-    var main = $('#main').tabs(1);
-
-});
-</script>
+  });
+  </script>
 </head>
-<body><div><a id="logo" href="http://jquery.com" title="Powered By jQuery"></a></div>
+<body>
+
 <h1 id="banner"><a id="backnav" href="..">&lsaquo;&lsaquo; home</a>clueTip: A jQuery Tooltip Plugin</h1>
 <div id="main">
 
@@ -155,7 +155,7 @@ $(document).ready(function() {
     </div>
     <div id="options" class="tabContent">
         <h1>clueTip Plugin API / Options</h1>
-        The clueTip Plugin API provides two methods, with many options.
+        The clueTip Plugin API provides two methods, with many options. It also provides a custom event for closing the tooltip programmatically
         <dl>
             <dt><code class="method">$.cluetip.setup(options)</code></dt>
             <dd>Global defaults for clueTips. Will apply to all calls to the clueTip plugin.</dd>
@@ -246,6 +246,23 @@ $(document).ready(function() {
       dataType: 'html'
     }
   };</code></pre>
+  <dl>
+      <dt><code class="method">$(document).trigger('hideCluetip')</code></dt>
+      <dd>Hides any currently visible cluetip.</dd>
+<pre><code class="mix">
+// example for how you might do this with touch devices
+$('body').bind('touchstart', function(event) {
+ event = event.originalEvent;
+ var tgt = event.touches[0] && event.touches[0].target,
+     $tgt = $(tgt);
+
+ if (tgt.nodeName !== 'A' && !$tgt.closest('div.cluetip').length ) {
+   $(document).trigger('hideCluetip');
+ }
+});
+
+</code></pre>
+  </dl>
    <ol>
     <li><strong>height</strong>: Setting a specific height also sets &lt;div id="cluetip-outer"&gt; to "overflow:auto"</li>
     <li><strong>positionBy</strong>: Available options are 'auto', 'mouse', 'bottomTop', 'fixed'.  Change to 'mouse' if you want to override positioning by element and position the clueTip based on where the mouse is instead. Change to 'bottomTop' if you want positioning to begin below the mouse when there is room or above if not -- rather than right or left of the elemnent and flush with element's top Change to 'fixed' if you want the clueTip to appear in exactly the same location relative to the linked element no matter where it appears on the page. Use 'fixed' at your own risk.</li>
@@ -320,12 +337,8 @@ $(document).ready(function() {
       <h1>clueTip Plugin Credits</h1>
 
       <ul>
-        <li>The clueTip Plugin was inspired by <a href="http://www.codylindley.com">Cody Lindley</a>'s jTip script. </li>
-        <li>Many feature ideas were provided by Shelane Enos. </li>
-        <li><a href="http://commadot.com/">Glen Lipka</a> and <a href="http://bassistance.de/">Jörn Zaefferer</a> provided expert advice. </li>
-        <li><a href="http://www.pengoworks.com/">Dan G. Switzer</a> and Hector Santos helped a lot and contributed code for a couple features. </li>
-        <li><a href="http://blog.schreiter.info/">Torben Schreiter</a> helped squash some bugs and offered code for pre-loading images from ajaxed files</li>
-        <li><a href="http://www.tweaktheviking.com">Jonathan Chaffer</a> helped a lot, but eschewed the co-author designation out of sheer modesty. </li>
+        <li>Originally inspired by <a href="http://www.codylindley.com">Cody Lindley</a>'s jTip</li>
+        <li>Huge thanks to <a href="http://rapiddg.com/">Jonathan Chaffer</a>, <a href="http://commadot.com/">Glen Lipka</a>, <a href="http://blog.schreiter.info/">Torben Schreiter</a>, <a href="http://www.pengoworks.com/">Dan G. Switzer</a>, <a href="http://bassistance.de/">Jörn Zaefferer</a>, Shelane Enos, Hector Santos, and the many others who helped report and fix bugs and suggest features.</li>
       </ul>
     </div>
     <div id="download" class="tabContent">

@@ -73,14 +73,26 @@ The following displays a clueTip on mouseover of all `<a>` elements with class="
       }
     });
 
+You can programmatically hide (close) a clueTip by triggering the "hideCluetip" custom event. On a touch-enabled device, for example, you could hide any visible clueTips when the user touches anywhere in the body except on a link or on the clueTip itself:
+
+    $('body').bind('touchstart', function(event) {
+     event = event.originalEvent;
+     var tgt = event.touches[0] && event.touches[0].target,
+         $tgt = $(tgt);
+
+     if (tgt.nodeName !== 'A' && !$tgt.closest('div.cluetip').length ) {
+       $(document).trigger('hideCluetip');
+     }
+    });
+
 More examples can be found at [http://plugins.learningjquery.com/cluetip/demo/](http://plugins.learningjquery.com/cluetip/demo/)
 
 
 Credits
 =======
 
-* Inspired by Cody Lindley's jTip (http://www.codylindley.com)
-* Thanks to Jonathan Chaffer, Glen Lipka, Shelane Enos, Hector Santos, Torben Schreiter, Dan G. Switzer, Jörn Zaefferer, and the many others who helped report and fix bugs and suggest features.
+* Originally inspired by Cody Lindley's jTip (http://www.codylindley.com)
+* Huge thanks to Jonathan Chaffer, Glen Lipka, Shelane Enos, Hector Santos, Torben Schreiter, Dan G. Switzer, Jörn Zaefferer, and the many others who helped report and fix bugs and suggest features.
 
 [1]: http://jqueryui.com/themeroller/
 [2]: http://plugins.learningjquery.com/cluetip/
