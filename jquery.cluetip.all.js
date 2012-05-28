@@ -1,10 +1,10 @@
 /*!
  * jQuery clueTip plugin v1.2.5
  *
- * Date: Sat Feb 04 22:52:27 2012 EST
+ * Date: Sun May 27 22:20:19 2012 EDT
  * Requires: jQuery v1.3+
  *
- * Copyright 2011, Karl Swedberg
+ * Copyright 2012, Karl Swedberg
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
@@ -203,7 +203,8 @@
           cluetipContents = false,
           isActive = false,
           closeOnDelay = 0,
-          tipAttribute = opts[opts.attribute] || $link.attrProp(opts.attribute) || $link.attr(opts.attribute),
+          tipAttribute = opts[opts.attribute] ||
+            ( opts.attribute == 'href' ? $link.attr(opts.attribute) : $link.attrProp(opts.attribute) || $link.attr(opts.attribute) ),
           ctClass = opts.cluetipClass;
 
       cluezIndex = +opts.cluezIndex;
@@ -215,6 +216,7 @@
       // if hideLocal is set to true, on DOM ready hide the local content that will be displayed in the clueTip
       if (opts.local && opts.localPrefix) {tipAttribute = opts.localPrefix + tipAttribute;}
       if (opts.local && opts.hideLocal && tipAttribute) { $(tipAttribute + ':first').hide(); }
+
       var tOffset = parseInt(opts.topOffset, 10), lOffset = parseInt(opts.leftOffset, 10);
       // vertical measurement variables
       var tipHeight, wHeight,
@@ -247,7 +249,7 @@
 //activate clueTip
     var activate = function(event) {
       var pY,
-          continueOn = opts.onActivate($link),
+          continueOn = opts.onActivate.call(link, event),
           ajaxMergedSettings;
       if (continueOn === false) {
         return false;
@@ -748,7 +750,7 @@
 })(jQuery);
 (function($) {
   // Back-compat file for clueTip 1.2
-  // This modifies the the $.fn.cluetip object to make the plugin work the way it did before clueTip version 1.2
+  // This modifies the $.fn.cluetip object to make the plugin work the way it did before clueTip version 1.2
   $.extend(true, $.fn.cluetip, {
     backCompat: true,
     template: ['<div id="cluetip">',

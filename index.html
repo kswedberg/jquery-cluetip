@@ -222,12 +222,21 @@ $(document).ready(function() {
     },
 
     // function to run just before clueTip is shown.
-    onActivate:       function(e) {return true;},
+    // If the function returns false, the clueTip is NOT shown
+    // It can take a single argument: the event object
+    // Inside the function, this refers to the element that invoked the clueTip
+    onActivate:       function(event) {return true;},
 
-    // function to run just after clueTip is shown.
-    onShow:           function(ct, c){},
+    // function to run just after clueTip is shown. It can take two arguments:
+    // the first is a jQuery object representing the clueTip element;
+    // the second a jQuery object represeting the clueTip inner div.
+    // Inside the function, this refers to the element that invoked the clueTip
+    onShow:           function(ct, ci){},
 
-    // function to run just after clueTip is hidden.
+    // function to run just after clueTip is hidden. It can take two arguments:
+    // the first is a jQuery object representing the clueTip element;
+    // the second a jQuery object represeting the clueTip inner div.
+    // Inside the function, this refers to the element that invoked the clueTip
     onHide:           function(ct, ci){},
 
     // whether to cache results of ajax request to avoid unnecessary hits to server
@@ -300,10 +309,12 @@ $('body').bind('touchstart', function(event) {
         <dt>How do I get clueTip to show ajaxed content that has changed on the server?</dt>
         <dd>There are a number of options available for working with dynamic content. By default, the <code>ajaxCache</code> function is set to <code>true</code>. This reduces the number of http requests  made to the server. However, it doesn't account for possible changes to the ajaxed data. If the contents of a particular clueTip will be updated on the server between invocations, you may want to set <code>ajaxCache: false</code>.
         </dd>
-        <dt><em>New as of clueTip 1.0.3</em>: How do I programmatically close (hide) a clueTip?</dt>
+        <dt>How do I programmatically close (hide) a clueTip?</dt>
         <dd>If you want to trigger a clueTip to close, based on some other interaction, you can use the following code: <code>$(document).trigger('hideCluetip');</code> </dd>
-        <dt><em>New as of clueTip 1.0.4</em>: Why don't the styles that I've applied to my local content carry over once they're inside a clueTip?</dt>
-        <dd>When using an element on the same page to populate the clueTip's content, the plugin <em>clones</em> that element. Because of potential problems caused by duplicate IDs within a page, the plugin also, by default, adds a suffix to the ID of the cloned element. If you have tied styles to the original ID, they won't be carried over. You can either give the <code>localIdSuffix</code> an empty string ( '' ) for its value or add the id to your stylesheet rule.</dd>
+        <dt>Why don't the styles that I've applied to my local content carry over once they're inside a clueTip?</dt>
+        <dd>When using an element on the same page to populate the clueTip's content, the plugin <em>clones</em> that element. Because of potential problems caused by duplicate IDs within a page, the plugin also, by default, adds a suffix to the ID of the cloned element. If you have tied styles to the original ID, they won't be carried over. You can either give the <code>localIdSuffix</code> an empty string ( '' ) for its value or add the ID to your stylesheet rule.</dd>
+        <dt>Why don't form elements within a clueTip update when I tell them to?</dt>
+        <dd>If you attempt to update an element based on its ID,</dd>
         <dt>How do I add a delay before showing or closing the clueTip? </dt>
         <dd>While the clueTip plugin itself doesn't have a mechanism for delaying responses, it can take advantage of the optional hoverIntent plugin. To delay the showing of a clueTip, use the <code>interval</code> property of the <code>hoverIntent</code> option; to delay its hiding, use the <code>timeout</code> property. Both properties are measured in milliseconds. For example, the following sets both the show and the hide delays to 750 milliseconds (3/4 second):
 <pre><code>$('a').cluetip({

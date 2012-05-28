@@ -1,10 +1,10 @@
 /*!
  * jQuery clueTip plugin v1.2.5
  *
- * Date: Mon Jan 16 23:33:54 2012 EST
+ * Date: Sun May 27 22:20:19 2012 EDT
  * Requires: jQuery v1.3+
  *
- * Copyright 2011, Karl Swedberg
+ * Copyright 2012, Karl Swedberg
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
@@ -249,7 +249,7 @@
 //activate clueTip
     var activate = function(event) {
       var pY,
-          continueOn = opts.onActivate($link),
+          continueOn = opts.onActivate.call(link, event),
           ajaxMergedSettings;
       if (continueOn === false) {
         return false;

@@ -1,6 +1,6 @@
 (function($) {
   // Back-compat file for clueTip 1.2
-  // This modifies the the $.fn.cluetip object to make the plugin work the way it did before clueTip version 1.2
+  // This modifies the $.fn.cluetip object to make the plugin work the way it did before clueTip version 1.2
   $.extend(true, $.fn.cluetip, {
     backCompat: true,
     template: ['<div id="cluetip">',
