@@ -248,12 +248,13 @@
 
 //activate clueTip
     var activate = function(event) {
-      var pY,
-          continueOn = opts.onActivate.call(link, event),
-          ajaxMergedSettings;
+      var pY, ajaxMergedSettings, cacheKey,
+          continueOn = opts.onActivate.call(link, event);
+
       if (continueOn === false) {
         return false;
       }
+
       isActive = true;
 
       // activate function may get called after an initialization of a different target so need to re-get the Correct Cluetip object here
@@ -359,6 +360,8 @@
               optionSuccess = opts.ajaxSettings.success,
               optionComplete = opts.ajaxSettings.complete;
 
+          cacheKey = getCacheKey(tipAttribute, opts.ajaxSettings.data);
+
           var ajaxSettings = {
             cache: opts.ajaxCache, // force requested page not to be cached by browser
             url: tipAttribute,
@@ -372,8 +375,8 @@
               }
             },
             error: function(xhr, textStatus) {
-              if ( options.ajaxCache && !caches[tipAttribute] ) {
-                caches[tipAttribute] = {status: 'error', textStatus: textStatus, xhr: xhr};
+              if ( options.ajaxCache && !caches[cacheKey] ) {
+                caches[cacheKey] = {status: 'error', textStatus: textStatus, xhr: xhr};
               }
 
               if (isActive) {
@@ -385,8 +388,8 @@
               }
             },
             success: function(data, textStatus, xhr) {
-              if ( options.ajaxCache && !caches[tipAttribute] ) {
-                caches[tipAttribute] = {status: 'success', data: data, textStatus: textStatus, xhr: xhr};
+              if ( options.ajaxCache && !caches[cacheKey] ) {
+                caches[cacheKey] = {status: 'success', data: data, textStatus: textStatus, xhr: xhr};
               }
 
               cluetipContents = opts.ajaxProcess.call(link, data);
@@ -434,8 +437,8 @@
 
           ajaxMergedSettings = $.extend(true, {}, opts.ajaxSettings, ajaxSettings);
 
-          if ( caches[tipAttribute] ) {
-            cachedAjax( caches[tipAttribute], ajaxMergedSettings );
+          if ( caches[cacheKey] ) {
+            cachedAjax( caches[cacheKey], ajaxMergedSettings );
           } else {
             $.ajax(ajaxMergedSettings);
           }
@@ -677,6 +680,22 @@
     ************************************************************/
     //empty function
     function doNothing() {}
+
+    // create a string to be used as an identifier for ajax caches
+    function getCacheKey(url, data) {
+      var cacheKey = url || '';
+      data = data || '';
+
+      if (typeof data == 'object') {
+        $.each(data, function(key, val) {
+          cacheKey += '-' + key + '-' + val;
+        });
+      } else if (typeof data == 'string') {
+        cacheKey += data;
+      }
+
+      return cacheKey;
+    }
 
     /** =create dropshadow divs **/
 
