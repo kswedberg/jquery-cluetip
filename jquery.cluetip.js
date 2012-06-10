@@ -154,9 +154,9 @@
         $(data.selector).remove();
         $.removeData(this, 'title');
         $.removeData(this, 'cluetip');
-        $(document).unbind('.cluetip');
-        return this.unbind('.cluetip');
       }
+      $(document).unbind('.cluetip');
+      return this.unbind('.cluetip');
     }
 
     // merge per-call options with defaults
