@@ -1,7 +1,7 @@
 /*!
  * jQuery clueTip plugin v1.2.5
  *
- * Date: Sun May 27 22:20:19 2012 EDT
+ * Date: Sun Jun 10 17:51:13 2012 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2012, Karl Swedberg
