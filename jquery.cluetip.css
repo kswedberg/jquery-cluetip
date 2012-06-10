@@ -45,7 +45,8 @@ div.ui-cluetip {
    =cluetipClass: 'default'
 -------------------------------------- */
 
-.cluetip-default {
+.cluetip-default,
+.cluetip-default .cluetip-outer {
   background-color: #d9d9c2;
 }
 .cluetip-default .ui-cluetip-header {
@@ -119,6 +120,7 @@ div.clue-bottom-default .cluetip-arrows {
 .cluetip-jtip .cluetip-outer {
   border: 2px solid #ccc;
   position: relative;
+  background-color: #fff;
 }
 
 .cluetip-jtip .cluetip-inner {
@@ -177,6 +179,11 @@ div.clue-bottom-jtip .cluetip-arrows {
   background-color: #fff;
   border: 1px solid #ccc;
 }
+
+.cluetip-rounded .cluetip-outer {
+  background-color: #fff;
+}
+
 .cluetip-rounded  .cluetip-arrows {
   border-color: #ccc;
 }
