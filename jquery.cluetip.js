@@ -59,7 +59,7 @@
       width:            275,      // The width of the clueTip
       height:           'auto',   // The height of the clueTip
       cluezIndex:       97,       // Sets the z-index style property of the clueTip
-      positionBy:       'auto',   // Sets the type of positioning: 'auto', 'mouse','bottomTop', 'fixed'
+      positionBy:       'auto',   // Sets the type of positioning: 'auto', 'mouse','bottomTop', 'topBottom', fixed'
       topOffset:        15,       // Number of px to offset clueTip from top of invoking element
       leftOffset:       15,       // Number of px to offset clueTip from left of invoking element
       local:            false,    // Whether to use content from the same page for the clueTip's body
@@ -308,7 +308,7 @@
           }
         }
         pY = posX < 0 ? event.pageY + tOffset : event.pageY;
-        if (posX < 0 || opts.positionBy == 'bottomTop') {
+        if (posX < 0 || opts.positionBy == 'bottomTop'  || opts.positionBy == 'topBottom') {
           posX = (mouseX + (tipWidth/2) > winWidth) ? winWidth/2 - tipWidth/2 : Math.max(mouseX - (tipWidth/2),0);
         }
       }
@@ -497,7 +497,7 @@
       baseline = sTop + wHeight;
       if (opts.positionBy == 'fixed') {
         tipY = posY - opts.dropShadowSteps + tOffset;
-      } else if ( (posX < mouseX && Math.max(posX, 0) + tipWidth > mouseX) || opts.positionBy == 'bottomTop') {
+      } else if (((posX < mouseX && (Math.max(posX, 0) + tipWidth > mouseX)) && opts.positionBy != 'topBottom') || opts.positionBy == 'bottomTop') {
         if (posY + tipHeight + tOffset > baseline && mouseY - sTop > tipHeight + tOffset) {
           tipY = mouseY - tipHeight - tOffset;
           direction = 'top';
@@ -505,6 +505,15 @@
           tipY = mouseY + tOffset;
           direction = 'bottom';
         }
+      } else if (opts.positionBy == 'topBottom') {
+          if (mouseY - sTop < tipHeight + tOffset && posY + tipHeight + tOffset < baseline) {
+            tipY = mouseY + tOffset;
+            direction = 'bottom';
+          }
+          else {
+            tipY = mouseY - tipHeight - tOffset;
+            direction = 'top';
+          }
       } else if ( posY + tipHeight + tOffset > baseline ) {
         tipY = (tipHeight >= wHeight) ? sTop : baseline - tipHeight - tOffset;
       } else if ($link.css('display') == 'block' || link.tagName.toLowerCase() == 'area' || opts.positionBy == "mouse") {
