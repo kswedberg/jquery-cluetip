@@ -62,6 +62,7 @@
       positionBy:       'auto',   // Sets the type of positioning: 'auto', 'mouse','bottomTop', 'topBottom', fixed'
       topOffset:        15,       // Number of px to offset clueTip from top of invoking element
       leftOffset:       15,       // Number of px to offset clueTip from left of invoking element
+      snapToEdge:       false,    // For bottomTop and topBottom, snap to the top or bottom of the element.  
       local:            false,    // Whether to use content from the same page for the clueTip's body
       localPrefix:      null,     // string to be prepended to the tip attribute if local is true
       localIdSuffix:    null,     // string to be appended to the cluetip content element's id if local is true
@@ -221,7 +222,7 @@
       // vertical measurement variables
       var tipHeight, wHeight,
           defHeight = isNaN(parseInt(opts.height, 10)) ? 'auto' : (/\D/g).test(opts.height) ? opts.height : opts.height + 'px';
-      var sTop, linkTop, posY, tipY, mouseY, baseline;
+      var sTop, linkTop, linkBottom, posY, tipY, mouseY, baseline;
       // horizontal measurement variables
       var tipInnerWidth = parseInt(opts.width, 10) || 275,
           tipWidth = tipInnerWidth + cluetipPadding + opts.dropShadowSteps,
@@ -271,6 +272,7 @@
         $link.addClass(opts.hoverClass);
       }
       linkTop = posY = $link.offset().top;
+      linkBottom = linkTop + $link.innerHeight();
       linkLeft = $link.offset().left;
 
       // FIX: (bug 4412)
@@ -495,25 +497,37 @@
       tipHeight = defHeight == 'auto' ? Math.max($cluetip.outerHeight(),$cluetip.height()) : parseInt(defHeight,10);
       tipY = posY;
       baseline = sTop + wHeight;
+      insufficientX = (posX < mouseX && (Math.max(posX, 0) + tipWidth > mouseX));
       if (opts.positionBy == 'fixed') {
         tipY = posY - opts.dropShadowSteps + tOffset;
-      } else if (((posX < mouseX && (Math.max(posX, 0) + tipWidth > mouseX)) && opts.positionBy != 'topBottom') || opts.positionBy == 'bottomTop') {
-        if (posY + tipHeight + tOffset > baseline && mouseY - sTop > tipHeight + tOffset) {
-          tipY = mouseY - tipHeight - tOffset;
-          direction = 'top';
-        } else {
-          tipY = mouseY + tOffset;
-          direction = 'bottom';
-        }
-      } else if (opts.positionBy == 'topBottom') {
-          if (mouseY - sTop < tipHeight + tOffset && posY + tipHeight + tOffset < baseline) {
-            tipY = mouseY + tOffset;
+      } else if (opts.positionBy == 'topBottom' || opts.positionBy == 'bottomTop' || insufficientX) {
+        if (opts.positionBy == 'topBottom') {
+          if (posY + tipHeight + tOffset < baseline && mouseY - sTop < tipHeight + tOffset) {
             direction = 'bottom';
-          }
-          else {
-            tipY = mouseY - tipHeight - tOffset;
+          } else {
             direction = 'top';
           }
+        } else if (opts.positionBy == 'bottomTop' || insufficientX) {
+          if (posY + tipHeight + tOffset > baseline && mouseY - sTop > tipHeight + tOffset) {
+            direction = 'top';
+          } else {
+            direction = 'bottom';
+          }
+        }
+        // We should now have a direction. Compute tipY
+        if (opts.snapToEdge) {
+          if (direction == 'top') {
+            tipY = linkTop - tipHeight - tOffset;
+          } else if (direction == 'bottom') {
+            tipY = linkBottom + tOffset;
+          }
+        } else {
+          if (direction == 'top') {
+            tipY = mouseY - tipHeight - tOffset;
+          } else if (direction == 'bottom') {
+            tipY = mouseY + tOffset;
+          }
+        }
       } else if ( posY + tipHeight + tOffset > baseline ) {
         tipY = (tipHeight >= wHeight) ? sTop : baseline - tipHeight - tOffset;
       } else if ($link.css('display') == 'block' || link.tagName.toLowerCase() == 'area' || opts.positionBy == "mouse") {
