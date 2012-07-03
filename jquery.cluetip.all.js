@@ -1,7 +1,7 @@
 /*!
  * jQuery clueTip plugin v1.2.5
  *
- * Date: Sun Jun 10 17:51:13 2012 EDT
+ * Date: Tue Jul 03 14:46:43 2012 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2012, Karl Swedberg
@@ -26,7 +26,6 @@
         '<div class="cluetip-inner ui-widget-content ui-cluetip-content"></div>',
       '</div>',
       '<div class="cluetip-extra"></div>',
-      '<div class="cluetip-arrows ui-state-default"></div>',
     '</div>'].join(''),
 
     /* clueTip setup
@@ -185,11 +184,13 @@
       $cluetipInner = $cluetip.find(prefix + 'cluetip-inner');
       $cluetipTitle = $cluetip.find(prefix + 'cluetip-title');
     }
+
     $cluetipWait = $('#cluetip-waitimage');
-    if (!$cluetipWait.length) {
+    if (!$cluetipWait.length && options.waitImage) {
       $cluetipWait = $('<div></div>').attr('id', 'cluetip-waitimage').css({position: 'absolute'});
+      $cluetipWait.insertBefore($cluetip).hide();
     }
-    $cluetipWait.insertBefore($cluetip).hide();
+
 
     var cluetipPadding = (parseInt($cluetip.css('paddingLeft'), 10) || 0) + (parseInt($cluetip.css('paddingRight'), 10) || 0);
 
@@ -209,6 +210,10 @@
 
       cluezIndex = +opts.cluezIndex;
       $link.data('cluetip', {title: link.title, zIndex: cluezIndex, selector: cluetipSelector});
+
+      if (opts.arrows && !$cluetip.find('.cluetip-arrows').length) {
+        $cluetip.append('<div class="cluetip-arrows ui-state-default"></div>');
+      }
 
       if (!tipAttribute && !opts.splitTitle && !js) {
         return true;
