@@ -81,7 +81,7 @@
       dropShadow:       true,     // set to false if you don't want the drop-shadow effect on the clueTip
       dropShadowSteps:  6,        // adjusts the size of the drop shadow
       sticky:           false,    // keep visible until manually closed
-      mouseOutClose:    false,    // close when clueTip is moused out
+      mouseOutClose:    false,    // close when clueTip is moused out: false, 'cluetip', 'link', 'both'
       activation:       'hover',  // set to 'click' to force user to click to show clueTip
                                   // set to 'focus' to show on focus of a form element and hide on blur
       clickThrough:     true,    // if true, and activation is not 'click', then clicking on link will take user to the link's href,
@@ -484,9 +484,16 @@
           });
         }
         if (opts.mouseOutClose) {
-          $cluetip.bind('mouseleave.cluetip', function() {
-            cluetipClose();
-          });
+          if (opts.mouseOutClose == 'both' || opts.mouseOutClose == 'cluetip' || opts.mouseOutClose === true) { // true implies 'cluetip' for backwards compatability
+            $cluetip.bind('mouseleave.cluetip', function() {
+              mouseOutClose();
+            });
+          }
+          if (opts.mouseOutClose == 'both' || opts.mouseOutClose == 'link') {
+            $link.bind('mouseleave.cluetip', function() {
+              mouseOutClose();
+            });
+          }
         } else {
           $cluetip.unbind('mouseleave.cluetip');
         }
@@ -590,6 +597,31 @@
       if (opts.arrows) {
         $cluetipArrows.css({top: ''});
       }
+    };
+
+    // Check to see if we should be closing by checking where the user is hovering.
+    // We do a short 50ms delay for two reasons: to prevent flicker, and to allow the user time to hover on other element
+    var mouseOutClose = function() {
+      var el = this;
+      setTimeout(function() {
+        if (opts.mouseOutClose == 'both') {
+          if ($link.is(':hover') || $cluetip.is(':hover')) {
+            return;
+          }
+        }
+        if (opts.mouseOutClose === true || opts.mouseOutClose == 'cluetip') { // true implies 'cluetip' for backwards compatibility
+          if ($cluetip.is(':hover')) {
+            return;
+          }
+        }
+        if (opts.mouseOutClose == 'link') {
+          if ($link.is(':hover')) {
+            return;
+          }
+        }
+        // All checks pass, close the cluetip
+        cluetipClose.call(el);
+      }, 50);
     };
 
     $(document).unbind('hideCluetip.cluetip').bind('hideCluetip.cluetip', function(e) {
