@@ -88,7 +88,7 @@
                                   // even if href and tipAttribute are equal
       tracking:         false,    // if true, clueTip will track mouse movement (experimental)
       delayedClose:     0,        // close clueTip on a timed delay (experimental)
-      closePosition:    'top',    // location of close text for sticky cluetips; can be 'top' or 'bottom' or 'title'
+      closePosition:    'top',    // location of close text for sticky cluetips; can be 'top', 'bottom', 'title' or 'none'
       closeText:        'Close',  // text (or HTML) to to be clicked to close sticky clueTips
       truncate:         0,        // number of characters to truncate clueTip's contents. if 0, no truncation occurs
 
@@ -475,12 +475,14 @@
       }
 
       if (opts.sticky) {
-        $closeLink = $('<div class="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
-        (opts.closePosition == 'bottom') ? $closeLink.appendTo($cluetipInner) : (opts.closePosition == 'title') ? $closeLink.prependTo($cluetipTitle) : $closeLink.prependTo($cluetipInner);
-        $closeLink.bind('click.cluetip', function() {
-          cluetipClose();
-          return false;
-        });
+        if (opts.closePosition != 'none') {
+          $closeLink = $('<div class="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
+          (opts.closePosition == 'bottom') ? $closeLink.appendTo($cluetipInner) : (opts.closePosition == 'title') ? $closeLink.prependTo($cluetipTitle) : $closeLink.prependTo($cluetipInner);
+          $closeLink.bind('click.cluetip', function() {
+            cluetipClose();
+            return false;
+          });
+        }
         if (opts.mouseOutClose) {
           $cluetip.bind('mouseleave.cluetip', function() {
             cluetipClose();
