@@ -463,7 +463,7 @@
     var cluetipShow = function(bpY) {
       var $closeLink, dynamicClasses, heightDiff,
           titleHTML = tipTitle || opts.showTitle && '&nbsp;',
-          bgY = '', direction = '';
+          bgY = '', direction = '', insufficientX = false;
       $cluetip.addClass('cluetip-' + ctClass);
       if (opts.truncate) {
         var $truncloaded = $cluetipInner.text().slice(0,opts.truncate) + '...';
