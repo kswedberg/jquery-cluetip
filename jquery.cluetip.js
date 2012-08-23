@@ -82,14 +82,14 @@
       dropShadow:       true,     // set to false if you don't want the drop-shadow effect on the clueTip
       dropShadowSteps:  6,        // adjusts the size of the drop shadow
       sticky:           false,    // keep visible until manually closed
-      mouseOutClose:    false,    // close when clueTip is moused out
+      mouseOutClose:    false,    // close when clueTip is moused out: false, 'cluetip', 'link', 'both'
       activation:       'hover',  // set to 'click' to force user to click to show clueTip
                                   // set to 'focus' to show on focus of a form element and hide on blur
       clickThrough:     true,    // if true, and activation is not 'click', then clicking on link will take user to the link's href,
                                   // even if href and tipAttribute are equal
       tracking:         false,    // if true, clueTip will track mouse movement (experimental)
       delayedClose:     0,        // close clueTip on a timed delay (experimental)
-      closePosition:    'top',    // location of close text for sticky cluetips; can be 'top' or 'bottom' or 'title'
+      closePosition:    'top',    // location of close text for sticky cluetips; can be 'top', 'bottom', 'title' or 'none'
       closeText:        'Close',  // text (or HTML) to to be clicked to close sticky clueTips
       truncate:         0,        // number of characters to truncate clueTip's contents. if 0, no truncation occurs
 
@@ -477,16 +477,25 @@
       }
 
       if (opts.sticky) {
-        $closeLink = $('<div class="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
-        (opts.closePosition == 'bottom') ? $closeLink.appendTo($cluetipInner) : (opts.closePosition == 'title') ? $closeLink.prependTo($cluetipTitle) : $closeLink.prependTo($cluetipInner);
-        $closeLink.bind('click.cluetip', function() {
-          cluetipClose();
-          return false;
-        });
-        if (opts.mouseOutClose) {
-          $cluetip.bind('mouseleave.cluetip', function() {
+        if (opts.closePosition != 'none') {
+          $closeLink = $('<div class="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
+          (opts.closePosition == 'bottom') ? $closeLink.appendTo($cluetipInner) : (opts.closePosition == 'title') ? $closeLink.prependTo($cluetipTitle) : $closeLink.prependTo($cluetipInner);
+          $closeLink.bind('click.cluetip', function() {
             cluetipClose();
+            return false;
           });
+        }
+        if (opts.mouseOutClose) {
+          if (opts.mouseOutClose == 'both' || opts.mouseOutClose == 'cluetip' || opts.mouseOutClose === true) { // true implies 'cluetip' for backwards compatability
+            $cluetip.bind('mouseleave.cluetip', function() {
+              mouseOutClose();
+            });
+          }
+          if (opts.mouseOutClose == 'both' || opts.mouseOutClose == 'link') {
+            $link.bind('mouseleave.cluetip', function() {
+              mouseOutClose();
+            });
+          }
         } else {
           $cluetip.unbind('mouseleave.cluetip');
         }
@@ -611,6 +620,31 @@
       if (opts.arrows) {
         $cluetipArrows.css({top: ''});
       }
+    };
+
+    // Check to see if we should be closing by checking where the user is hovering.
+    // We do a short 50ms delay for two reasons: to prevent flicker, and to allow the user time to hover on other element
+    var mouseOutClose = function() {
+      var el = this;
+      setTimeout(function() {
+        if (opts.mouseOutClose == 'both') {
+          if($link.ismouseover() || $cluetip.ismouseover()){
+            return;
+          }
+        }
+        if (opts.mouseOutClose === true || opts.mouseOutClose == 'cluetip') { // true implies 'cluetip' for backwards compatibility
+          if ($cluetip.ismouseover()) {
+            return;
+          }
+        }
+        if (opts.mouseOutClose == 'link') {
+          if ($link.ismouseover()) {
+            return;
+          }
+        }
+        // All checks pass, close the cluetip
+        cluetipClose.call(el);
+      }, 50);
     };
 
     $(document).unbind('hideCluetip.cluetip').bind('hideCluetip.cluetip', function(e) {
@@ -790,3 +824,27 @@
   $.fn.cluetip.defaults = $.cluetip.defaults;
 
 })(jQuery);
+
+//Added jQuery ismouseover method to track mouse hover
+(function($){ 
+  $.mlp = {x:0,y:0}; // Mouse Last Position
+  function documentHandler(){
+    var $current = this === document ? $(this) : $(this).contents();
+    $current.mousemove(function(e){
+      jQuery.mlp = {x:e.pageX,y:e.pageY}
+    });
+    $current.find("iframe").load(documentHandler);
+  }
+  $(documentHandler);
+  $.fn.ismouseover = function(overThis) {  
+    var result = false;
+    this.eq(0).each(function() {  
+      var $current = $(this).is("iframe") ? $(this).contents().find("body") : $(this);
+      var offset = $current.offset();             
+      result = offset.left<=$.mlp.x && offset.left + $current.outerWidth() > $.mlp.x &&
+      offset.top<=$.mlp.y && offset.top + $current.outerHeight() > $.mlp.y;
+    });  
+    return result;
+  };  
+})(jQuery);
+
