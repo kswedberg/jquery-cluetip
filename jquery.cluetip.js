@@ -58,9 +58,10 @@
       width:            275,      // The width of the clueTip
       height:           'auto',   // The height of the clueTip
       cluezIndex:       97,       // Sets the z-index style property of the clueTip
-      positionBy:       'auto',   // Sets the type of positioning: 'auto', 'mouse','bottomTop', 'fixed'
+      positionBy:       'auto',   // Sets the type of positioning: 'auto', 'mouse','bottomTop', 'topBottom', fixed'
       topOffset:        15,       // Number of px to offset clueTip from top of invoking element
       leftOffset:       15,       // Number of px to offset clueTip from left of invoking element
+      snapToEdge:       false,    // For bottomTop and topBottom, snap to the top or bottom of the element.  
       local:            false,    // Whether to use content from the same page for the clueTip's body
       localPrefix:      null,     // string to be prepended to the tip attribute if local is true
       localIdSuffix:    null,     // string to be appended to the cluetip content element's id if local is true
@@ -80,14 +81,14 @@
       dropShadow:       true,     // set to false if you don't want the drop-shadow effect on the clueTip
       dropShadowSteps:  6,        // adjusts the size of the drop shadow
       sticky:           false,    // keep visible until manually closed
-      mouseOutClose:    false,    // close when clueTip is moused out
+      mouseOutClose:    false,    // close when clueTip is moused out: false, 'cluetip', 'link', 'both'
       activation:       'hover',  // set to 'click' to force user to click to show clueTip
                                   // set to 'focus' to show on focus of a form element and hide on blur
       clickThrough:     true,    // if true, and activation is not 'click', then clicking on link will take user to the link's href,
                                   // even if href and tipAttribute are equal
       tracking:         false,    // if true, clueTip will track mouse movement (experimental)
       delayedClose:     0,        // close clueTip on a timed delay (experimental)
-      closePosition:    'top',    // location of close text for sticky cluetips; can be 'top' or 'bottom' or 'title'
+      closePosition:    'top',    // location of close text for sticky cluetips; can be 'top', 'bottom', 'title' or 'none'
       closeText:        'Close',  // text (or HTML) to to be clicked to close sticky clueTips
       truncate:         0,        // number of characters to truncate clueTip's contents. if 0, no truncation occurs
 
@@ -226,7 +227,7 @@
       // vertical measurement variables
       var tipHeight, wHeight,
           defHeight = isNaN(parseInt(opts.height, 10)) ? 'auto' : (/\D/g).test(opts.height) ? opts.height : opts.height + 'px';
-      var sTop, linkTop, posY, tipY, mouseY, baseline;
+      var sTop, linkTop, linkBottom, posY, tipY, mouseY, baseline;
       // horizontal measurement variables
       var tipInnerWidth = parseInt(opts.width, 10) || 275,
           tipWidth = tipInnerWidth + cluetipPadding + opts.dropShadowSteps,
@@ -276,6 +277,7 @@
         $link.addClass(opts.hoverClass);
       }
       linkTop = posY = $link.offset().top;
+      linkBottom = linkTop + $link.innerHeight();
       linkLeft = $link.offset().left;
 
       // FIX: (bug 4412)
@@ -313,7 +315,7 @@
           }
         }
         pY = posX < 0 ? event.pageY + tOffset : event.pageY;
-        if (posX < 0 || opts.positionBy == 'bottomTop') {
+        if (posX < 0 || opts.positionBy == 'bottomTop'  || opts.positionBy == 'topBottom') {
           posX = (mouseX + (tipWidth/2) > winWidth) ? winWidth/2 - tipWidth/2 : Math.max(mouseX - (tipWidth/2),0);
         }
       }
@@ -466,7 +468,7 @@
     var cluetipShow = function(bpY) {
       var $closeLink, dynamicClasses, heightDiff,
           titleHTML = tipTitle || opts.showTitle && '&nbsp;',
-          bgY = '', direction = '';
+          bgY = '', direction = '', insufficientX = false;
       $cluetip.addClass('cluetip-' + ctClass);
       if (opts.truncate) {
         var $truncloaded = $cluetipInner.text().slice(0,opts.truncate) + '...';
@@ -480,16 +482,25 @@
       }
 
       if (opts.sticky) {
-        $closeLink = $('<div class="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
-        (opts.closePosition == 'bottom') ? $closeLink.appendTo($cluetipInner) : (opts.closePosition == 'title') ? $closeLink.prependTo($cluetipTitle) : $closeLink.prependTo($cluetipInner);
-        $closeLink.bind('click.cluetip', function() {
-          cluetipClose();
-          return false;
-        });
-        if (opts.mouseOutClose) {
-          $cluetip.bind('mouseleave.cluetip', function() {
+        if (opts.closePosition != 'none') {
+          $closeLink = $('<div class="cluetip-close"><a href="#">' + opts.closeText + '</a></div>');
+          (opts.closePosition == 'bottom') ? $closeLink.appendTo($cluetipInner) : (opts.closePosition == 'title') ? $closeLink.prependTo($cluetipTitle) : $closeLink.prependTo($cluetipInner);
+          $closeLink.bind('click.cluetip', function() {
             cluetipClose();
+            return false;
           });
+        }
+        if (opts.mouseOutClose) {
+          if (opts.mouseOutClose == 'both' || opts.mouseOutClose == 'cluetip' || opts.mouseOutClose === true) { // true implies 'cluetip' for backwards compatability
+            $cluetip.bind('mouseleave.cluetip', function() {
+              mouseOutClose();
+            });
+          }
+          if (opts.mouseOutClose == 'both' || opts.mouseOutClose == 'link') {
+            $link.bind('mouseleave.cluetip', function() {
+              mouseOutClose();
+            });
+          }
         } else {
           $cluetip.unbind('mouseleave.cluetip');
         }
@@ -500,15 +511,36 @@
       tipHeight = defHeight == 'auto' ? Math.max($cluetip.outerHeight(),$cluetip.height()) : parseInt(defHeight,10);
       tipY = posY;
       baseline = sTop + wHeight;
+      insufficientX = (posX < mouseX && (Math.max(posX, 0) + tipWidth > mouseX));
       if (opts.positionBy == 'fixed') {
         tipY = posY - opts.dropShadowSteps + tOffset;
-      } else if ( (posX < mouseX && Math.max(posX, 0) + tipWidth > mouseX) || opts.positionBy == 'bottomTop') {
-        if (posY + tipHeight + tOffset > baseline && mouseY - sTop > tipHeight + tOffset) {
-          tipY = mouseY - tipHeight - tOffset;
-          direction = 'top';
+      } else if (opts.positionBy == 'topBottom' || opts.positionBy == 'bottomTop' || insufficientX) {
+        if (opts.positionBy == 'topBottom') {
+          if (posY + tipHeight + tOffset < baseline && mouseY - sTop < tipHeight + tOffset) {
+            direction = 'bottom';
+          } else {
+            direction = 'top';
+          }
+        } else if (opts.positionBy == 'bottomTop' || insufficientX) {
+          if (posY + tipHeight + tOffset > baseline && mouseY - sTop > tipHeight + tOffset) {
+            direction = 'top';
+          } else {
+            direction = 'bottom';
+          }
+        }
+        // We should now have a direction. Compute tipY
+        if (opts.snapToEdge) {
+          if (direction == 'top') {
+            tipY = linkTop - tipHeight - tOffset;
+          } else if (direction == 'bottom') {
+            tipY = linkBottom + tOffset;
+          }
         } else {
-          tipY = mouseY + tOffset;
-          direction = 'bottom';
+          if (direction == 'top') {
+            tipY = mouseY - tipHeight - tOffset;
+          } else if (direction == 'bottom') {
+            tipY = mouseY + tOffset;
+          }
         }
       } else if ( posY + tipHeight + tOffset > baseline ) {
         tipY = (tipHeight >= wHeight) ? sTop : baseline - tipHeight - tOffset;
@@ -593,6 +625,31 @@
       if (opts.arrows) {
         $cluetipArrows.css({top: ''});
       }
+    };
+
+    // Check to see if we should be closing by checking where the user is hovering.
+    // We do a short 50ms delay for two reasons: to prevent flicker, and to allow the user time to hover on other element
+    var mouseOutClose = function() {
+      var el = this;
+      setTimeout(function() {
+        if (opts.mouseOutClose == 'both') {
+          if($link.ismouseover() || $cluetip.ismouseover()){
+            return;
+          }
+        }
+        if (opts.mouseOutClose === true || opts.mouseOutClose == 'cluetip') { // true implies 'cluetip' for backwards compatibility
+          if ($cluetip.ismouseover()) {
+            return;
+          }
+        }
+        if (opts.mouseOutClose == 'link') {
+          if ($link.ismouseover()) {
+            return;
+          }
+        }
+        // All checks pass, close the cluetip
+        cluetipClose.call(el);
+      }, 50);
     };
 
     $(document).unbind('hideCluetip.cluetip').bind('hideCluetip.cluetip', function(e) {
@@ -772,3 +829,27 @@
   $.fn.cluetip.defaults = $.cluetip.defaults;
 
 })(jQuery);
+
+//Added jQuery ismouseover method to track mouse hover
+(function($){ 
+  $.mlp = {x:0,y:0}; // Mouse Last Position
+  function documentHandler(){
+    var $current = this === document ? $(this) : $(this).contents();
+    $current.mousemove(function(e){
+      jQuery.mlp = {x:e.pageX,y:e.pageY}
+    });
+    $current.find("iframe").load(documentHandler);
+  }
+  $(documentHandler);
+  $.fn.ismouseover = function(overThis) {  
+    var result = false;
+    this.eq(0).each(function() {  
+      var $current = $(this).is("iframe") ? $(this).contents().find("body") : $(this);
+      var offset = $current.offset();             
+      result = offset.left<=$.mlp.x && offset.left + $current.outerWidth() > $.mlp.x &&
+      offset.top<=$.mlp.y && offset.top + $current.outerHeight() > $.mlp.y;
+    });  
+    return result;
+  };  
+})(jQuery);
+
