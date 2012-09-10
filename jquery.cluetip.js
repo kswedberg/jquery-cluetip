@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.2.5
+ * jQuery clueTip plugin v1.2.6
  *
- * Date: Tue Jul 03 14:46:43 2012 EDT
+ * Date: Sun Sep 09 22:07:58 2012 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2012, Karl Swedberg
@@ -17,7 +17,7 @@
 (function($) {
 
   $.cluetip = {
-    version: '1.2.5',
+    version: '1.2.6',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
@@ -82,12 +82,12 @@
       dropShadowSteps:  6,        // adjusts the size of the drop shadow
       sticky:           false,    // keep visible until manually closed
       mouseOutClose:    false,    // close when clueTip is moused out: false, 'cluetip', 'link', 'both'
+      delayedClose:     50,        // close clueTip on a timed delay
       activation:       'hover',  // set to 'click' to force user to click to show clueTip
                                   // set to 'focus' to show on focus of a form element and hide on blur
       clickThrough:     true,    // if true, and activation is not 'click', then clicking on link will take user to the link's href,
                                   // even if href and tipAttribute are equal
       tracking:         false,    // if true, clueTip will track mouse movement (experimental)
-      delayedClose:     50,        // close clueTip on a timed delay
       closePosition:    'top',    // location of close text for sticky cluetips; can be 'top', 'bottom', 'title' or 'none'
       closeText:        'Close',  // text (or HTML) to to be clicked to close sticky clueTips
       truncate:         0,        // number of characters to truncate clueTip's contents. if 0, no truncation occurs
