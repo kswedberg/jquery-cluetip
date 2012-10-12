@@ -181,6 +181,9 @@ div.clue-bottom-jtip .cluetip-arrows {
 }
 
 .cluetip-rounded .cluetip-outer {
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
   background-color: #fff;
 }
 
