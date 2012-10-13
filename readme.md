@@ -61,39 +61,45 @@ Optionally, the clueTip's body can display content from the title attribute, whe
 
 ## Examples
 
+### Basic
 
 This is the most basic clueTip. It displays a 275px-wide clueTip on mouseover of the element with an ID of "tip." On mouseout of the element, the clueTip is hidden.
 
-    $('#tip).cluetip();
+```javascript
+$('#tip).cluetip();
+```
 
+### Setting Multiple Options
 The following displays a clueTip on mouseover of all `<a>` elements with class="clue". The hovered element gets a class of "highlight" added to it (so that it can be styled appropriately. This may be useful for non-anchor elements in older browsers such as IE6.). The clueTip is "sticky," which means that it will not be hidden until the user either clicks on its "close" text/graphic or displays another clueTip. The "close" text/graphic is set to display at the bottom of the clueTip (default is top) and display an image rather than the default "Close" text. Moreover, the body of the clueTip is truncated to the first 60 characters, which are followed by an ellipsis (...). Finally, the clueTip retrieves the content with a `POST` request rather than the default `GET`.
 
-    ```javascript
-    $('a.clue').cluetip({
-      hoverClass: 'highlight',
-      sticky: true,
-      closePosition: 'bottom',
-      closeText: '<img src="cross.png" alt="close" />',
-      truncate: 60,
-      ajaxSettings: {
-        type: 'POST'
-      }
-    });
-    ```
+```javascript
+$('a.clue').cluetip({
+  hoverClass: 'highlight',
+  sticky: true,
+  closePosition: 'bottom',
+  closeText: '<img src="cross.png" alt="close" />',
+  truncate: 60,
+  ajaxSettings: {
+    type: 'POST'
+  }
+});
+```
+
+### Triggering the `hideCluetip` event (useful for touch devices)
 
 You can programmatically hide (close) a clueTip by triggering the "hideCluetip" custom event. On a touch-enabled device, for example, you could hide any visible clueTips when the user touches anywhere in the body except on a link or on the clueTip itself:
 
-    ```javascript
-    $('body').bind('touchstart', function(event) {
-     event = event.originalEvent;
-     var tgt = event.touches[0] && event.touches[0].target,
-         $tgt = $(tgt);
+```javascript
+$('body').bind('touchstart', function(event) {
+ event = event.originalEvent;
+ var tgt = event.touches[0] && event.touches[0].target,
+     $tgt = $(tgt);
 
-     if (tgt.nodeName !== 'A' && !$tgt.closest('div.cluetip').length ) {
-       $(document).trigger('hideCluetip');
-     }
-    });
-    ```
+ if (tgt.nodeName !== 'A' && !$tgt.closest('div.cluetip').length ) {
+   $(document).trigger('hideCluetip');
+ }
+});
+```
 
 More examples can be found at [http://plugins.learningjquery.com/cluetip/demo/](http://plugins.learningjquery.com/cluetip/demo/)
 
