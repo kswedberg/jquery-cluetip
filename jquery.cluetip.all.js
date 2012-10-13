@@ -1,7 +1,7 @@
 /*!
- * jQuery clueTip plugin v1.2.6
+ * jQuery clueTip plugin v1.2.7
  *
- * Date: Sun Sep 09 22:07:58 2012 EDT
+ * Date: Sat Oct 13 17:17:47 2012 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2012, Karl Swedberg
@@ -17,7 +17,7 @@
 (function($) {
 
   $.cluetip = {
-    version: '1.2.6',
+    version: '1.2.7',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
@@ -241,7 +241,7 @@
 
       // parse the title
       var tipParts;
-      var tipTitle = (opts.attribute != 'title') ? $link.attrProp(opts.titleAttribute) || '' : '';
+      var tipTitle = (opts.attribute != 'title') ? $link.attr(opts.titleAttribute) || '' : '';
       if (opts.splitTitle) {
         tipParts = tipTitle.split(opts.splitTitle);
         tipTitle = opts.showTitle || tipParts[0] === '' ? tipParts.shift() : '';
