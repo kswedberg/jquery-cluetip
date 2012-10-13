@@ -241,7 +241,7 @@
 
       // parse the title
       var tipParts;
-      var tipTitle = (opts.attribute != 'title') ? $link.attrProp(opts.titleAttribute) || '' : '';
+      var tipTitle = (opts.attribute != 'title') ? $link.attr(opts.titleAttribute) || '' : '';
       if (opts.splitTitle) {
         tipParts = tipTitle.split(opts.splitTitle);
         tipTitle = opts.showTitle || tipParts[0] === '' ? tipParts.shift() : '';
