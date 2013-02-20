@@ -439,7 +439,7 @@
                   imgCount--;
                 }
               }
-              if (imgCount && !$.browser.opera) {
+              if (imgCount) {
                 $(imgs).bind('load.ct error.ct', function() {
                   imgCount--;
                   if (imgCount === 0) {
