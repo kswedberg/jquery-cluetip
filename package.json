@@ -1,0 +1,35 @@
+{
+  "name": "cluetip",
+  "title": "jQuery clueTip plugin",
+  "version": "1.2.8",
+  "description": "Displays a highly customizable tooltip when the user interacts with the matched element.",
+  "main": "jquery.cluetip.js",
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-uglify": "~0.1.1",
+    "grunt-contrib-concat": "~0.1.2",
+    "grunt-shell": "~0.2",
+    "grunt-version": "~0.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kswedberg/jquery-cluetip.git"
+  },
+  "keywords": [
+    "jQuery",
+    "plugin",
+    "tooltip"
+  ],
+  "author": {
+    "name": "Karl Swedberg",
+    "email": "kswedberg@gmail.com"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "readmeFilename": "readme.md"
+}

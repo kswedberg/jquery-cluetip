@@ -1,23 +1,13 @@
 /*!
- * jQuery clueTip plugin v1.2.7
- *
- * Date: Sat Oct 13 17:17:47 2012 EDT
- * Requires: jQuery v1.3+
- *
- * Copyright 2012, Karl Swedberg
- * Dual licensed under the MIT and GPL licenses:
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
- *
- *
- * Examples can be found at http://plugins.learningjquery.com/cluetip/demo/
- *
-*/
+ * jQuery clueTip plugin -v v1.2.8 - 2013-02-20
+ * Copyright (c) 2013 Karl Swedberg
+ * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
+ */
 
 (function($) {
 
   $.cluetip = {
-    version: '1.2.7',
+    version: '1.2.8',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',
