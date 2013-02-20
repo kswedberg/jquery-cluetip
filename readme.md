@@ -32,8 +32,8 @@ The plugin may not work as expected if you update jquery.cluetip.js to version 1
 
 If you have a lot invested in the old clueTip's structure with the IDs, you can get it back by:
 
-1. adding the jquery.compat.cluetip.js file immediately after jquery.cluetip.js, AND
-2. replacing jquery.cluetip.css with jquery.compat.cluetip.css.
+1. adding the lib/jquery.compat.cluetip.js file immediately after jquery.cluetip.js, AND
+2. replacing lib/jquery.cluetip.css with jquery.compat.cluetip.css.
 
 ## Features
 
