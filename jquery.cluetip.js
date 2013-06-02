@@ -282,6 +282,9 @@
       linkTop = posY = $link.offset().top;
       linkBottom = linkTop + $link.innerHeight();
       linkLeft = $link.offset().left;
+      if ( $(insertionElement).css('position') === 'relative' ) {
+        linkLeft -= $(insertionElement)[0].getBoundingClientRect().left;
+      }
 
       // FIX: (bug 4412)
       linkWidth = $link.innerWidth();
