@@ -213,7 +213,7 @@
           ctClass = opts.cluetipClass;
 
       cluezIndex = +opts.cluezIndex;
-      $link.data('cluetip', {title: link.title, zIndex: cluezIndex, selector: cluetipSelector});
+      $link.data('cluetip', {title: link.title, zIndex: cluezIndex, selector: cluetipSelector, cursor: link.style.cursor || ''});
 
       if (opts.arrows && !$cluetip.find('.cluetip-arrows').length) {
         $cluetip.append('<div class="cluetip-arrows ui-state-default"></div>');
@@ -652,7 +652,7 @@
 
       if (ct) {
         $closer.removeClass('cluetip-clicked');
-        $closer.css('cursor','');
+        $link.css('cursor', $link.data('cluetip').cursor);
       }
       if (ct && tipTitle) {
         $closer.attrProp(opts.titleAttribute, tipTitle);
