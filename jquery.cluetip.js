@@ -627,6 +627,9 @@
           clearTimeout(closeOnDelay);
           closeOnDelay = null;
           closeOnDelay = setTimeout(cluetipClose, opts.delayedClose);
+        } else {
+          cluetipClose();
+          clearTimeout(closeOnDelay);
         }
       }
 
