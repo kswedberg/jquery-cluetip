@@ -139,15 +139,23 @@
       js = null;
     }
     if (js == 'destroy') {
-      var data = this.data('cluetip');
-      if ( data ) {
-        $(data.selector).remove();
-        $.removeData(this, 'title');
-        $.removeData(this, 'cluetip');
-        $.removeData(this, 'cluetipMoc');
+      this.each(function(index) {
+        var $l = $(this),
+            data = $l.data('cluetip');
+        if ( data ) {
+          $(data.selector).remove();
+          $.removeData(this, 'title');
+          $.removeData(this, 'cluetip');
+        }
+        if (data.title) {
+          $l.attrProp('title', data.title);
+        }
+        $l.unbind('.cluetip').unbind('cluetipMoc');
+      });
+      if ( !$('[id^="cluetip"]').length ) {
+        $(document).unbind('.cluetip');
       }
-      $(document).unbind('.cluetip');
-      return this.unbind('.cluetip');
+      return this;
     }
 
     // merge per-call options with defaults
