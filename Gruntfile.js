@@ -7,9 +7,9 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    name: 'smooth-scroll',
-    component: './component.json',
-    pkg: grunt.file.readJSON('package.json'),
+    name: 'cluetip',
+    component: './bower.json',
+    pkg: grunt.file.readJSON('cluetip.jquery.json'),
     meta: {
       banner: '/*!<%= "\\n" %>' +
           ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
@@ -83,7 +83,11 @@ module.exports = function(grunt) {
     },
     version: {
       patch: {
-        src: ['package.json', 'jquery.<%= pkg.name %>.js'],
+        src: [
+          '<%= pkg.name %>.jquery.json',
+          'package.json',
+          'jquery.<%= pkg.name %>.js'
+        ],
         options: {
           release: 'patch'
         }
@@ -151,7 +155,7 @@ module.exports = function(grunt) {
     grunt.log.writeln( "File '" + comp + "' updated." );
   });
 
-  grunt.registerTask('build', ['jshint', 'concat', 'version:same' 'uglify']);
+  grunt.registerTask('build', ['jshint', 'concat', 'version:same', 'uglify']);
   grunt.registerTask('patch', ['jshint', 'concat', 'version:bannerPatch', 'version:patch', 'uglify']);
   grunt.registerTask('default', ['build']);
 
