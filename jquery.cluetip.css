@@ -120,7 +120,7 @@ div.clue-bottom-default .cluetip-arrows {
 .cluetip-jtip .cluetip-outer {
   border: 2px solid #ccc;
   position: relative;
-  background-color: #fff;
+  /*background-color: #fff;*/
 }
 
 .cluetip-jtip .cluetip-inner {

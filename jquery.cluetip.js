@@ -650,6 +650,9 @@
       if (opts.arrows) {
         $cluetipArrows.css({top: ''});
       }
+      if ($dropShadow) {
+        $dropShadow.hide();
+      }
     };
 
     // Check to see if we should be closing by checking where the user is hovering.
