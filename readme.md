@@ -65,7 +65,7 @@ Optionally, the clueTip's body can display content from the title attribute, whe
 This is the most basic clueTip. It displays a 275px-wide clueTip on mouseover of the element with an ID of "tip." On mouseout of the element, the clueTip is hidden.
 
 ```javascript
-$('#tip).cluetip();
+$('#tip').cluetip();
 ```
 
 ### Setting Multiple Options
