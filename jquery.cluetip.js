@@ -1,5 +1,5 @@
 /*!
- * clueTip - v1.2.9 - 2013-06-02
+ * clueTip - v1.2.9 - 2013-07-14
  * http://plugins.learningjquery.com/cluetip/
  * Copyright (c) 2013 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -129,6 +129,9 @@
       counter = 0,
       imgCount = 0;
 
+  var encodeString = function(str) {
+    return str.replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;');
+  };
   // use $.fn.prop() if available (jQuery 1.6+); otherwise, $.fn.attr()
   $.fn.attrProp = $.fn.prop || $.fn.attr;
 
@@ -241,13 +244,15 @@
       // parse the title
       var tipParts;
       var tipTitle = (opts.attribute != 'title') ? $link.attr(opts.titleAttribute) || '' : '';
+      if (opts.escapeTitle) {
+        tipTitle = encodeString(tipTitle);
+      }
       if (opts.splitTitle) {
         tipParts = tipTitle.split(opts.splitTitle);
         tipTitle = opts.showTitle || tipParts[0] === '' ? tipParts.shift() : '';
       }
-      if (opts.escapeTitle) {
-        tipTitle = tipTitle.replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;');
-      }
+
+
 
       var localContent;
       function returnFalse() { return false; }
@@ -362,7 +367,7 @@
         var tpl = tipParts.length;
         $cluetipInner.html(tpl ? tipParts[0] : '');
         if (tpl > 1) {
-          for (var i=1; i < tpl; i++){
+          for (var i=1; i < tpl; i++) {
             $cluetipInner.append('<div class="split-body">' + tipParts[i] + '</div>');
           }
         }
