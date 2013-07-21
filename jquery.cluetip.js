@@ -1,5 +1,5 @@
 /*!
- * clueTip - v1.2.9 - 2013-07-14
+ * clueTip - v1.2.10 - 2013-07-20
  * http://plugins.learningjquery.com/cluetip/
  * Copyright (c) 2013 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -8,7 +8,7 @@
 (function($) {
 
   $.cluetip = {
-    version: '1.2.9',
+    version: '1.2.10',
 
     // the HTML that will be used for the tooltip
     template: ['<div>',

@@ -1,6 +1,6 @@
 {
   "name": "cluetip",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "title": "clueTip",
   "description": "Displays a highly customizable tooltip when the user interacts with the matched element.",
   "author": {
