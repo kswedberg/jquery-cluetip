@@ -303,7 +303,7 @@
 
       // FIX: (bug 4412)
       linkWidth = $link.innerWidth();
-      if ( event.type == focus ) {
+      if ( event.type == focus || (opts.positionBy == 'mouse' && !event.pageX) ) {
         // in focus event, no mouse position is available; this is needed with bottomTop:
         mouseX = linkLeft +  ( linkWidth / 2 ) + lOffset;
         $cluetip.css({left: posX});
@@ -486,6 +486,8 @@
         cluetipShow(pY);
       }
     };
+
+    $link.unbind('showCluetip.cluetip', activate).bind('showCluetip.cluetip', activate);
 
 // get dimensions and options for cluetip and prepare it to be shown
     var cluetipShow = function(bpY) {

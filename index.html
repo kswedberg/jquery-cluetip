@@ -166,7 +166,7 @@ $(document).ready(function() {
           insertionElement: 'body'      // where in the DOM the clueTip is to be inserted
         }</code></pre>
         <dl>
-            <dt><code class="method">cluetip(options)</code></dt>
+            <dt><code class="method">.cluetip(options)</code></dt>
             <dd>Displays a highly customizable tooltip via ajax (default) or local content or the title attribute of the invoking element </dd>
         </dl>
 <pre><code class="mix">$.fn.cluetip.defaults = {  // default options; override as needed
@@ -269,10 +269,12 @@ $('body').bind('touchstart', function(event) {
    $(document).trigger('hideCluetip');
  }
 });
-
 </code></pre>
+    <dt><code class="method">$('some-already-initialized-link').trigger('showCluetip')</code></dt>
+    <dd>Triggers the cluetip to be shown for a particular element on which <code>.cluetip()</code> has already been called.</dd>
+
   </dl>
-   <ol>
+   <ol class="footnotes">
     <li><strong>height</strong>: Setting a specific height also sets &lt;div id="cluetip-outer"&gt; to "overflow:auto"</li>
     <li><strong>positionBy</strong>: Available options are 'auto', 'mouse', 'bottomTop', 'topBottom', fixed'.  Change to 'mouse' if you want to override positioning by element and position the clueTip based on where the mouse is instead. Change to 'bottomTop' if you want positioning to begin below the mouse when there is room or above if not (and 'topBottom' for vice versa) — rather than right or left of the elemnent and flush with element's top. Change to 'fixed' if you want the clueTip to appear in exactly the same location relative to the linked element no matter where it appears on the page. Use 'fixed' at your own risk.</li>
     <li><strong>topOffset</strong>:For all but positionBy: 'fixed', the number will be added to the clueTip's "top" value if the clueTip appears below the invoking element and subtracted from it if the clueTip appears above. For positionBy "fixed", the number will always be added to the "top" value, offsetting the clueTip from the top of the invoking element.</li>
