@@ -204,7 +204,8 @@
 
 
     this.each(function(index) {
-      var link = this,
+      var jsContent,
+          link = this,
           $link = $(this),
           // support metadata plugin (v1.0 and 2.0)
           opts = $.extend(true, {}, options, $.metadata ? $link.metadata() : $.meta ? $link.data() : $link.data('cluetip') || {}),
@@ -352,9 +353,11 @@
 ***************************************/
       if (js) {
         if (typeof js == 'function') {
-          js = js.call(link);
+          jsContent = js.call(link);
+        } else {
+          jsContent = js;
         }
-        $cluetipInner.html(js);
+        $cluetipInner.html(jsContent);
         cluetipShow(pY);
       }
 /***************************************
