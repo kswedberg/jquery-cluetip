@@ -82,16 +82,3 @@ $(document).ready(function() {
     return false;
   });
 });
-
-// inserting jQuery UI Themeswitcher tool
-
-$('<button></button>', {
-  'class': 'ui-button ui-widget ui-state-default',
-  text: 'Try it with jQuery UI ThemeRoller!',
-  click: function() {
-    $(this).hide();
-    $('#themeswitcher').themeswitcher({loadTheme: 'UI Lightness'});
-  }
-})
-.prependTo('#container');
-
