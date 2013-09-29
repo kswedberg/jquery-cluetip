@@ -1,5 +1,5 @@
 /*!
- * clueTip - v1.2.10 - 2013-07-20
+ * clueTip - v1.2.10 - 2013-09-29
  * http://plugins.learningjquery.com/cluetip/
  * Copyright (c) 2013 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -824,12 +824,12 @@
       var dsStyle = '',
           dropShadowSteps = (options.dropShadow && options.dropShadowSteps) ? +options.dropShadowSteps : 0;
 
-      if ($.support.boxShadow) {
+      if ($.cluetip.boxShadow) {
         if ( dropShadowSteps ) {
           dsStyle = '1px 1px ' + dropShadowSteps + 'px rgba(0,0,0,0.5)';
         }
         var dsOffsets = dropShadowSteps === 0 ? '0 0 ' : '1px 1px ';
-        $cluetip.css($.support.boxShadow, dsStyle);
+        $cluetip.css($.cluetip.boxShadow, dsStyle);
         return false;
       }
       var oldDropShadow = $cluetip.find('.cluetip-drop-shadow');
@@ -860,6 +860,7 @@
 
   (function() {
     $.support = $.support || {};
+
     // check support for CSS3 properties (currently only boxShadow)
     var div = document.createElement('div'),
         divStyle = div.style,
@@ -871,17 +872,22 @@
           uProp = prop.charAt(0).toUpperCase() + prop.slice(1);
 
       if ( typeof divStyle[ prop ] !== 'undefined' ) {
-        $.support[ prop ] = prop;
+        $.cluetip[ prop ] = prop;
       } else {
         for (var j=0, pl = prefixes.length; j < pl; j++) {
 
           if (typeof divStyle[ prefixes[j] + uProp ] !== 'undefined') {
-            $.support[ prop ] = prefixes[j] + uProp;
+            $.cluetip[ prop ] = prefixes[j] + uProp;
             break;
           }
         }
       }
+
+      if ( !$.support[ prop ] ) {
+        $.support[ prop ] = $.cluetip[ prop ];
+      }
     }
+
     div = null;
   })();
 
