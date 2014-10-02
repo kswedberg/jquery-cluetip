@@ -1,5 +1,13 @@
 # jQuery clueTip Plugin
 
+## Important: This plugin is <em>no longer being maintained</em>.
+
+I originally wrote clueTip back in 2006 as my first attempat at a jQuery plugin. If I were to write it now, I would do it completely differently. However, I don't have the time or energy to work on it. The good news is that you can use any one of a number of <em>better</em> tooltip plugins. Here are a few:
+
+* [jQuery UI Tooltip](http://jqueryui.com/tooltip/)
+* [Tooltipster](http://iamceege.github.io/tooltipster/)
+* [qTip2](http://qtip2.com/)
+
 ## License
 
 Dual licensed under the MIT license:
