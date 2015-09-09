@@ -151,7 +151,7 @@
           $.removeData(this, 'title');
           $.removeData(this, 'cluetip');
         }
-        if (data.title) {
+        if (data && data.title) {
           $l.attrProp('title', data.title);
         }
         $l.unbind('.cluetip').unbind('cluetipMoc');
